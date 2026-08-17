@@ -115,10 +115,6 @@
             margin: auto;
         }
 
-        /* =========================
-           HEADER
-        ========================= */
-
         header {
             position: sticky;
             top: 0;
@@ -247,17 +243,9 @@
             color: #8dc4ff;
         }
 
-        /* =========================
-           MAIN
-        ========================= */
-
         main {
             padding: 18px 0 55px;
         }
-
-        /* =========================
-           HERO
-        ========================= */
 
         .hero {
             position: relative;
@@ -384,10 +372,6 @@
             padding: 0;
         }
 
-        /* =========================
-           STATS
-        ========================= */
-
         .stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -415,10 +399,6 @@
             font-size: 17px;
         }
 
-        /* =========================
-           TABS
-        ========================= */
-
         .tabs {
             display: flex;
             gap: 3px;
@@ -434,10 +414,6 @@
         .tabs::-webkit-scrollbar {
             display: none;
         }
-
-        /* =========================
-           SECTIONS
-        ========================= */
 
         .section {
             display: none;
@@ -714,10 +690,6 @@
             line-height: 1.6;
         }
 
-        /* =========================
-           CONTRACT PANEL
-        ========================= */
-
         .contract-address {
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-size: 10px;
@@ -749,10 +721,6 @@
             word-break: break-word;
         }
 
-        /* =========================
-           FOOTER
-        ========================= */
-
         .footer {
             text-align: center;
             color: var(--muted);
@@ -781,10 +749,6 @@
         .footer-note {
             opacity: .8;
         }
-
-        /* =========================
-           CENTER NOTIFICATION
-        ========================= */
 
         .notify-overlay {
             position: fixed;
@@ -885,10 +849,6 @@
             margin-top: 15px;
             min-width: 110px;
         }
-
-        /* =========================
-           RESPONSIVE
-        ========================= */
 
         @media(max-width: 960px) {
             .nav {
@@ -1486,6 +1446,16 @@
                         <label>Staking Contract</label>
                         <strong id="contractStaking">
                             —
+                        </strong>
+                    </div>
+
+                    <div class="contract-item">
+                        <label>Admin Leftover Wallet</label>
+                        <strong id="adminLeftoverWallet" style="font-size:10px;word-break:break-all;">
+                            —
+                            <span class="muted small" style="display:block;font-size:9px;margin-top:3px;">
+                                Receives undistributed matching bonuses
+                            </span>
                         </strong>
                     </div>
 
@@ -2147,12 +2117,6 @@
 
             'use strict';
 
-
-            /* =========================================================
-               CONTRACT CONFIGURATION
-               DO NOT CHANGE THE DEPLOYED CONTRACT
-            ========================================================= */
-
             const CONFIG = {
 
                 chainId: 56,
@@ -2325,32 +2289,18 @@
             }
 
 
-            function fmt(v, max = 4) {
-
+            function fmt(v, max = 8) {
                 try {
-
-                    const s =
-                        ethers.formatUnits(
-                            v,
-                            tokenDecimals
-                        );
-
-                    if (!s.includes('.'))
-                        return s;
-
+                    const s = ethers.formatUnits(v, tokenDecimals);
+                    if (!s.includes('.')) return s;
                     const parts = s.split('.');
+                    const decimal = parts[1].slice(0, max).replace(/0+$/, '');
 
-                    const decimal =
-                        parts[1]
-                            .slice(0, max)
-                            .replace(/0+$/, '');
-
-                    return decimal
-                        ? `${parts[0]}.${decimal}`
-                        : parts[0];
-
+                    if (decimal === '' || decimal === '00000000') {
+                        return parts[0] + '.0000';
+                    }
+                    return decimal ? `${parts[0]}.${decimal}` : parts[0];
                 } catch {
-
                     return '0';
                 }
             }
@@ -2623,11 +2573,6 @@
                     'Connect Wallet'
                 );
             }
-
-
-            /* =========================================================
-               WALLET SYNCHRONIZATION
-            ========================================================= */
 
             async function syncWalletState(
                 notifyWrongNetwork = false
@@ -3182,11 +3127,6 @@
                 await refresh();
             }
 
-
-            /* =========================================================
-               REFRESH
-            ========================================================= */
-
             async function refresh() {
 
                 if (!configured())
@@ -3236,6 +3176,14 @@
 
                     $('contractStaking').textContent =
                         short(CONFIG.stakingContract);
+
+
+                    $('adminLeftoverWallet').innerHTML = `
+                  0x1B7E3e15951304D13f676ba5Ad0F47378EDf713E
+                   <span class="muted small" style="display:block;font-size:9px;margin-top:3px;">
+                       Receives undistributed matching bonuses
+                   </span>
+               `;
 
 
                     $('contractMin').textContent =
@@ -3449,6 +3397,11 @@
 
             ) {
 
+                if (!account) {
+                    clearUserUI();
+                    return;
+                }
+
                 $('balance').textContent =
                     `${fmt(bal)} ${tokenSymbol}`;
 
@@ -3484,11 +3437,13 @@
                 $('dSponsor').textContent =
                     `${fmt(info[4])} ${tokenSymbol}`;
 
-                $('dSavedReward').textContent =
-                    `${fmt(raw[3])} ${tokenSymbol}`;
-
-                $('dLastClaim').textContent =
-                    formatTimestamp(raw[4]);
+                if (raw && raw.length >= 5) {
+                    $('dSavedReward').textContent = `${fmt(raw[3])} ${tokenSymbol}`;
+                    $('dLastClaim').textContent = formatTimestamp(raw[4]);
+                } else {
+                    $('dSavedReward').textContent = '—';
+                    $('dLastClaim').textContent = '—';
+                }
 
                 const remaining = info[1] > info[2] ? info[1] - info[2] : 0n;
                 $('dCapRemaining').textContent =
@@ -3651,11 +3606,6 @@
                     console.error('on-chain user refresh', e);
                 }
             }
-
-
-            /* =========================================================
-               TRANSACTION
-            ========================================================= */
 
             async function waitTx(
                 tx,
@@ -4847,11 +4797,6 @@
                         await connect();
                     }
                 );
-
-
-            /* =========================================================
-               INIT
-            ========================================================= */
 
             async function init() {
 
