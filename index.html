@@ -1,0 +1,5020 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <link rel="shortcut icon" type="image/png"
+        href="https://raw.githubusercontent.com/megahstaking/megahstaking.github.io/refs/heads/main/images/MEGAH.png">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+    <meta name="theme-color" content="#070910">
+
+    <meta name="description"
+        content="Megah Staking is a Web3 staking platform for MEGAH on BNB Smart Chain. Connect your wallet, stake MEGAH, monitor your on-chain position and claim available rewards.">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+    <meta name="author" content="Megah Staking">
+    <link rel="canonical" href="https://megahstaking.github.io/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Megah Staking on BNB Smart Chain">
+    <meta property="og:description"
+        content="Stake MEGAH, monitor your on-chain staking position and manage available rewards through a Web3 wallet.">
+    <meta property="og:url" content="https://megahstaking.github.io/">
+    <meta property="og:site_name" content="Megah Staking">
+    <meta property="og:image"
+        content="https://raw.githubusercontent.com/megahstaking/megahstaking.github.io/refs/heads/main/images/100k-crypto-coin-for-rewards.webp">
+    <meta property="og:image:alt" content="MEGAH Staking">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Megah Staking on BNB Smart Chain">
+    <meta name="twitter:description" content="Web3 staking platform for MEGAH on BNB Smart Chain.">
+    <meta name="twitter:image"
+        content="https://raw.githubusercontent.com/megahstaking/megahstaking.github.io/refs/heads/main/images/100k-crypto-coin-for-rewards.webp">
+
+    <title>Megah Staking on BNB Smart Chain</title>
+
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"WebApplication",
+      "name":"Megah Staking",
+      "url":"https://megahstaking.github.io/",
+      "description":"Web3 staking platform for MEGAH on BNB Smart Chain.",
+      "applicationCategory":"FinanceApplication",
+      "operatingSystem":"Web Browser",
+      "browserRequirements":"Requires an EVM-compatible Web3 wallet"
+    }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.15.0/dist/ethers.umd.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #070910;
+            --bg2: #0b1020;
+            --card: rgba(14, 19, 34, .96);
+            --card2: #11182a;
+            --line: #252f45;
+            --line2: #303b55;
+            --text: #f4f6fc;
+            --muted: #8e99af;
+            --purple: #7957ff;
+            --purple2: #9a73ff;
+            --green: #24d3a0;
+            --red: #ff536b;
+            --yellow: #e0bd54;
+            --blue: #5ea8ff;
+            --shadow: 0 18px 55px rgba(0, 0, 0, .30);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(800px 420px at 8% -5%, #24164b 0, transparent 62%),
+                radial-gradient(700px 430px at 100% 12%, #0d3034 0, transparent 62%),
+                var(--bg);
+            color: var(--text);
+            font-family:
+                Inter,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+            font-size: 14px;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .wrap {
+            width: min(1120px, calc(100% - 28px));
+            margin: auto;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(7, 9, 16, .94);
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+            backdrop-filter: blur(18px);
+        }
+
+        .nav {
+            min-height: 66px;
+            display: grid;
+            grid-template-columns: 215px minmax(0, 1fr) 190px;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 215px;
+        }
+
+        .brand-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #131a2a;
+            border: 1px solid var(--line);
+        }
+
+        .brand-title {
+            font-weight: 850;
+            font-size: 14px;
+            line-height: 1.15;
+        }
+
+        .brand-sub {
+            font-size: 9px;
+            color: var(--muted);
+            margin-top: 3px;
+            line-height: 1.2;
+        }
+
+        nav {
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            border: 0;
+            background: transparent;
+            color: #9ca6b9;
+            padding: 9px 10px;
+            border-radius: 9px;
+            font-weight: 750;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: #11172a;
+            color: #fff;
+        }
+
+        .tab.active {
+            color: #eee8ff;
+            background: #1a1530;
+            box-shadow: inset 0 0 0 1px #3d316a;
+        }
+
+        .wallet-area {
+            position: relative;
+            z-index: 6;
+            display: flex;
+            justify-content: flex-end;
+            min-width: 0;
+            background: rgba(7, 9, 16, .94);
+            padding-left: 8px;
+        }
+
+        .wallet {
+            min-width: 154px;
+            max-width: 190px;
+            padding: 9px 12px;
+            border-radius: 9px;
+            font-weight: 800;
+            cursor: pointer;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .wallet.red {
+            background: #35141d;
+            border: 1px solid #662638;
+            color: #ff8c9c;
+        }
+
+        .wallet.green {
+            background: #102b25;
+            border: 1px solid #27614f;
+            color: #70dfbd;
+        }
+
+        .wallet.yellow {
+            background: #302814;
+            border: 1px solid #665522;
+            color: #efd26f;
+        }
+
+        .wallet.blue {
+            background: #12253b;
+            border: 1px solid #28527d;
+            color: #8dc4ff;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            padding: 18px 0 55px;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: #0a0f1d;
+            box-shadow: var(--shadow);
+        }
+
+        .slides {
+            display: flex;
+            height: 350px;
+            transition: transform .48s ease;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 350px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 34px 42px;
+            background:
+                linear-gradient(90deg,
+                    rgba(6, 8, 15, .96),
+                    rgba(6, 8, 15, .68) 46%,
+                    rgba(6, 8, 15, .18));
+        }
+
+        .slide-bg {
+            pointer-events: none;
+            position: absolute;
+            inset: 0;
+            background-position: center;
+            background-size: cover;
+            opacity: .62;
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            max-width: 570px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #354058;
+            background: #0e1423d9;
+            border-radius: 999px;
+            padding: 5px 9px;
+            font-size: 10px;
+            color: #c8cede;
+        }
+
+        .eyebrow i {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 10px var(--green);
+        }
+
+        h1 {
+            font-size: clamp(34px, 4.6vw, 56px);
+            line-height: .98;
+            letter-spacing: -2px;
+            margin: 13px 0 10px;
+        }
+
+        .slide p {
+            max-width: 520px;
+            color: #b6bfd1;
+            line-height: 1.55;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 17px;
+            flex-wrap: wrap;
+        }
+
+        .hero-dots {
+            position: absolute;
+            z-index: 4;
+            left: 42px;
+            bottom: 15px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .hero-dots button {
+            width: 24px;
+            height: 3px;
+            padding: 0;
+            border: 0;
+            border-radius: 9px;
+            background: #758198;
+            opacity: .5;
+        }
+
+        .hero-dots button.active {
+            background: #fff;
+            opacity: 1;
+        }
+
+        .hero-arrow {
+            position: absolute;
+            z-index: 4;
+            right: 13px;
+            bottom: 8px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .hero-arrow button {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 9px;
+            margin-top: 10px;
+        }
+
+        .stat {
+            padding: 13px 14px;
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            background: var(--card);
+        }
+
+        .stat label {
+            font-size: 9px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .45px;
+        }
+
+        .stat strong {
+            display: block;
+            margin-top: 5px;
+            font-size: 17px;
+        }
+
+        /* =========================
+           TABS
+        ========================= */
+
+        .tabs {
+            display: flex;
+            gap: 3px;
+            margin: 17px 0 10px;
+            padding: 4px;
+            border: 1px solid var(--line);
+            border-radius: 11px;
+            background: #0b101c;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .panel {
+            padding: 16px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--card);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+        }
+
+        .panel h2 {
+            font-size: 16px;
+            margin: 0 0 11px;
+        }
+
+        .panel-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 11px;
+        }
+
+        .panel-title-row h2 {
+            margin: 0;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid #303a51;
+            background: #0c1220;
+            color: #aeb8ca;
+            border-radius: 999px;
+            padding: 4px 7px;
+            font-size: 9px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .badge.green {
+            border-color: #28614e;
+            color: #70dfbd;
+            background: #102b25;
+        }
+
+        .badge.yellow {
+            border-color: #665522;
+            color: #efd26f;
+            background: #302814;
+        }
+
+        .badge.red {
+            border-color: #662638;
+            color: #ff8c9c;
+            background: #35141d;
+        }
+
+        .badge.blue {
+            border-color: #28527d;
+            color: #8dc4ff;
+            background: #12253b;
+        }
+
+        .kv {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(145px, 48%);
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #1c2536;
+            color: #aeb8ca;
+            font-size: 12px;
+        }
+
+        .kv:last-child {
+            border-bottom: 0;
+        }
+
+        .kv span:last-child {
+            text-align: right;
+            color: #f0f3f9;
+            overflow-wrap: anywhere;
+        }
+
+        .small {
+            font-size: 11px;
+        }
+
+        .muted {
+            color: var(--muted) !important;
+        }
+
+        .notice {
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: #0b101a;
+            border: 1px solid #253047;
+            color: #aeb8ca;
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        .notice.warn {
+            border-color: #554720;
+            color: #e4d28c;
+        }
+
+        .notice.danger {
+            border-color: #60283a;
+            color: #ffadb9;
+        }
+
+        .notice.ok {
+            border-color: #28614e;
+            color: #70dfbd;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .form {
+            display: grid;
+            gap: 8px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .label {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            margin-bottom: 4px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px 11px;
+            background: #090d16;
+            color: #fff;
+            border: 1px solid #273149;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #624cc0;
+            box-shadow: 0 0 0 2px #7957ff18;
+        }
+
+        button,
+        .btn {
+            border: 1px solid var(--line);
+            background: #151b2a;
+            color: #f2f4f9;
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-weight: 750;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+        }
+
+        .primary {
+            border: 0 !important;
+            background: linear-gradient(135deg, var(--purple), #6644e7) !important;
+        }
+
+        .success {
+            border: 0 !important;
+            background: linear-gradient(135deg, #159776, #20b58f) !important;
+        }
+
+        #claimSponsorBtn i {
+            color: #efd26f;
+        }
+
+        .danger {
+            background: #32151e !important;
+            border-color: #5c2636 !important;
+            color: #ff9aaa !important;
+        }
+
+        .progress {
+            height: 7px;
+            border-radius: 9px;
+            overflow: hidden;
+            background: #1b2232;
+            margin-top: 8px;
+        }
+
+        .progress i {
+            display: block;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--purple), var(--green));
+            transition: width .35s;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .step {
+            padding: 12px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #0b101a;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .step b {
+            display: block;
+            margin-bottom: 3px;
+            font-size: 12px;
+        }
+
+        .faq {
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: #0b101a;
+            margin: 6px 0;
+            overflow: hidden;
+        }
+
+        .faq summary {
+            cursor: pointer;
+            padding: 11px 12px;
+            font-size: 12px;
+            font-weight: 750;
+            list-style: none;
+        }
+
+        .faq summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq div {
+            padding: 0 12px 11px;
+            color: #aeb8ca;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           CONTRACT PANEL
+        ========================= */
+
+        .contract-address {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 10px;
+            word-break: break-all;
+        }
+
+        .contract-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .contract-item {
+            padding: 10px;
+            background: #0b101a;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+        }
+
+        .contract-item label {
+            display: block;
+            font-size: 9px;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+
+        .contract-item strong {
+            font-size: 12px;
+            word-break: break-word;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 9px;
+            margin-top: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 7px;
+        }
+
+        .footer-links a {
+            color: #b9b0ff;
+            text-decoration: none;
+            font-weight: 750;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-note {
+            opacity: .8;
+        }
+
+        /* =========================
+           CENTER NOTIFICATION
+        ========================= */
+
+        .notify-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: rgba(0, 0, 0, .58);
+            backdrop-filter: blur(7px);
+        }
+
+        .notify-overlay.show {
+            display: flex;
+        }
+
+        .notify-box {
+            width: min(440px, calc(100vw - 30px));
+            border: 1px solid #303b55;
+            border-radius: 17px;
+            background:
+                linear-gradient(180deg,
+                    #121a2b,
+                    #0b101b);
+            box-shadow:
+                0 30px 100px rgba(0, 0, 0, .55),
+                inset 0 1px 0 rgba(255, 255, 255, .04);
+            padding: 22px;
+            text-align: center;
+            animation: notifyIn .18s ease-out;
+        }
+
+        @keyframes notifyIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px) scale(.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .notify-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 11px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 900;
+            background: #171e30;
+            border: 1px solid #303b55;
+        }
+
+        .notify-box.ok .notify-icon {
+            color: var(--green);
+            border-color: #28614e;
+            background: #102b25;
+        }
+
+        .notify-box.error .notify-icon {
+            color: var(--red);
+            border-color: #662638;
+            background: #35141d;
+        }
+
+        .notify-box.warn .notify-icon {
+            color: var(--yellow);
+            border-color: #665522;
+            background: #302814;
+        }
+
+        .notify-box.info .notify-icon {
+            color: var(--blue);
+            border-color: #28527d;
+            background: #12253b;
+        }
+
+        .notify-title {
+            font-size: 17px;
+            font-weight: 850;
+            margin-bottom: 7px;
+        }
+
+        .notify-message {
+            color: #aeb8ca;
+            font-size: 12px;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        .notify-action {
+            margin-top: 15px;
+            min-width: 110px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width: 960px) {
+            .nav {
+                grid-template-columns: auto auto;
+                justify-content: space-between;
+            }
+
+            nav {
+                grid-column: 1 / -1;
+                grid-row: 2;
+                justify-content: flex-start;
+                width: 100%;
+                padding-bottom: 6px;
+            }
+
+            .wallet-area {
+                min-width: 0;
+            }
+
+            .wallet {
+                min-width: 145px;
+            }
+
+            .cols {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .wrap {
+                width: calc(100% - 14px);
+            }
+
+            main {
+                padding-top: 9px;
+            }
+
+            .nav {
+                gap: 8px;
+                min-height: 62px;
+            }
+
+            .brand {
+                min-width: 0;
+            }
+
+            .brand-logo {
+                width: 34px;
+                height: 34px;
+            }
+
+            .brand-title {
+                font-size: 13px;
+            }
+
+            .brand-sub {
+                font-size: 8px;
+            }
+
+            .wallet {
+                min-width: 126px;
+                max-width: 145px;
+                padding: 8px 9px;
+                font-size: 10px;
+            }
+
+            nav {
+                gap: 2px;
+            }
+
+            nav .tab {
+                font-size: 10px;
+                padding: 8px 8px;
+            }
+
+            .hero {
+                border-radius: 15px;
+            }
+
+            .slides,
+            .slide {
+                height: 380px;
+            }
+
+            .slide {
+                padding: 22px 17px 49px;
+                align-items: flex-end;
+                background:
+                    linear-gradient(0deg,
+                        rgba(6, 8, 15, .98),
+                        rgba(6, 8, 15, .56) 68%,
+                        rgba(6, 8, 15, .15));
+            }
+
+            .slide-content {
+                width: 100%;
+            }
+
+            h1 {
+                font-size: 38px;
+                letter-spacing: -1.4px;
+            }
+
+            .slide p {
+                font-size: 12px;
+                line-height: 1.5;
+            }
+
+            .hero-actions {
+                margin-top: 13px;
+            }
+
+            .hero-actions button {
+                padding: 8px 10px;
+                font-size: 11px;
+            }
+
+            .hero-dots {
+                left: 17px;
+                bottom: 13px;
+            }
+
+            .hero-arrow {
+                right: 11px;
+            }
+
+            .hero-arrow button {
+                width: 29px;
+                height: 29px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+
+            .stat {
+                padding: 10px 11px;
+            }
+
+            .stat strong {
+                font-size: 14px;
+            }
+
+            .tabs {
+                margin-top: 11px;
+            }
+
+            .tab {
+                font-size: 11px;
+                padding: 8px 9px;
+            }
+
+            .panel {
+                padding: 13px;
+                border-radius: 12px;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .kv {
+                grid-template-columns: minmax(0, 1fr) minmax(118px, 45%);
+                font-size: 11px;
+            }
+
+            .actions button,
+            .actions .btn {
+                flex: 1;
+                min-width: 120px;
+            }
+
+            .row,
+            .contract-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .notify-box {
+                padding: 20px 17px;
+            }
+
+            .footer {
+                padding-bottom: 12px;
+            }
+
+            .footer-links {
+                gap: 10px 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="wrap nav">
+
+            <div class="brand">
+                <img class="brand-logo"
+                    src="https://raw.githubusercontent.com/megahstaking/megahstaking.github.io/refs/heads/main/images/MEGAH.png"
+                    alt="MEGAH">
+
+                <div>
+                    <div class="brand-title">Megah Staking</div>
+                    <div class="brand-sub">$MEGAH • BNB Smart Chain</div>
+                </div>
+            </div>
+
+            <nav>
+                <button class="tab" data-tab="dashboard"><i class="fa-solid fa-user-tie"></i>&nbsp;Dashboard</button>
+                <button class="tab" data-tab="stake"><i class="fa-solid fa-piggy-bank"></i>&nbsp;Stake</button>
+                <button class="tab" data-tab="network"><i class="fa-solid fa-network-wired"></i>&nbsp;Referral</button>
+                <button class="tab" data-tab="guide"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;Guide</button>
+                <button id="ownerTab" class="tab" data-tab="owner" style="display:none">
+                    Owner
+                </button>
+            </nav>
+
+            <div class="wallet-area">
+                <button id="connectBtn" class="wallet red" type="button" aria-label="Connect or disconnect wallet">
+                    <i class="fa-solid fa-plug"></i>&nbsp;Connect Wallet
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+
+    <main class="wrap">
+
+        <!-- =========================
+         HERO
+    ========================== -->
+
+        <section class="hero">
+
+            <div class="slides" id="slides">
+
+                <article class="slide">
+
+                    <div class="slide-bg"
+                        style="background-image:url('https://raw.githubusercontent.com/megahstaking/megahstaking.github.io/refs/heads/main/images/megah-staking-platform.webp')">
+                    </div>
+
+                    <div class="slide-content">
+
+                        <span class="eyebrow">
+                            <i></i>
+                            BNB Smart Chain • MEGAH
+                        </span>
+
+                        <h1>Stake MEGAH.</h1>
+
+                        <p>
+                            Stake MEGAH through the deployed staking contract,
+                            monitor your on-chain position and claim eligible
+                            ROI and sponsor bonuses directly from your wallet.
+                        </p>
+
+                        <div class="hero-actions">
+                            <button class="primary" data-tab="stake">
+                                Start Staking
+                            </button>
+
+                            <button data-tab="guide">
+                                How It Works
+                            </button>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <article class="slide">
+
+                    <div class="slide-bg"
+                        style="background-image:url('https://raw.githubusercontent.com/megahstaking/megahstaking.github.io/refs/heads/main/images/crypto-staking-legit.webp')">
+                    </div>
+
+                    <div class="slide-content">
+
+                        <span class="eyebrow">
+                            <i></i>
+                            Referral System
+                        </span>
+
+                        <h1>Build Your Network.</h1>
+
+                        <p>
+                            Use your referral link and let the staking contract
+                            determine the applicable sponsor and matching bonus.
+                        </p>
+
+                        <div class="hero-actions">
+                            <button class="primary" data-tab="network">
+                                Referral Center
+                            </button>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <article class="slide">
+
+                    <div class="slide-bg"
+                        style="background-image:url('https://raw.githubusercontent.com/megahstaking/megahstaking.github.io/refs/heads/main/images/100k-crypto-coin-for-rewards.webp')">
+                    </div>
+
+                    <div class="slide-content">
+
+                        <span class="eyebrow">
+                            <i></i>
+                            Web3 Wallet
+                        </span>
+
+                        <h1>Connect. Stake. Claim.</h1>
+
+                        <p>
+                            Your wallet signs blockchain transactions.
+                            This DApp never asks for your seed phrase or
+                            private key.
+                        </p>
+
+                        <div class="hero-actions">
+                            <button class="primary" id="heroConnect">
+                                Connect Wallet
+                            </button>
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+            <div class="hero-dots" id="heroDots">
+                <button class="active"></button>
+                <button></button>
+                <button></button>
+            </div>
+
+            <div class="hero-arrow">
+                <button id="prevSlide">‹</button>
+                <button id="nextSlide">›</button>
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+         QUICK STATS
+    ========================== -->
+
+        <div class="stats">
+
+            <div class="stat">
+                <label>MEGAH Balance</label>
+                <strong id="balance">—</strong>
+            </div>
+
+            <div class="stat">
+                <label>Total Staked</label>
+                <strong id="staked">—</strong>
+            </div>
+
+            <div class="stat">
+                <label>Pending ROI</label>
+                <strong id="pending">—</strong>
+            </div>
+
+            <div class="stat">
+                <label>Sponsor Bonus</label>
+                <strong id="sponsor">—</strong>
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+         MAIN TABS
+    ========================== -->
+
+        <div class="tabs">
+
+            <button class="tab active" data-tab="dashboard">
+                <i class="fa-solid fa-user-tie"></i>&nbsp;Dashboard
+            </button>
+
+            <button class="tab" data-tab="stake">
+                <i class="fa-solid fa-piggy-bank"></i>&nbsp;Stake/TopUp
+            </button>
+
+            <button class="tab" data-tab="network">
+                <i class="fa-solid fa-network-wired"></i>&nbsp;Referral
+            </button>
+
+            <button class="tab" data-tab="guide">
+                <i class="fa-solid fa-magnifying-glass"></i>&nbsp;Guide & FAQ
+            </button>
+
+            <button id="ownerTab2" class="tab" data-tab="owner" style="display:none">
+                Owner Panel
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+         DASHBOARD
+    ========================== -->
+
+        <section id="dashboard" class="section active">
+
+            <div class="cols">
+
+                <div class="panel">
+
+                    <div class="panel-title-row">
+                        <h2>Your Position</h2>
+                        <span id="positionStatus" class="badge">
+                            Wallet not connected
+                        </span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Total Staked</span>
+                        <span id="dStaked">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Maximum Cap</span>
+                        <span id="dCap">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Total Claimed</span>
+                        <span id="dClaimed">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>ROI Pending</span>
+                        <span id="dPending">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Sponsor Bonus Pending</span>
+                        <span id="dSponsor">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Saved Reward</span>
+                        <span id="dSavedReward">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Last Checkpoint</span>
+                        <span id="dLastClaim">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Cap Remaining</span>
+                        <span id="dCapRemaining">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Upline</span>
+                        <span id="dUpline">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Leader Status</span>
+                        <span id="dLeader">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Maximum Cap Status</span>
+                        <span id="dCapStatus">—</span>
+                    </div>
+
+                    <div class="progress">
+                        <i id="capProgress"></i>
+                    </div>
+
+                    <div class="small muted" style="margin-top:7px" id="capText">
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-title-row">
+                        <h2>Claims</h2>
+                        <span class="badge blue">
+                            On-chain
+                        </span>
+                    </div>
+
+                    <div class="notice">
+                        Claimable values are determined by the deployed
+                        smart contract. The blockchain remains the final
+                        source of truth.
+                    </div>
+
+                    <div style="height:12px"></div>
+
+                    <div class="actions">
+
+                        <button class="success" id="claimRoiBtn">
+                            <i class="fa-solid fa-gift"></i>&nbsp;Claim ROI
+                        </button>
+
+                        <button id="claimSponsorBtn">
+                            <i class="fa-solid fa-award"></i>&nbsp;Claim Sponsor Bonus
+                        </button>
+
+                    </div>
+
+                    <div style="height:14px"></div>
+
+                    <div class="kv">
+                        <span>Daily ROI</span>
+                        <span id="dailyRoi">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Leader Bonus</span>
+                        <span id="leaderBonus">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Minimum Stake</span>
+                        <span id="minStake">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>ROI Available</span>
+                        <span id="roiClaimAmount">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Sponsor Bonus Available</span>
+                        <span id="sponsorClaimAmount">—</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div style="height:10px"></div>
+
+
+            <!-- CONTRACT DATA -->
+
+            <div class="panel">
+
+                <div class="panel-title-row">
+                    <h2>Contract Information</h2>
+
+                    <span class="badge green">
+                        Live On-chain
+                    </span>
+                </div>
+
+                <div class="contract-grid">
+
+                    <div class="contract-item">
+                        <label>Network</label>
+                        <strong id="contractNetwork">
+                            BNB Smart Chain
+                        </strong>
+                    </div>
+
+                    <div class="contract-item">
+                        <label>Native Gas</label>
+                        <strong id="contractNative">
+                            BNB
+                        </strong>
+                    </div>
+
+                    <div class="contract-item">
+                        <label>Staking Token</label>
+                        <strong id="contractToken">
+                            —
+                        </strong>
+                    </div>
+
+                    <div class="contract-item">
+                        <label>Staking Contract</label>
+                        <strong id="contractStaking">
+                            —
+                        </strong>
+                    </div>
+
+                    <div class="contract-item">
+                        <label>Minimum Stake</label>
+                        <strong id="contractMin">
+                            —
+                        </strong>
+                    </div>
+
+                    <div class="contract-item">
+                        <label>Daily ROI (from contract)</label>
+                        <strong id="contractRoi">
+                            —
+                        </strong>
+                    </div>
+
+                    <div class="contract-item">
+                        <label>Leader Bonus (from contract)</label>
+                        <strong id="contractLeader">
+                            —
+                        </strong>
+                    </div>
+
+                    <div class="contract-item">
+                        <label>Contract Owner</label>
+                        <strong id="contractOwner">
+                            —
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+         STAKE
+    ========================== -->
+
+        <section id="stake" class="section">
+
+            <div class="cols">
+
+                <div class="panel">
+
+                    <div class="panel-title-row">
+                        <h2>Stake MEGAH</h2>
+
+                        <span class="badge blue">
+                            On-chain
+                        </span>
+                    </div>
+
+                    <div class="notice warn">
+                        MEGAH is the staking asset. BNB is required
+                        separately for BNB Smart Chain transaction gas.
+                        An upline can be supplied on the first stake
+                        when permitted by the contract.
+                    </div>
+
+                    <div style="height:14px"></div>
+
+                    <div class="form">
+
+                        <div>
+                            <label class="label">
+                                Amount MEGAH
+                            </label>
+
+                            <input id="stakeAmount" inputmode="decimal" placeholder="0.0">
+                        </div>
+
+                        <div>
+                            <label class="label">
+                                Sponsor / Upline address
+                            </label>
+
+                            <input id="upline" placeholder="0x...">
+                        </div>
+
+                        <div class="actions">
+
+                            <button id="approveBtn">
+                                Approve MEGAH
+                            </button>
+
+                            <button class="primary" id="stakeBtn">
+                                Stake MEGAH
+                            </button>
+
+                            <button id="maxBtn">
+                                Max
+                            </button>
+
+                        </div>
+
+                        <div class="small muted" id="allowanceText">
+                            Allowance: —
+                        </div>
+
+                        <div class="small muted" id="ricBalanceText">
+                            BNB balance: —
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-title-row">
+                        <h2>Staking Rules</h2>
+
+                        <span class="badge blue">
+                            Contract data
+                        </span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Asset</span>
+                        <span>MEGAH ERC-20</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Network Gas</span>
+                        <span>BNB</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Minimum Stake</span>
+                        <span id="stakeMin">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Daily ROI</span>
+                        <span id="stakeRoi">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Your Maximum Cap</span>
+                        <span id="stakeMaxCap">—</span>
+                    </div>
+
+                    <div class="notice" style="margin-top:14px">
+                        The DApp does not determine staking rewards
+                        independently. Contract rules determine the
+                        actual accounting and claimable amounts.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+         REFERRAL
+    ========================== -->
+
+        <section id="network" class="section">
+
+            <div class="cols">
+
+                <div class="panel">
+
+                    <div class="panel-title-row">
+                        <h2>Referral Center</h2>
+
+                        <span class="badge">
+                            On-chain
+                        </span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Your Address</span>
+                        <span id="myAddress">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Your Upline</span>
+                        <span id="nUpline">—</span>
+                    </div>
+
+                    <div class="kv">
+                        <span>Leader Status</span>
+                        <span id="nLeader">—</span>
+                    </div>
+
+                    <button id="copyReferral" style="margin-top:12px">
+                        Copy Referral Link
+                    </button>
+
+                    <div class="small muted" style="margin-top:9px">
+                        Your wallet address is added to the referral
+                        URL as the suggested upline.
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-title-row">
+                        <h2>Sponsor Bonus Levels</h2>
+
+                        <span class="badge blue">
+                            Contract data
+                        </span>
+                    </div>
+
+                    <div id="levels">
+                        Connect wallet to read current levels.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+         GUIDE
+    ========================== -->
+
+        <section id="guide" class="section">
+
+            <div class="panel">
+
+                <h2>How Staking Works</h2>
+
+                <div class="steps">
+
+                    <div class="step">
+                        <b>01 — Connect Wallet</b>
+                        <span class="muted">
+                            Connect an EVM-compatible wallet and make
+                            sure it is using the network supported by
+                            this staking pool.
+                        </span>
+                    </div>
+
+                    <div class="step">
+                        <b>02 — Approve Token</b>
+                        <span class="muted">
+                            If required, approve the staking contract to
+                            use the amount of supported tokens you want
+                            to stake.
+                        </span>
+                    </div>
+
+                    <div class="step">
+                        <b>03 — Stake Tokens</b>
+                        <span class="muted">
+                            Enter your staking amount, confirm the
+                            transaction in your wallet, and wait for the
+                            transaction to be confirmed on-chain.
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <details class="faq" open>
+                    <summary>Is this actually staking?</summary>
+                    <div>
+                        Yes. You deposit the supported token into the staking pool, and your staking position is
+                        recorded on the blockchain. Any rewards and limits shown in the DApp are based on the current
+                        rules and state of the deployed staking pool.
+                    </div>
+                </details>
+
+                <details class="faq">
+                    <summary>How does staking work?</summary>
+                    <div>
+                        Connect your wallet, enter the amount you want to stake, approve the token when required, and
+                        confirm the staking transaction. After the transaction is confirmed, your position is read from
+                        the blockchain and displayed in the dashboard.
+                    </div>
+                </details>
+
+                <details class="faq">
+                    <summary>What is Maximum Cap?</summary>
+                    <div>
+                        Maximum Cap is the reward limit associated with your staking position according to the current
+                        staking pool rules. The DApp reads your Maximum Cap from your on-chain staking record rather
+                        than calculating a separate value in the interface.
+                    </div>
+                </details>
+
+                <details class="faq">
+                    <summary>What is the difference between staking rewards and Sponsor Bonus?</summary>
+                    <div>
+                        Staking rewards are generated from your own staking position. A Sponsor Bonus is a separate
+                        reward that can come from the pool's sponsor or referral system. When available, the DApp shows
+                        these balances separately so you can see what is available for each type of claim.
+                    </div>
+                </details>
+
+                <details class="faq">
+                    <summary>How long can I receive staking rewards?</summary>
+                    <div>
+                        Rewards are not presented as an unlimited promise. Your available staking reward is determined
+                        by the deployed contract and your current on-chain position. Reward accumulation stops when the
+                        applicable limit for that position has been reached.
+                    </div>
+                </details>
+
+                <details class="faq">
+                    <summary>How do I know how much I can claim?</summary>
+                    <div>
+                        The DApp reads the currently available reward from the staking contract and displays it in your
+                        dashboard. The amount can change as the blockchain state changes, so the value shown by the DApp
+                        should be treated as the current on-chain amount.
+                    </div>
+                </details>
+
+                <details class="faq">
+                    <summary>How can I claim my rewards?</summary>
+                    <div>
+                        When a reward becomes available, the corresponding claim button becomes active. Select the claim
+                        option, review the transaction in your wallet, and confirm it. Your wallet must have enough
+                        native coin to pay the network transaction fee.
+                    </div>
+                </details>
+
+                <details class="faq">
+                    <summary>Why do I need the network's native coin?</summary>
+                    <div>
+                        The network's native coin is used to pay blockchain transaction fees, also known as gas. You
+                        need it for actions that require a transaction, such as staking, approval, or claiming rewards.
+                    </div>
+                </details>
+
+                <details class="faq">
+                    <summary>Why must the token be approved?</summary>
+                    <div>
+                        The staking token uses the standard ERC-20 approval mechanism. Approval gives the staking
+                        contract permission to transfer the amount you authorize when you make a stake. The approval
+                        itself does not create a staking position.
+                    </div>
+                </details>
+
+                <details class="faq">
+                    <summary>Does this DApp need my seed phrase?</summary>
+                    <div>
+                        No. Never enter your seed phrase or private key into this website. Transactions should be
+                        reviewed and signed only through your own wallet.
+                    </div>
+                </details>
+
+                <details class="faq">
+                    <summary>What happens if I leave the page?</summary>
+                    <div>
+                        Leaving the website does not remove your staking position. Your position remains recorded on the
+                        blockchain. When you return, reconnect the same wallet on the supported network and the DApp can
+                        read your current staking data again.
+                    </div>
+                </details>
+
+                <details class="faq">
+                    <summary>Why is my staking data not showing?</summary>
+                    <div>
+                        Check that you are using the same wallet address that was used for staking and that the wallet
+                        is on the supported network. If the wallet and network are correct but data is still missing,
+                        wait for the DApp to refresh and verify the transaction status on the blockchain explorer.
+                    </div>
+                </details>
+
+                <details class="faq">
+                    <summary>Is staking risk-free?</summary>
+                    <div>
+                        No. Staking involves smart-contract, token, market, and transaction risks. The value of the
+                        token can change, and blockchain transactions may have risks or limitations. Only use funds you
+                        are prepared to risk.
+                    </div>
+                </details>
+
+                <div class="notice warn" style="margin-top:12px">
+                    Always verify the staking network, token, staking
+                    contract and transaction details in your wallet before
+                    signing a transaction.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+         OWNER
+    ========================== -->
+
+        <section id="owner" class="section">
+
+            <div class="notice danger" id="ownerWarning">
+                Owner panel is restricted to the contract owner.
+            </div>
+
+            <div style="height:14px"></div>
+
+
+            <div class="cols">
+
+                <div class="panel">
+
+                    <div class="panel-title-row">
+                        <h2>Contract Settings</h2>
+
+                        <span class="badge red">
+                            Owner only
+                        </span>
+                    </div>
+
+                    <div class="form">
+
+                        <div>
+                            <label class="label">
+                                Minimum Stake (MEGAH)
+                            </label>
+
+                            <input id="oMinStake" inputmode="decimal">
+                        </div>
+
+                        <button id="setMinStake">
+                            Update Minimum Stake
+                        </button>
+
+
+                        <div>
+                            <label class="label">
+                                Daily ROI (BPS)
+                            </label>
+
+                            <input id="oRoi" inputmode="numeric">
+                        </div>
+
+                        <button id="setRoi">
+                            Update Daily ROI
+                        </button>
+
+
+                        <div>
+                            <label class="label">
+                                Leader Bonus (BPS)
+                            </label>
+
+                            <input id="oLeaderBps" inputmode="numeric">
+                        </div>
+
+                        <button id="setLeaderBps">
+                            Update Leader Bonus
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-title-row">
+                        <h2>15-Level Matching</h2>
+
+                        <span class="badge red">
+                            Owner only
+                        </span>
+                    </div>
+
+                    <div id="levelInputs" class="form">
+                    </div>
+
+                    <button id="setLevels" style="margin-top:12px">
+                        Update All 15 Levels
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="cols" style="margin-top:18px">
+
+                <div class="panel">
+
+                    <div class="panel-title-row">
+                        <h2>Leader Management</h2>
+
+                        <span class="badge red">
+                            Owner only
+                        </span>
+                    </div>
+
+                    <div class="form">
+
+                        <input id="leaderAddress" placeholder="Leader wallet 0x...">
+
+                        <select id="leaderStatus">
+                            <option value="true">
+                                Register / Enable
+                            </option>
+
+                            <option value="false">
+                                Revoke / Disable
+                            </option>
+                        </select>
+
+                        <button id="setLeader" class="primary">
+                            Update Leader
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-title-row">
+                        <h2>Admin Stake</h2>
+
+                        <span class="badge red">
+                            Owner only
+                        </span>
+                    </div>
+
+                    <div class="form">
+
+                        <input id="adminUser" placeholder="User wallet 0x...">
+
+                        <input id="adminAmount" inputmode="decimal" placeholder="MEGAH amount">
+
+                        <input id="adminUpline" placeholder="Optional upline 0x...">
+
+                        <button id="adminStake" class="primary">
+                            Admin Stake
+                        </button>
+
+                        <div class="notice danger small">
+                            This calls the deployed contract's
+                            adminStake() function. It does not represent
+                            a normal user staking transaction.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel" style="margin-top:18px">
+
+                <div class="panel-title-row">
+                    <h2>Recover ERC-20</h2>
+
+                    <span class="badge red">
+                        Owner only
+                    </span>
+                </div>
+
+                <div class="form">
+
+                    <div class="row">
+
+                        <input id="recoverToken" placeholder="ERC-20 token address">
+
+                        <input id="recoverAmount" inputmode="decimal" placeholder="Token amount">
+
+                    </div>
+
+                    <button id="recoverBtn" class="danger">
+                        Recover ERC-20 to Owner
+                    </button>
+
+                    <div class="notice danger small">
+                        This calls the deployed contract's
+                        recoverERC20() function.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+         FOOTER
+    ========================== -->
+
+        <footer class="footer">
+
+            <div class="footer-links">
+
+                <a href="https://megahcrypto.github.io/buy/" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-solid fa-cart-plus"></i> Buy MEGAH
+                </a>
+
+                <a href="https://pancakeswap.finance/swap?outputCurrency=0xc55d416476CFC6e879948eD5a5F4461c43Af45Aa"
+                    target="_blank" rel="noopener noreferrer">
+                    <i class="fa-solid fa-chart-line"></i> Trade MEGAH
+                </a>
+
+                <a href="https://megahstaking.github.io/guide/" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-readme"></i> Guide
+                </a>
+
+                <a href="https://megahstaking.github.io/terms/">
+                    <i class="fa-solid fa-scale-balanced"></i> Terms
+                </a>
+
+            </div>
+
+            <div class="footer-note">
+                Megah Staking • BNB Smart Chain
+            </div>
+
+        </footer>
+
+    </main>
+
+
+    <!-- =========================
+     CENTER NOTIFICATION
+========================== -->
+
+    <div id="notifyOverlay" class="notify-overlay">
+
+        <div id="notifyBox" class="notify-box info">
+
+            <div id="notifyIcon" class="notify-icon">
+                i
+            </div>
+
+            <div id="notifyTitle" class="notify-title">
+                Notification
+            </div>
+
+            <div id="notifyMessage" class="notify-message">
+            </div>
+
+            <button id="notifyClose" class="notify-action" type="button" aria-label="Close notification">
+                OK
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        (() => {
+
+            'use strict';
+
+
+            /* =========================================================
+               CONTRACT CONFIGURATION
+               DO NOT CHANGE THE DEPLOYED CONTRACT
+            ========================================================= */
+
+            const CONFIG = {
+
+                chainId: 56,
+
+                chainHex: '0x38',
+
+                chainName: 'BNB Smart Chain',
+
+                rpc: 'https://bsc-dataseed.binance.org/',
+
+                ws: '',
+
+                nativeSymbol: 'BNB',
+
+                explorer: 'https://bscscan.com/',
+
+                megahStakingAddress:
+                    '0xc55d416476CFC6e879948eD5a5F4461c43Af45Aa',
+
+                stakingContract:
+                    '0xaff2b9c255c61a603fe94bd55db0885b366a6129',
+
+                expectedToken:
+                    '0xc55d416476CFC6e879948eD5a5F4461c43Af45Aa',
+
+                expectedSymbol: 'MEGAH'
+            };
+
+            const ERC20_ABI = [
+
+                'function name() view returns (string)',
+
+                'function symbol() view returns (string)',
+
+                'function decimals() view returns (uint8)',
+
+                'function balanceOf(address) view returns (uint256)',
+
+                'function allowance(address,address) view returns (uint256)',
+
+                'function approve(address,uint256) returns (bool)'
+            ];
+
+            const GT_ABI = [
+
+                'function owner() view returns (address)',
+
+                'function megahStaking() view returns (address)',
+
+                'function minStake() view returns (uint256)',
+
+                'function leaderBonusBps() view returns (uint256)',
+
+                'function dailyRoiBps() view returns (uint256)',
+
+                'function sponsorBonusLevels(uint256) view returns (uint256)',
+
+                'function userStakes(address) view returns (uint256 totalAmount,uint256 maxCap,uint256 totalClaimed,uint256 savedReward,uint256 lastClaimTime,uint256 pendingSponsorBonus)',
+
+                'function userUplines(address) view returns (address)',
+
+                'function isLeader(address) view returns (bool)',
+
+                'function pendingReward(address) view returns (uint256)',
+
+                'function isMaxCapReached(address) view returns (bool)',
+
+                'function getStakeInfo(address) view returns (uint256 totalAmount,uint256 maxCap,uint256 totalClaimed,uint256 currentPendingReward,uint256 pendingSponsorBonus)',
+
+                'function stake(uint256,address)',
+
+                'function claimRoi()',
+
+                'function claimSponsorBonus()',
+
+                'function adminStake(address,uint256,address)',
+
+                'function setLeader(address,bool)',
+
+                'function updateLeaderBonusBps(uint256)',
+
+                'function updateDailyRoiBps(uint256)',
+
+                'function updateSponsorLevels(uint256[])',
+
+                'function updateMinStake(uint256)',
+
+                'function recoverERC20(address,uint256)',
+
+                'event UplineRegistered(address indexed user,address indexed upline)',
+
+                'event Staked(address indexed user,uint256 amount)',
+
+                'event AdminStaked(address indexed user,uint256 amount,address indexed admin)',
+
+                'event RoiClaimed(address indexed user,uint256 reward)',
+
+                'event SponsorBonusClaimed(address indexed user,uint256 amount)',
+
+                'event MatchingBonusDistributed(address indexed fromUser,uint256 roiAmount,uint256 totalDistributed)',
+
+                'event LeaderBonusPaid(address indexed leader,address indexed fromUser,uint256 amount)',
+
+                'event MinStakeUpdated(uint256 oldMin,uint256 newMin)',
+
+                'event LeaderStatusUpdated(address indexed wallet,bool status)',
+
+                'event LeaderBonusBpsUpdated(uint256 oldBps,uint256 newBps)',
+
+                'event DailyRoiBpsUpdated(uint256 oldBps,uint256 newBps)'
+            ];
+
+            let browserProvider = null;
+
+            let signer = null;
+
+            let readProvider = null;
+
+            let gt = null;
+
+            let token = null;
+
+            let account = null;
+
+            let tokenDecimals = 18;
+
+            let tokenSymbol = 'MEGAH';
+
+            let refreshTimer = null;
+
+            let liveTimer = null;
+
+            let connectionGeneration = 0;
+
+
+            let cached = {
+
+                total: 0n,
+
+                cap: 0n,
+
+                claimed: 0n,
+
+                pending: 0n,
+
+                sponsor: 0n,
+
+                lastClaim: 0n,
+
+                dailyBps: 0n
+            };
+
+
+            const $ = id =>
+                document.getElementById(id);
+
+            function validAddress(v) {
+
+                return /^0x[0-9a-fA-F]{40}$/.test(
+                    String(v || '').trim()
+                );
+            }
+
+
+            function short(a) {
+
+                return a
+                    ? `${a.slice(0, 6)}…${a.slice(-4)}`
+                    : '—';
+            }
+
+
+            function fmt(v, max = 4) {
+
+                try {
+
+                    const s =
+                        ethers.formatUnits(
+                            v,
+                            tokenDecimals
+                        );
+
+                    if (!s.includes('.'))
+                        return s;
+
+                    const parts = s.split('.');
+
+                    const decimal =
+                        parts[1]
+                            .slice(0, max)
+                            .replace(/0+$/, '');
+
+                    return decimal
+                        ? `${parts[0]}.${decimal}`
+                        : parts[0];
+
+                } catch {
+
+                    return '0';
+                }
+            }
+
+
+            function fmtBps(b) {
+
+                return `${Number(b) / 100}%`;
+            }
+
+
+            function configured() {
+
+                return validAddress(
+                    CONFIG.stakingContract
+                );
+            }
+
+
+            function cleanError(e) {
+
+                if (!e)
+                    return 'Unknown error.';
+
+                if (
+                    e.code === 'ACTION_REJECTED' ||
+                    e?.info?.error?.code === 4001 ||
+                    /user rejected/i.test(
+                        e.message || ''
+                    )
+                ) {
+
+                    return 'Transaction rejected in wallet.';
+                }
+
+                if (
+                    /insufficient funds/i.test(
+                        e.message || ''
+                    )
+                ) {
+
+                    return 'Insufficient BNB for gas or insufficient MEGAH balance.';
+                }
+
+                const msg =
+                    e.shortMessage ||
+                    e.reason ||
+                    e.message ||
+                    String(e);
+
+                return msg
+                    .replace(
+                        /^execution reverted:\s*/i,
+                        ''
+                    )
+                    .slice(0, 400);
+            }
+
+            let notifyTimer = null;
+
+
+            function notify(
+                message,
+                type = 'info',
+                title = 'Notification',
+                duration = 4500
+            ) {
+
+                const overlay =
+                    $('notifyOverlay');
+
+                const box =
+                    $('notifyBox');
+
+                const icon =
+                    $('notifyIcon');
+
+                $('notifyTitle').textContent =
+                    title;
+
+                $('notifyMessage').textContent =
+                    message;
+
+                box.className =
+                    `notify-box ${type}`;
+
+                icon.textContent =
+                    type === 'ok'
+                        ? '✓'
+                        : type === 'error'
+                            ? '!'
+                            : type === 'warn'
+                                ? '!'
+                                : 'i';
+
+                overlay.classList.add('show');
+
+                document.body.classList.add(
+                    'modal-open'
+                );
+
+                clearTimeout(notifyTimer);
+
+                if (duration > 0) {
+
+                    notifyTimer =
+                        setTimeout(
+                            closeNotify,
+                            duration
+                        );
+                }
+            }
+
+
+            function closeNotify() {
+
+                $('notifyOverlay')
+                    .classList
+                    .remove('show');
+
+                document.body
+                    .classList
+                    .remove('modal-open');
+            }
+
+
+            $('notifyClose')
+                .addEventListener(
+                    'click',
+                    closeNotify
+                );
+
+
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape') closeNotify();
+            });
+
+            $('notifyOverlay')
+                .addEventListener(
+                    'click',
+                    e => {
+
+                        if (
+                            e.target ===
+                            $('notifyOverlay')
+                        ) {
+
+                            closeNotify();
+                        }
+                    }
+                );
+
+            function setWalletState(
+                state,
+                text
+            ) {
+
+                const btn =
+                    $('connectBtn');
+
+                btn.className =
+                    `wallet ${state}`;
+
+                btn.textContent =
+                    text;
+            }
+
+
+            function clearUserUI() {
+
+                $('balance').textContent = '—';
+
+                $('staked').textContent = '—';
+
+                $('pending').textContent = '—';
+
+                $('sponsor').textContent = '—';
+
+                $('dStaked').textContent = '—';
+
+                $('dCap').textContent = '—';
+
+                $('dClaimed').textContent = '—';
+
+                $('dPending').textContent = '—';
+
+                $('dSponsor').textContent = '—';
+                $('dSavedReward').textContent = '—';
+                $('dLastClaim').textContent = '—';
+                $('dCapRemaining').textContent = '—';
+                $('roiClaimAmount').textContent = '—';
+                $('sponsorClaimAmount').textContent = '—';
+                $('stakeMaxCap').textContent = '—';
+
+                $('dUpline').textContent = '—';
+
+                $('dLeader').textContent = '—';
+
+                $('dCapStatus').textContent = '—';
+
+                $('myAddress').textContent = '—';
+
+                $('nUpline').textContent = '—';
+
+                $('nLeader').textContent = '—';
+
+                $('allowanceText').textContent =
+                    'Allowance: —';
+
+                $('ricBalanceText').textContent =
+                    'BNB balance: —';
+
+                $('positionStatus').textContent =
+                    'Wallet not connected';
+
+                $('positionStatus').className =
+                    'badge';
+
+                $('capProgress').style.width =
+                    '0%';
+
+                $('capText').textContent =
+                    'Connect your wallet to view your position.';
+
+                $('claimRoiBtn').disabled = true;
+                $('claimSponsorBtn').disabled = true;
+
+                $('ownerTab').style.display =
+                    'none';
+
+                $('ownerTab2').style.display =
+                    'none';
+
+                $('ownerWarning').textContent =
+                    'Owner panel is restricted to the contract owner.';
+            }
+
+
+            function disconnectUI() {
+
+                account = null;
+
+                signer = null;
+
+                gt = null;
+
+                token = null;
+
+                cached = {
+
+                    total: 0n,
+
+                    cap: 0n,
+
+                    claimed: 0n,
+
+                    pending: 0n,
+
+                    sponsor: 0n,
+
+                    lastClaim: 0n,
+
+                    dailyBps: 0n
+                };
+
+                clearUserUI();
+
+                setWalletState(
+                    'red',
+                    'Connect Wallet'
+                );
+            }
+
+
+            /* =========================================================
+               WALLET SYNCHRONIZATION
+            ========================================================= */
+
+            async function syncWalletState(
+                notifyWrongNetwork = false
+            ) {
+
+                const generation =
+                    ++connectionGeneration;
+
+                if (!window.ethereum) {
+
+                    disconnectUI();
+
+                    return false;
+                }
+
+                try {
+
+                    const accounts =
+                        await window.ethereum.request({
+                            method: 'eth_accounts'
+                        });
+
+                    const chain =
+                        await window.ethereum.request({
+                            method: 'eth_chainId'
+                        });
+
+                    if (generation !== connectionGeneration)
+                        return false;
+
+                    const current =
+                        accounts?.[0] || null;
+
+                    if (!current) {
+
+                        disconnectUI();
+
+                        return false;
+                    }
+
+
+                    const currentChain =
+                        Number(
+                            BigInt(chain)
+                        );
+
+
+                    if (
+                        currentChain !==
+                        CONFIG.chainId
+                    ) {
+
+                        account = null;
+
+                        signer = null;
+
+                        gt = null;
+
+                        token = null;
+
+                        clearUserUI();
+
+                        setWalletState(
+                            'yellow',
+                            'Switch Network'
+                        );
+
+                        if (notifyWrongNetwork) {
+
+                            notify(
+                                `Your wallet is currently on another network. Please switch to ${CONFIG.chainName}.`,
+                                'warn',
+                                'Wrong Network',
+                                0
+                            );
+                        }
+
+                        return false;
+                    }
+
+                    browserProvider =
+                        new ethers.BrowserProvider(
+                            window.ethereum,
+                            'any'
+                        );
+
+                    signer =
+                        await browserProvider.getSigner();
+
+                    const signerAddress =
+                        await signer.getAddress();
+
+
+                    if (
+                        signerAddress.toLowerCase() !==
+                        current.toLowerCase()
+                    ) {
+
+                        disconnectUI();
+
+                        return false;
+                    }
+
+
+                    account =
+                        signerAddress;
+
+
+                    await bindWallet(
+                        generation
+                    );
+
+                    return true;
+
+                } catch (e) {
+
+                    console.error(
+                        'wallet sync',
+                        e
+                    );
+
+                    disconnectUI();
+
+                    return false;
+                }
+            }
+
+
+            async function connect() {
+
+                if (!window.ethereum) {
+
+                    notify(
+                        'No EVM wallet was detected. Open this DApp inside an EVM wallet browser or install an EVM-compatible wallet.',
+                        'error',
+                        'Wallet Not Found',
+                        0
+                    );
+
+                    return;
+                }
+
+
+                try {
+
+                    setWalletState(
+                        'blue',
+                        'Connecting…'
+                    );
+
+
+                    browserProvider =
+                        new ethers.BrowserProvider(
+                            window.ethereum,
+                            'any'
+                        );
+
+
+                    const net =
+                        await browserProvider.getNetwork();
+
+
+                    if (
+                        Number(net.chainId) !==
+                        CONFIG.chainId
+                    ) {
+
+                        await addNetwork();
+
+                        return;
+                    }
+
+
+                    await browserProvider.send(
+                        'eth_requestAccounts',
+                        []
+                    );
+
+
+                    await syncWalletState(
+                        false
+                    );
+
+
+                    if (!account) {
+
+                        notify(
+                            'The wallet connection could not be established.',
+                            'error',
+                            'Connection Failed',
+                            0
+                        );
+                    }
+
+                } catch (e) {
+
+                    console.error(e);
+
+                    disconnectUI();
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Wallet Connection',
+                        0
+                    );
+                }
+            }
+
+
+            async function addNetwork() {
+
+                try {
+
+                    setWalletState(
+                        'yellow',
+                        'Switching…'
+                    );
+
+
+                    await window.ethereum.request({
+
+                        method:
+                            'wallet_addEthereumChain',
+
+                        params: [{
+
+                            chainId:
+                                CONFIG.chainHex,
+
+                            chainName:
+                                CONFIG.chainName,
+
+                            nativeCurrency: {
+
+                                name:
+                                    'BNB Smart Chain',
+
+                                symbol:
+                                    'BNB',
+
+                                decimals:
+                                    18
+                            },
+
+                            rpcUrls:
+                                [CONFIG.rpc],
+
+                            blockExplorerUrls:
+                                [CONFIG.explorer]
+                        }]
+                    });
+
+
+                    await syncWalletState(
+                        false
+                    );
+
+                } catch (e) {
+
+                    console.error(e);
+
+                    setWalletState(
+                        'yellow',
+                        'Switch Network'
+                    );
+
+                    notify(
+                        cleanError(e),
+                        'warn',
+                        'Network Switch',
+                        0
+                    );
+                }
+            }
+
+            async function bindWallet(
+                generation = connectionGeneration
+            ) {
+
+                if (!account)
+                    return false;
+
+
+                const localAccount =
+                    account;
+
+
+                try {
+
+                    const localProvider =
+                        new ethers.BrowserProvider(
+                            window.ethereum,
+                            'any'
+                        );
+
+                    const localSigner =
+                        await localProvider.getSigner();
+
+                    const signerAddress =
+                        await localSigner.getAddress();
+
+
+                    if (
+                        signerAddress.toLowerCase() !==
+                        localAccount.toLowerCase()
+                    ) {
+
+                        return false;
+                    }
+
+
+                    const contract =
+                        new ethers.Contract(
+                            CONFIG.stakingContract,
+                            GT_ABI,
+                            localSigner
+                        );
+
+
+                    const taddr =
+                        await contract.megahStaking();
+
+
+                    if (
+                        taddr.toLowerCase() !==
+                        CONFIG.expectedToken.toLowerCase()
+                    ) {
+
+                        throw new Error(
+                            'The staking contract points to a different token address than the configured MEGAH token.'
+                        );
+                    }
+
+
+                    const erc20 =
+                        new ethers.Contract(
+                            CONFIG.expectedToken,
+                            ERC20_ABI,
+                            localSigner
+                        );
+
+
+                    const decimals =
+                        Number(
+                            await erc20.decimals()
+                        );
+
+
+                    const symbol =
+                        await erc20.symbol();
+
+
+                    if (
+                        symbol.toUpperCase() !==
+                        CONFIG.expectedSymbol
+                    ) {
+
+                        throw new Error(
+                            `The configured token returned symbol ${symbol}, not ${CONFIG.expectedSymbol}.`
+                        );
+                    }
+
+
+                    if (
+                        generation !==
+                        connectionGeneration
+                    ) {
+
+                        return false;
+                    }
+
+
+                    browserProvider =
+                        localProvider;
+
+                    signer =
+                        localSigner;
+
+                    gt =
+                        contract;
+
+                    token =
+                        erc20;
+
+                    account =
+                        signerAddress;
+
+                    tokenDecimals =
+                        decimals;
+
+                    tokenSymbol =
+                        symbol;
+
+
+                    setWalletState(
+                        'green',
+                        short(account)
+                    );
+
+
+                    $('myAddress').textContent =
+                        short(account);
+
+                    $('myAddress').title =
+                        account;
+
+
+                    const owner =
+                        await gt.owner();
+
+
+                    const isOwner =
+                        owner.toLowerCase() ===
+                        account.toLowerCase();
+
+
+                    $('ownerTab').style.display =
+                        isOwner
+                            ? 'inline-flex'
+                            : 'none';
+
+                    $('ownerTab2').style.display =
+                        isOwner
+                            ? 'inline-flex'
+                            : 'none';
+
+
+                    $('ownerWarning').textContent =
+                        isOwner
+                            ? 'Connected wallet is the contract owner. Owner functions are enabled.'
+                            : 'Owner panel is restricted to the contract owner.';
+
+
+                    await refresh();
+
+
+                    if (isOwner) {
+
+                        showTab(
+                            'dashboard'
+                        );
+                    }
+
+
+                    startPolling();
+
+
+                    return true;
+
+                } catch (e) {
+
+                    console.error(
+                        'bindWallet',
+                        e
+                    );
+
+                    disconnectUI();
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Wallet / Contract Error',
+                        0
+                    );
+
+                    return false;
+                }
+            }
+
+            async function initReadProvider() {
+
+                readProvider =
+                    new ethers.JsonRpcProvider(
+                        CONFIG.rpc,
+                        {
+                            name:
+                                CONFIG.chainName,
+
+                            chainId:
+                                CONFIG.chainId
+                        }
+                    );
+
+
+                const code =
+                    await readProvider.getCode(
+                        CONFIG.stakingContract
+                    );
+
+
+                if (code === '0x') {
+
+                    throw new Error(
+                        'Staking contract was not found on the configured BNB Smart Chain RPC.'
+                    );
+                }
+
+
+                const reader =
+                    new ethers.Contract(
+                        CONFIG.stakingContract,
+                        GT_ABI,
+                        readProvider
+                    );
+
+
+                const taddr =
+                    await reader.megahStaking();
+
+
+                if (
+                    taddr.toLowerCase() !==
+                    CONFIG.expectedToken.toLowerCase()
+                ) {
+
+                    throw new Error(
+                        'The deployed staking contract is configured for a different staking token.'
+                    );
+                }
+
+
+                token =
+                    new ethers.Contract(
+                        CONFIG.expectedToken,
+                        ERC20_ABI,
+                        readProvider
+                    );
+
+
+                tokenDecimals =
+                    Number(
+                        await token.decimals()
+                    );
+
+
+                tokenSymbol =
+                    await token.symbol();
+
+
+                if (
+                    tokenSymbol.toUpperCase() !==
+                    CONFIG.expectedSymbol
+                ) {
+
+                    throw new Error(
+                        `Expected ${CONFIG.expectedSymbol}, but token returned ${tokenSymbol}.`
+                    );
+                }
+
+
+                await refresh();
+            }
+
+
+            /* =========================================================
+               REFRESH
+            ========================================================= */
+
+            async function refresh() {
+
+                if (!configured())
+                    return;
+
+
+                const reader =
+                    gt ||
+                    new ethers.Contract(
+                        CONFIG.stakingContract,
+                        GT_ABI,
+                        readProvider
+                    );
+
+
+                try {
+
+                    const [
+
+                        owner,
+
+                        megahStaking,
+
+                        min,
+
+                        roi,
+
+                        leaderBonus
+
+                    ] = await Promise.all([
+
+                        reader.owner(),
+
+                        reader.megahStaking(),
+
+                        reader.minStake(),
+
+                        reader.dailyRoiBps(),
+
+                        reader.leaderBonusBps()
+                    ]);
+
+
+                    $('contractToken').textContent =
+                        short(megahStaking);
+
+
+                    $('contractStaking').textContent =
+                        short(CONFIG.stakingContract);
+
+
+                    $('contractMin').textContent =
+                        `${fmt(min)} ${tokenSymbol}`;
+
+
+                    $('contractRoi').textContent =
+                        fmtBps(roi);
+
+
+                    $('contractLeader').textContent =
+                        fmtBps(leaderBonus);
+
+
+                    $('contractOwner').textContent =
+                        short(owner);
+
+
+                    $('minStake').textContent =
+                        `${fmt(min)} ${tokenSymbol}`;
+
+
+                    $('dailyRoi').textContent =
+                        fmtBps(roi);
+
+
+                    $('leaderBonus').textContent =
+                        fmtBps(leaderBonus);
+
+
+                    $('stakeMin').textContent =
+                        `${fmt(min)} ${tokenSymbol}`;
+
+
+                    $('stakeRoi').textContent =
+                        fmtBps(roi);
+
+
+                    cached.dailyBps =
+                        BigInt(roi);
+
+
+                    const levels =
+                        await Promise.all(
+
+                            [...Array(15)].map(
+                                (_, i) =>
+                                    reader
+                                        .sponsorBonusLevels(i)
+                                        .catch(() => 0n)
+                            )
+                        );
+
+
+                    renderLevels(levels);
+
+
+                    if (!account) {
+
+                        clearUserUI();
+
+                        return;
+                    }
+
+
+                    const [
+
+                        info,
+
+                        up,
+
+                        leader,
+
+                        maxReached,
+
+                        balance,
+
+                        allowance,
+
+                        ricBalance
+
+                    ] = await Promise.all([
+
+                        reader.getStakeInfo(account),
+
+                        reader.userUplines(account),
+
+                        reader.isLeader(account),
+
+                        reader.isMaxCapReached(account),
+
+                        token.balanceOf(account),
+
+                        token.allowance(
+                            account,
+                            CONFIG.stakingContract
+                        ),
+
+                        readNativeBalance(account)
+                    ]);
+
+
+                    cached.total =
+                        info[0];
+
+                    cached.cap =
+                        info[1];
+
+                    cached.claimed =
+                        info[2];
+
+                    cached.pending =
+                        info[3];
+
+                    cached.sponsor =
+                        info[4];
+
+
+                    const raw =
+                        await reader.userStakes(
+                            account
+                        );
+
+
+                    cached.lastClaim =
+                        raw[4];
+
+
+                    renderUser(
+
+                        info,
+
+                        up,
+
+                        leader,
+
+                        maxReached,
+
+                        balance,
+
+                        allowance,
+
+                        ricBalance
+                    );
+
+                    if (
+                        owner.toLowerCase() ===
+                        account.toLowerCase()
+                    ) {
+
+                        fillOwner(
+                            levels,
+                            min,
+                            roi,
+                            leaderBonus
+                        );
+                    }
+
+                } catch (e) {
+
+                    console.error(
+                        'refresh',
+                        e
+                    );
+                }
+            }
+
+
+            async function readNativeBalance(
+                address
+            ) {
+
+                try {
+
+                    return await readProvider.getBalance(
+                        address
+                    );
+
+                } catch {
+
+                    return 0n;
+                }
+            }
+
+
+            function formatTimestamp(ts) {
+                try {
+                    const n = Number(ts);
+                    if (!n) return '—';
+                    return new Intl.DateTimeFormat(undefined, {
+                        dateStyle: 'medium',
+                        timeStyle: 'medium'
+                    }).format(new Date(n * 1000));
+                } catch {
+                    return '—';
+                }
+            }
+
+            function renderUser(
+
+                info,
+                up,
+                leader,
+                maxReached,
+                bal,
+                allow,
+                ric,
+                raw
+
+            ) {
+
+                $('balance').textContent =
+                    `${fmt(bal)} ${tokenSymbol}`;
+
+
+                $('staked').textContent =
+                    `${fmt(info[0])} ${tokenSymbol}`;
+
+
+                $('pending').textContent =
+                    `${fmt(info[3])} ${tokenSymbol}`;
+
+
+                $('sponsor').textContent =
+                    `${fmt(info[4])} ${tokenSymbol}`;
+
+
+                $('dStaked').textContent =
+                    `${fmt(info[0])} ${tokenSymbol}`;
+
+
+                $('dCap').textContent =
+                    `${fmt(info[1])} ${tokenSymbol}`;
+
+
+                $('dClaimed').textContent =
+                    `${fmt(info[2])} ${tokenSymbol}`;
+
+
+                $('dPending').textContent =
+                    `${fmt(info[3])} ${tokenSymbol}`;
+
+
+                $('dSponsor').textContent =
+                    `${fmt(info[4])} ${tokenSymbol}`;
+
+                $('dSavedReward').textContent =
+                    `${fmt(raw[3])} ${tokenSymbol}`;
+
+                $('dLastClaim').textContent =
+                    formatTimestamp(raw[4]);
+
+                const remaining = info[1] > info[2] ? info[1] - info[2] : 0n;
+                $('dCapRemaining').textContent =
+                    `${fmt(remaining)} ${tokenSymbol}`;
+
+                $('roiClaimAmount').textContent =
+                    `${fmt(info[3])} ${tokenSymbol}`;
+
+                $('sponsorClaimAmount').textContent =
+                    `${fmt(info[4])} ${tokenSymbol}`;
+
+                $('stakeMaxCap').textContent =
+                    `${fmt(info[1])} ${tokenSymbol}`;
+
+                $('claimRoiBtn').disabled = info[3] <= 0n;
+                $('claimSponsorBtn').disabled = info[4] <= 0n;
+
+                $('dUpline').textContent =
+                    up &&
+                        up !== ethers.ZeroAddress
+                        ? short(up)
+                        : 'None';
+
+
+                $('dUpline').title =
+                    up || '';
+
+
+                $('nUpline').textContent =
+                    up &&
+                        up !== ethers.ZeroAddress
+                        ? short(up)
+                        : 'None';
+
+
+                $('nUpline').title =
+                    up || '';
+
+
+                $('dLeader').textContent =
+                    leader
+                        ? 'Yes'
+                        : 'No';
+
+
+                $('nLeader').textContent =
+                    leader
+                        ? 'Yes'
+                        : 'No';
+
+
+                $('dCapStatus').textContent =
+                    maxReached
+                        ? 'Reached'
+                        : 'Not reached';
+
+
+                $('dCapStatus').style.color =
+                    maxReached
+                        ? '#ff8c9c'
+                        : '#70dfbd';
+
+
+                $('positionStatus').textContent =
+                    'Connected';
+
+
+                $('positionStatus').className =
+                    'badge green';
+
+
+                const pct =
+                    info[1] > 0n
+                        ? Number(
+                            info[2] * 10000n /
+                            info[1]
+                        ) / 100
+                        : 0;
+
+
+                $('capProgress').style.width =
+                    Math.min(
+                        100,
+                        pct
+                    ) + '%';
+
+
+                $('capText').textContent =
+                    `${pct.toFixed(2)}% of maximum cap reached`;
+
+
+                $('allowanceText').textContent =
+                    `Allowance: ${fmt(allow)} ${tokenSymbol}`;
+
+
+                $('ricBalanceText').textContent =
+                    `BNB balance: ${fmtNative(ric)} BNB`;
+            }
+
+
+            function fmtNative(v) {
+
+                try {
+
+                    const s =
+                        ethers.formatEther(v);
+
+                    if (!s.includes('.'))
+                        return s;
+
+                    const p =
+                        s.split('.');
+
+                    return (
+                        p[0] +
+                        '.' +
+                        p[1]
+                            .slice(0, 6)
+                            .replace(/0+$/, '')
+                    );
+
+                } catch {
+
+                    return '0';
+                }
+            }
+
+            async function refreshUserOnChain() {
+
+                if (!account || !gt || !token)
+                    return;
+
+                const localAccount = account;
+                const generation = connectionGeneration;
+
+                try {
+                    const [info, up, leader, maxReached, balance, allowance, ricBalance, raw] = await Promise.all([
+                        gt.getStakeInfo(localAccount),
+                        gt.userUplines(localAccount),
+                        gt.isLeader(localAccount),
+                        gt.isMaxCapReached(localAccount),
+                        token.balanceOf(localAccount),
+                        token.allowance(localAccount, CONFIG.stakingContract),
+                        readNativeBalance(localAccount),
+                        gt.userStakes(localAccount)
+                    ]);
+
+                    if (generation !== connectionGeneration || account?.toLowerCase() !== localAccount.toLowerCase())
+                        return;
+
+                    cached.total = info[0];
+                    cached.cap = info[1];
+                    cached.claimed = info[2];
+                    cached.pending = info[3];
+                    cached.sponsor = info[4];
+                    cached.lastClaim = raw[4];
+
+                    renderUser(info, up, leader, maxReached, balance, allowance, ricBalance, raw);
+                } catch (e) {
+                    console.error('on-chain user refresh', e);
+                }
+            }
+
+
+            /* =========================================================
+               TRANSACTION
+            ========================================================= */
+
+            async function waitTx(
+                tx,
+                label
+            ) {
+
+                notify(
+                    `${label} submitted. Waiting for blockchain confirmation…`,
+                    'info',
+                    label,
+                    0
+                );
+
+
+                try {
+
+                    const receipt =
+                        await tx.wait();
+
+
+                    notify(
+                        `${label} confirmed on BNB Smart Chain.\n${short(receipt.hash)}`,
+                        'ok',
+                        'Transaction Confirmed',
+                        5000
+                    );
+
+
+                    await refresh();
+
+
+                    return receipt;
+
+                } catch (e) {
+
+                    throw e;
+                }
+            }
+
+
+            async function requireWallet() {
+
+                if (!window.ethereum) {
+
+                    notify(
+                        'No EVM wallet detected.',
+                        'error',
+                        'Wallet Required',
+                        0
+                    );
+
+                    return false;
+                }
+
+                const ok =
+                    await syncWalletState(
+                        true
+                    );
+
+
+                if (!ok)
+                    return false;
+
+
+                if (!gt || !token) {
+
+                    notify(
+                        'The wallet is connected but the staking contract could not be initialized.',
+                        'error',
+                        'Contract Connection',
+                        0
+                    );
+
+                    return false;
+                }
+
+
+                return true;
+            }
+
+            async function approve() {
+
+                if (!await requireWallet())
+                    return;
+
+
+                try {
+
+                    const amount =
+                        ethers.parseUnits(
+                            ($('stakeAmount').value || '0').trim(),
+                            tokenDecimals
+                        );
+
+
+                    if (amount <= 0n)
+                        throw new Error(
+                            'Enter a staking amount.'
+                        );
+
+
+                    const tx =
+                        await token.approve(
+                            CONFIG.stakingContract,
+                            amount
+                        );
+
+
+                    await waitTx(
+                        tx,
+                        'MEGAH approval'
+                    );
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Approval Failed',
+                        0
+                    );
+                }
+            }
+
+
+            async function stake() {
+
+                if (!await requireWallet())
+                    return;
+
+
+                try {
+
+                    const amount =
+                        ethers.parseUnits(
+                            ($('stakeAmount').value || '0').trim(),
+                            tokenDecimals
+                        );
+
+
+                    if (amount <= 0n)
+                        throw new Error(
+                            'Enter a staking amount.'
+                        );
+
+
+                    const min =
+                        await gt.minStake();
+
+
+                    if (amount < min)
+                        throw new Error(
+                            `Amount is below the minimum stake of ${fmt(min)} ${tokenSymbol}.`
+                        );
+
+
+                    let up =
+                        ($('upline').value || '')
+                            .trim();
+
+
+                    if (up) {
+
+                        if (!validAddress(up))
+                            throw new Error(
+                                'Invalid upline address.'
+                            );
+
+
+                        if (
+                            up.toLowerCase() ===
+                            account.toLowerCase()
+                        )
+                            throw new Error(
+                                'Upline cannot be your own address.'
+                            );
+                    }
+
+
+                    const allowance =
+                        await token.allowance(
+                            account,
+                            CONFIG.stakingContract
+                        );
+
+
+                    if (
+                        allowance <
+                        amount
+                    ) {
+
+                        notify(
+                            'The staking contract does not have enough MEGAH allowance. Approve the amount first.',
+                            'warn',
+                            'Approval Required',
+                            0
+                        );
+
+                        return;
+                    }
+
+
+                    const tx =
+                        await gt.stake(
+                            amount,
+                            up ||
+                            ethers.ZeroAddress
+                        );
+
+
+                    await waitTx(
+                        tx,
+                        'MEGAH staking'
+                    );
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Stake Failed',
+                        0
+                    );
+                }
+            }
+
+
+            async function maxAmount() {
+
+                if (!await requireWallet())
+                    return;
+
+
+                try {
+
+                    const balance =
+                        await token.balanceOf(
+                            account
+                        );
+
+
+                    $('stakeAmount').value =
+                        ethers.formatUnits(
+                            balance,
+                            tokenDecimals
+                        );
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Unable to Read Balance',
+                        0
+                    );
+                }
+            }
+
+            async function claimRoi() {
+
+                if (!await requireWallet())
+                    return;
+
+
+                try {
+
+                    const tx =
+                        await gt.claimRoi();
+
+
+                    await waitTx(
+                        tx,
+                        'ROI claim'
+                    );
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'ROI Claim Failed',
+                        0
+                    );
+                }
+            }
+
+
+            async function claimSponsor() {
+
+                if (!await requireWallet())
+                    return;
+
+
+                try {
+
+                    const tx =
+                        await gt.claimSponsorBonus();
+
+
+                    await waitTx(
+                        tx,
+                        'Sponsor bonus claim'
+                    );
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Sponsor Bonus Claim Failed',
+                        0
+                    );
+                }
+            }
+
+            async function copyReferral() {
+
+                if (!await requireWallet())
+                    return;
+
+
+                try {
+
+                    const url =
+                        new URL(
+                            location.href
+                        );
+
+
+                    url.searchParams.set(
+                        'ref',
+                        account
+                    );
+
+
+                    await navigator.clipboard.writeText(
+                        url.toString()
+                    );
+
+
+                    notify(
+                        'Your referral link has been copied.',
+                        'ok',
+                        'Referral Link',
+                        3000
+                    );
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Copy Failed',
+                        0
+                    );
+                }
+            }
+
+            async function requireOwner() {
+
+                if (!await requireWallet())
+                    return false;
+
+
+                try {
+
+                    const owner =
+                        await gt.owner();
+
+
+                    if (
+                        owner.toLowerCase() !==
+                        account.toLowerCase()
+                    ) {
+
+                        notify(
+                            'The connected wallet is not the owner of this staking contract.',
+                            'error',
+                            'Owner Access Denied',
+                            0
+                        );
+
+                        return false;
+                    }
+
+
+                    return true;
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Owner Verification Failed',
+                        0
+                    );
+
+                    return false;
+                }
+            }
+
+
+            async function updateMinStake() {
+
+                if (!await requireOwner())
+                    return;
+
+
+                try {
+
+                    const v =
+                        ethers.parseUnits(
+                            $('oMinStake').value.trim(),
+                            tokenDecimals
+                        );
+
+
+                    const tx =
+                        await gt.updateMinStake(v);
+
+
+                    await waitTx(
+                        tx,
+                        'Minimum stake update'
+                    );
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Update Failed',
+                        0
+                    );
+                }
+            }
+
+
+            async function updateRoi() {
+
+                if (!await requireOwner())
+                    return;
+
+
+                try {
+
+                    const v =
+                        BigInt(
+                            $('oRoi').value
+                        );
+
+
+                    if (v <= 0n)
+                        throw new Error(
+                            'ROI must be greater than zero.'
+                        );
+
+
+                    const tx =
+                        await gt.updateDailyRoiBps(v);
+
+
+                    await waitTx(
+                        tx,
+                        'Daily ROI update'
+                    );
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Update Failed',
+                        0
+                    );
+                }
+            }
+
+
+            async function updateLeaderBps() {
+
+                if (!await requireOwner())
+                    return;
+
+
+                try {
+
+                    const v =
+                        BigInt(
+                            $('oLeaderBps').value
+                        );
+
+
+                    const tx =
+                        await gt.updateLeaderBonusBps(v);
+
+
+                    await waitTx(
+                        tx,
+                        'Leader bonus update'
+                    );
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Update Failed',
+                        0
+                    );
+                }
+            }
+
+
+            async function setLeader() {
+
+                if (!await requireOwner())
+                    return;
+
+
+                try {
+
+                    const a =
+                        $('leaderAddress')
+                            .value
+                            .trim();
+
+
+                    if (!validAddress(a))
+                        throw new Error(
+                            'Invalid leader address.'
+                        );
+
+
+                    const status =
+                        $('leaderStatus').value ===
+                        'true';
+
+
+                    const tx =
+                        await gt.setLeader(
+                            a,
+                            status
+                        );
+
+
+                    await waitTx(
+                        tx,
+                        'Leader status update'
+                    );
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Leader Update Failed',
+                        0
+                    );
+                }
+            }
+
+
+            async function setLevels() {
+
+                if (!await requireOwner())
+                    return;
+
+
+                try {
+
+                    const arr = [];
+
+
+                    for (
+                        let i = 1;
+                        i <= 15;
+                        i++
+                    ) {
+
+                        const v =
+                            BigInt(
+                                $(`lvl${i}`).value ||
+                                '0'
+                            );
+
+
+                        if (v < 0n)
+                            throw new Error(
+                                'Invalid BPS value.'
+                            );
+
+
+                        arr.push(v);
+                    }
+
+
+                    const tx =
+                        await gt.updateSponsorLevels(
+                            arr
+                        );
+
+
+                    await waitTx(
+                        tx,
+                        'Sponsor level update'
+                    );
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Level Update Failed',
+                        0
+                    );
+                }
+            }
+
+
+            async function adminStake() {
+
+                if (!await requireOwner())
+                    return;
+
+
+                try {
+
+                    const user =
+                        $('adminUser')
+                            .value
+                            .trim();
+
+
+                    const up =
+                        $('adminUpline')
+                            .value
+                            .trim() ||
+                        ethers.ZeroAddress;
+
+
+                    if (
+                        !validAddress(user) ||
+                        (
+                            up !== ethers.ZeroAddress &&
+                            !validAddress(up)
+                        )
+                    ) {
+
+                        throw new Error(
+                            'Invalid address.'
+                        );
+                    }
+
+
+                    const amount =
+                        ethers.parseUnits(
+                            $('adminAmount')
+                                .value
+                                .trim(),
+                            tokenDecimals
+                        );
+
+
+                    if (amount <= 0n)
+                        throw new Error(
+                            'Amount must be greater than zero.'
+                        );
+
+
+                    const tx =
+                        await gt.adminStake(
+                            user,
+                            amount,
+                            up
+                        );
+
+
+                    await waitTx(
+                        tx,
+                        'Admin stake'
+                    );
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Admin Stake Failed',
+                        0
+                    );
+                }
+            }
+
+
+            async function recoverERC20() {
+
+                if (!await requireOwner())
+                    return;
+
+
+                try {
+
+                    const address =
+                        $('recoverToken')
+                            .value
+                            .trim();
+
+
+                    if (!validAddress(address))
+                        throw new Error(
+                            'Invalid token address.'
+                        );
+
+
+                    const c =
+                        new ethers.Contract(
+                            address,
+                            ERC20_ABI,
+                            signer
+                        );
+
+
+                    const decimals =
+                        Number(
+                            await c.decimals()
+                        );
+
+
+                    const amount =
+                        ethers.parseUnits(
+                            $('recoverAmount')
+                                .value
+                                .trim(),
+                            decimals
+                        );
+
+
+                    const tx =
+                        await gt.recoverERC20(
+                            address,
+                            amount
+                        );
+
+
+                    await waitTx(
+                        tx,
+                        'ERC-20 recovery'
+                    );
+
+                } catch (e) {
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'Recovery Failed',
+                        0
+                    );
+                }
+            }
+
+            function buildLevelInputs() {
+
+                const box =
+                    $('levelInputs');
+
+
+                box.innerHTML = '';
+
+
+                for (
+                    let i = 1;
+                    i <= 15;
+                    i++
+                ) {
+
+                    const d =
+                        document.createElement(
+                            'div'
+                        );
+
+
+                    d.innerHTML = `
+
+                <label class="label">
+                    Level ${i} — BPS
+                </label>
+
+                <input
+                    id="lvl${i}"
+                    inputmode="numeric"
+                    placeholder="0">
+
+            `;
+
+
+                    box.appendChild(d);
+                }
+            }
+
+
+            function renderLevels(levels) {
+
+                $('levels').innerHTML =
+                    levels
+                        .map(
+                            (b, i) => `
+
+                        <div class="kv">
+
+                            <span>
+                                Level ${i + 1}
+                            </span>
+
+                            <span>
+                                ${fmtBps(
+                                BigInt(b)
+                            )}
+                            </span>
+
+                        </div>
+                    `
+                        )
+                        .join('');
+
+
+                levels.forEach(
+                    (b, i) => {
+
+                        const el =
+                            $(`lvl${i + 1}`);
+
+
+                        if (
+                            el &&
+                            !el.matches(':focus')
+                        ) {
+
+                            el.value =
+                                String(b);
+                        }
+                    }
+                );
+            }
+
+
+            function fillOwner(
+                levels,
+                min,
+                roi,
+                lb
+            ) {
+
+                $('oMinStake').value =
+                    ethers.formatUnits(
+                        min,
+                        tokenDecimals
+                    );
+
+
+                $('oRoi').value =
+                    String(roi);
+
+
+                $('oLeaderBps').value =
+                    String(lb);
+
+
+                levels.forEach(
+                    (b, i) => {
+
+                        const el =
+                            $(`lvl${i + 1}`);
+
+
+                        if (
+                            el &&
+                            !el.matches(':focus')
+                        ) {
+
+                            el.value =
+                                String(b);
+                        }
+                    }
+                );
+            }
+
+            function showTab(name) {
+
+                document
+                    .querySelectorAll(
+                        '.section'
+                    )
+                    .forEach(
+                        section => {
+
+                            section.classList.toggle(
+                                'active',
+                                section.id === name
+                            );
+                        }
+                    );
+
+
+                document
+                    .querySelectorAll(
+                        '.tab'
+                    )
+                    .forEach(
+                        button => {
+
+                            button.classList.toggle(
+                                'active',
+                                button.dataset.tab === name
+                            );
+                        }
+                    );
+
+
+                const tabs =
+                    document.querySelector(
+                        '.tabs'
+                    );
+
+
+                if (tabs) {
+
+                    window.scrollTo({
+
+                        top:
+                            tabs.offsetTop -
+                            90,
+
+                        behavior:
+                            'smooth'
+                    });
+                }
+            }
+
+            function setupHero() {
+
+                let i = 0;
+
+
+                const slides =
+                    $('slides');
+
+
+                const dots =
+                    [
+                        ...document.querySelectorAll(
+                            '#heroDots button'
+                        )
+                    ];
+
+
+                if (!slides)
+                    return;
+
+
+                const go =
+                    n => {
+
+                        i =
+                            (n + 3) % 3;
+
+
+                        slides.style.transform =
+                            `translateX(-${i * 100}%)`;
+
+
+                        dots.forEach(
+                            (d, j) =>
+                                d.classList.toggle(
+                                    'active',
+                                    i === j
+                                )
+                        );
+                    };
+
+
+                $('prevSlide')
+                    .addEventListener(
+                        'click',
+                        () => go(i - 1)
+                    );
+
+
+                $('nextSlide')
+                    .addEventListener(
+                        'click',
+                        () => go(i + 1)
+                    );
+
+
+                dots.forEach(
+                    (d, j) =>
+                        d.addEventListener(
+                            'click',
+                            () => go(j)
+                        )
+                );
+
+
+                $('heroConnect')
+                    .addEventListener(
+                        'click',
+                        connect
+                    );
+
+
+                setInterval(
+                    () => go(i + 1),
+                    7000
+                );
+            }
+
+            function startPolling() {
+
+                clearInterval(
+                    refreshTimer
+                );
+
+
+                clearInterval(
+                    liveTimer
+                );
+
+
+                refreshTimer =
+                    setInterval(
+                        async () => {
+
+                            if (!account)
+                                return;
+
+                            const accounts =
+                                await window.ethereum
+                                    ?.request({
+                                        method:
+                                            'eth_accounts'
+                                    })
+                                    .catch(() => []);
+
+
+                            if (
+                                !accounts?.length ||
+                                accounts[0].toLowerCase() !==
+                                account.toLowerCase()
+                            ) {
+
+                                disconnectUI();
+
+                                return;
+                            }
+
+
+                            await refresh();
+
+                        },
+                        15000
+                    );
+
+
+                liveTimer =
+                    setInterval(
+                        refreshUserOnChain,
+                        5000
+                    );
+            }
+
+            function setupWalletEvents() {
+
+                if (!window.ethereum)
+                    return;
+
+
+                window.ethereum.on?.(
+                    'accountsChanged',
+                    async accounts => {
+
+                        connectionGeneration++;
+
+
+                        if (!accounts?.length) {
+
+                            disconnectUI();
+
+                            notify(
+                                'Your wallet has been disconnected from this DApp.',
+                                'info',
+                                'Wallet Disconnected',
+                                3500
+                            );
+
+                            return;
+                        }
+
+                        await syncWalletState(
+                            false
+                        );
+                    }
+                );
+
+
+                window.ethereum.on?.(
+                    'chainChanged',
+                    async chainId => {
+
+                        connectionGeneration++;
+
+
+                        const id =
+                            Number(
+                                BigInt(chainId)
+                            );
+
+
+                        if (
+                            id !==
+                            CONFIG.chainId
+                        ) {
+
+                            account = null;
+
+                            signer = null;
+
+                            gt = null;
+
+                            token = null;
+
+                            clearUserUI();
+
+                            setWalletState(
+                                'yellow',
+                                'Switch Network'
+                            );
+
+
+                            notify(
+                                `Please switch your wallet to ${CONFIG.chainName}.`,
+                                'warn',
+                                'Wrong Network',
+                                0
+                            );
+
+
+                            return;
+                        }
+
+
+                        await syncWalletState(
+                            false
+                        );
+                    }
+                );
+            }
+
+            $('connectBtn')
+                .addEventListener(
+                    'click',
+                    async () => {
+
+                        if (account) {
+
+                            const ok =
+                                await syncWalletState(
+                                    false
+                                );
+
+
+                            if (ok) {
+
+                                disconnectUI();
+
+
+                                notify(
+                                    'The wallet is disconnected from this DApp interface. Wallet permission itself remains managed by your wallet.',
+                                    'ok',
+                                    'Disconnected',
+                                    3500
+                                );
+
+                                return;
+                            }
+                        }
+
+
+                        await connect();
+                    }
+                );
+
+
+            /* =========================================================
+               INIT
+            ========================================================= */
+
+            async function init() {
+
+                try {
+
+                    buildLevelInputs();
+
+                    setupHero();
+
+                    setupWalletEvents();
+
+
+                    document
+                        .querySelectorAll(
+                            '[data-tab]'
+                        )
+                        .forEach(
+                            button => {
+
+                                button.addEventListener(
+                                    'click',
+                                    () =>
+                                        showTab(
+                                            button.dataset.tab
+                                        )
+                                );
+                            }
+                        );
+
+
+                    $('approveBtn')
+                        .addEventListener(
+                            'click',
+                            approve
+                        );
+
+
+                    $('stakeBtn')
+                        .addEventListener(
+                            'click',
+                            stake
+                        );
+
+
+                    $('maxBtn')
+                        .addEventListener(
+                            'click',
+                            maxAmount
+                        );
+
+
+                    $('claimRoiBtn')
+                        .addEventListener(
+                            'click',
+                            claimRoi
+                        );
+
+
+                    $('claimSponsorBtn')
+                        .addEventListener(
+                            'click',
+                            claimSponsor
+                        );
+
+
+                    $('copyReferral')
+                        .addEventListener(
+                            'click',
+                            copyReferral
+                        );
+
+
+                    $('setMinStake')
+                        .addEventListener(
+                            'click',
+                            updateMinStake
+                        );
+
+
+                    $('setRoi')
+                        .addEventListener(
+                            'click',
+                            updateRoi
+                        );
+
+
+                    $('setLeaderBps')
+                        .addEventListener(
+                            'click',
+                            updateLeaderBps
+                        );
+
+
+                    $('setLeader')
+                        .addEventListener(
+                            'click',
+                            setLeader
+                        );
+
+
+                    $('setLevels')
+                        .addEventListener(
+                            'click',
+                            setLevels
+                        );
+
+
+                    $('adminStake')
+                        .addEventListener(
+                            'click',
+                            adminStake
+                        );
+
+
+                    $('recoverBtn')
+                        .addEventListener(
+                            'click',
+                            recoverERC20
+                        );
+
+                    await initReadProvider();
+
+                    await syncWalletState(
+                        false
+                    );
+
+                    const ref =
+                        new URLSearchParams(
+                            location.search
+                        ).get('ref');
+
+
+                    if (
+                        ref &&
+                        validAddress(ref)
+                    ) {
+
+                        $('upline').value =
+                            ref;
+                    }
+
+
+                } catch (e) {
+
+                    console.error(
+                        'DApp initialization',
+                        e
+                    );
+
+
+                    notify(
+                        cleanError(e),
+                        'error',
+                        'DApp Initialization Error',
+                        0
+                    );
+                }
+            }
+
+
+            init();
+
+        })();
+    </script>
+
+</body>
+
+</html>
