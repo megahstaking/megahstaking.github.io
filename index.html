@@ -1589,7 +1589,7 @@
                             Allowance: —
                         </div>
 
-                        <div class="small muted" id="ricBalanceText">
+                        <div class="small muted" id="bnbBalanceText">
                             BNB balance: —
                         </div>
 
@@ -2560,7 +2560,7 @@
                 $('allowanceText').textContent =
                     'Allowance: —';
 
-                $('ricBalanceText').textContent =
+                $('bnbBalanceText').textContent =
                     'BNB balance: —';
 
                 $('positionStatus').textContent =
@@ -3315,7 +3315,7 @@
 
                         allowance,
 
-                        ricBalance
+                        bnbBalance
 
                     ] = await Promise.all([
 
@@ -3378,7 +3378,9 @@
 
                         allowance,
 
-                        ricBalance
+                        bnbBalance,
+
+                        raw
                     );
 
                     if (
@@ -3442,7 +3444,7 @@
                 maxReached,
                 bal,
                 allow,
-                ric,
+                bnb,
                 raw
 
             ) {
@@ -3582,8 +3584,8 @@
                     `Allowance: ${fmt(allow)} ${tokenSymbol}`;
 
 
-                $('ricBalanceText').textContent =
-                    `BNB balance: ${fmtNative(ric)} BNB`;
+                $('bnbBalanceText').textContent =
+                    `BNB balance: ${fmtNative(bnb)} BNB`;
             }
 
 
@@ -3623,7 +3625,7 @@
                 const generation = connectionGeneration;
 
                 try {
-                    const [info, up, leader, maxReached, balance, allowance, ricBalance, raw] = await Promise.all([
+                    const [info, up, leader, maxReached, balance, allowance, bnbBalance, raw] = await Promise.all([
                         gt.getStakeInfo(localAccount),
                         gt.userUplines(localAccount),
                         gt.isLeader(localAccount),
@@ -3644,7 +3646,7 @@
                     cached.sponsor = info[4];
                     cached.lastClaim = raw[4];
 
-                    renderUser(info, up, leader, maxReached, balance, allowance, ricBalance, raw);
+                    renderUser(info, up, leader, maxReached, balance, allowance, bnbBalance, raw);
                 } catch (e) {
                     console.error('on-chain user refresh', e);
                 }
