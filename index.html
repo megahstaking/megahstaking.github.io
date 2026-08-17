@@ -2106,7 +2106,7 @@
             </div>
 
             <div class="footer-note">
-                Megah Staking Platform • BNB Smart Chain
+                Megah Staking • BNB Smart Chain
             </div>
 
         </footer>
@@ -2169,11 +2169,11 @@
 
                 explorer: 'https://bscscan.com/',
 
-                megahStakingAddress:
-                    '0xc55d416476CFC6e879948eD5a5F4461c43Af45Aa',
+                stakingContractAddress:
+                    '0x918fbae15e2a47c1f7f60abcddf066dc28ee7183',
 
                 stakingContract:
-                    '0xaff2b9c255c61a603fe94bd55db0885b366a6129',
+                    '0x918fbae15e2a47c1f7f60abcddf066dc28ee7183',
 
                 expectedToken:
                     '0xc55d416476CFC6e879948eD5a5F4461c43Af45Aa',
@@ -2200,7 +2200,7 @@
 
                 'function owner() view returns (address)',
 
-                'function megahStaking() view returns (address)',
+                'function stakingToken() view returns (address)',
 
                 'function minStake() view returns (uint256)',
 
@@ -2949,7 +2949,7 @@
 
 
                     const taddr =
-                        await contract.megahStaking();
+                        await contract.stakingToken();
 
 
                     if (
@@ -3136,7 +3136,7 @@
 
 
                 const taddr =
-                    await reader.megahStaking();
+                    await reader.stakingToken();
 
 
                 if (
@@ -3208,7 +3208,7 @@
 
                         owner,
 
-                        megahStaking,
+                        stakingToken,
 
                         min,
 
@@ -3220,7 +3220,7 @@
 
                         reader.owner(),
 
-                        reader.megahStaking(),
+                        reader.stakingToken(),
 
                         reader.minStake(),
 
@@ -3231,7 +3231,7 @@
 
 
                     $('contractToken').textContent =
-                        short(megahStaking);
+                        short(stakingToken);
 
 
                     $('contractStaking').textContent =
