@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Under Maintenance · We’ll be back</title>
+  <!-- Google Font (Inter) for a clean, modern look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0b0d12;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      color: #eef2f6;
+      line-height: 1.5;
+      background-image: radial-gradient(circle at 20% 30%, rgba(56, 139, 253, 0.06) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(56, 139, 253, 0.04) 0%, transparent 50%);
+    }
+
+    .maintenance-card {
+      max-width: 720px;
+      width: 100%;
+      background: rgba(18, 22, 30, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 2.5rem;
+      padding: 3rem 2.5rem;
+      box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .maintenance-card {
+        padding: 2rem 1.5rem;
+        border-radius: 2rem;
+      }
+    }
+
+    .status-badge {
+      display: inline-block;
+      background: rgba(239, 68, 68, 0.12);
+      color: #f87171;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.3px;
+      padding: 0.4rem 1.2rem;
+      border-radius: 100px;
+      border: 1px solid rgba(239, 68, 68, 0.15);
+      margin-bottom: 1.8rem;
+      text-transform: uppercase;
+      backdrop-filter: blur(4px);
+    }
+
+    .icon-wrapper {
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .icon-wrapper svg {
+      width: 72px;
+      height: 72px;
+      color: #3b82f6;
+      filter: drop-shadow(0 8px 20px rgba(59, 130, 246, 0.2));
+    }
+
+    h1 {
+      font-weight: 700;
+      font-size: 2.2rem;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 0%, #b9c7e6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.75rem;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+
+    .subhead {
+      font-size: 1.1rem;
+      color: #9aa4bf;
+      max-width: 440px;
+      margin: 0 auto 2rem;
+      font-weight: 400;
+    }
+
+    .countdown-grid {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0 2.8rem;
+      flex-wrap: wrap;
+    }
+
+    .time-block {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(4px);
+      border-radius: 1.2rem;
+      padding: 0.8rem 0.4rem;
+      min-width: 72px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      box-shadow: 0 8px 18px -8px rgba(0, 0, 0, 0.4);
+      transition: all 0.15s;
+    }
+
+    .time-block:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .time-number {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #f0f4ff, #b9c7e6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.2;
+    }
+
+    .time-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #7b87a3;
+      font-weight: 500;
+      margin-top: 0.15rem;
+    }
+
+    .separator {
+      display: flex;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: 300;
+      color: #4a546d;
+      padding: 0 0.1rem;
+      user-select: none;
+    }
+
+    @media (max-width: 420px) {
+      .time-block {
+        min-width: 62px;
+        padding: 0.6rem 0.2rem;
+      }
+      .time-number {
+        font-size: 2rem;
+      }
+      .separator {
+        font-size: 1.4rem;
+      }
+    }
+
+    .notification-area {
+      margin: 1.8rem 0 2.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .notification-area p {
+      font-size: 0.95rem;
+      color: #a8b3ce;
+    }
+
+    .email-input-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .email-input-group input {
+      flex: 1 1 200px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 60px;
+      padding: 0.85rem 1.4rem;
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      color: #f0f4ff;
+      outline: none;
+      transition: all 0.2s;
+      backdrop-filter: blur(4px);
+    }
+
+    .email-input-group input::placeholder {
+      color: #5f6a85;
+      font-weight: 400;
+    }
+
+    .email-input-group input:focus {
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, 0.06);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    .email-input-group button {
+      background: #3b82f6;
+      border: none;
+      border-radius: 60px;
+      padding: 0.85rem 2rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 8px 20px -6px rgba(59, 130, 246, 0.35);
+      letter-spacing: 0.2px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      flex: 0 1 auto;
+    }
+
+    .email-input-group button:hover {
+      background: #2563eb;
+      transform: scale(1.02);
+      box-shadow: 0 12px 28px -8px rgba(59, 130, 246, 0.5);
+    }
+
+    .email-input-group button:active {
+      transform: scale(0.97);
+    }
+
+    .footer-note {
+      margin-top: 2.2rem;
+      font-size: 0.8rem;
+      color: #5b6683;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.8rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-note span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #6b7897;
+    }
+
+    .footer-note svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0.6;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 0.25rem;
+    }
+
+    .social-links a {
+      color: #6b7897;
+      transition: color 0.2s, transform 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 40px;
+      padding: 0.3rem 0.7rem;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .social-links a:hover {
+      color: #eef2f6;
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-1px);
+    }
+
+    /* subtle pulse on the icon */
+    @keyframes soft-pulse {
+      0% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.02); }
+      100% { opacity: 0.8; transform: scale(1); }
+    }
+    .icon-wrapper svg {
+      animation: soft-pulse 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="maintenance-card" role="main">
+    <!-- badge -->
+    <div class="status-badge">
+      ⚡ scheduled maintenance
+    </div>
+
+    <!-- icon / gear + wrench -->
+    <div class="icon-wrapper" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.4" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21.5 21.5 17.25 15.17 11.42M11.42 15.17L14.5 12.09M11.42 15.17L6.58 20.01M6.58 20.01L3.5 16.92L8.42 12M6.58 20.01L2.75 23.84M8.42 12L12 8.42M8.42 12L6.58 10.17M12 8.42L15.5 11.92M12 8.42L10.17 6.58M15.5 11.92L18.08 9.34M15.5 11.92L17.25 10.17" />
+        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.4" />
+      </svg>
+    </div>
+
+    <h1>we're improving things</h1>
+    <p class="subhead">
+      Our site is undergoing a major upgrade. We’ll be back online shortly.
+    </p>
+
+    <!-- countdown timer -->
+    <div class="countdown-grid" id="countdownContainer">
+      <div class="time-block">
+        <div class="time-number" id="days">00</div>
+        <div class="time-label">days</div>
+      </div>
+      <div class="separator">:</div>
+      <div class="time-block">
+        <div class="time-number" id="hours">00</div>
+        <div class="time-label">hours</div>
+      </div>
+      <div class="separator">:</div>
+      <div class="time-block">
+        <div class="time-number" id="minutes">00</div>
+        <div class="time-label">minutes</div>
+      </div>
+      <div class="separator">:</div>
+      <div class="time-block">
+        <div class="time-number" id="seconds">00</div>
+        <div class="time-label">seconds</div>
+      </div>
+    </div>
+
+    <!-- notify me -->
+    <div class="notification-area">
+      <p>📩 Get notified when we're live</p>
+      <div class="email-input-group">
+        <input type="email" placeholder="your@email.com" aria-label="Email address" />
+        <button type="button">Notify me</button>
+      </div>
+      <!-- small feedback (demo only) -->
+      <span style="font-size:0.75rem; color:#4f5b78; margin-top: 0.2rem;">we respect your inbox · no spam</span>
+    </div>
+
+    <!-- footer with social & legal -->
+    <div class="footer-note">
+      <span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" width="16" height="16">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-6m0 0l3 3m-3-3l-3 3M12 3v6m0 0l3-3m-3 3l-3-3" />
+        </svg>
+        maintenance mode
+      </span>
+      <div class="social-links">
+        <a href="#" aria-label="Twitter">𝕏</a>
+        <a href="#" aria-label="GitHub">Git</a>
+        <a href="#" aria-label="LinkedIn">in</a>
+      </div>
+      <span>© 2026 · all rights reserved</span>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // Set the target countdown (5 hours from now)
+      const now = new Date();
+      // target: 5 hours ahead
+      const targetDate = new Date(now.getTime() + 5 * 60 * 60 * 1000);
+
+      function updateCountdown() {
+        const currentTime = new Date().getTime();
+        const targetTime = targetDate.getTime();
+        let diff = targetTime - currentTime;
+
+        if (diff < 0) {
+          // if countdown expired, reset to 5 hours again (demo)
+          const newTarget = new Date(Date.now() + 5 * 60 * 60 * 1000);
+          // update targetDate reference
+          targetDate.setTime(newTarget.getTime());
+          diff = targetDate.getTime() - new Date().getTime();
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        // pad with leading zeros
+        const pad = (num) => String(num).padStart(2, '0');
+
+        document.getElementById('days').textContent = pad(days);
+        document.getElementById('hours').textContent = pad(hours);
+        document.getElementById('minutes').textContent = pad(minutes);
+        document.getElementById('seconds').textContent = pad(seconds);
+      }
+
+      // update immediately, then every second
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      // "Notify me" button – simple feedback
+      const notifyBtn = document.querySelector('.email-input-group button');
+      const emailInput = document.querySelector('.email-input-group input');
+      if (notifyBtn && emailInput) {
+        notifyBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const email = emailInput.value.trim();
+          if (email === '' || !email.includes('@')) {
+            alert('Please enter a valid email address.');
+            return;
+          }
+          alert(`✅ You're on the list! We'll notify you at ${email} when we're back.`);
+          emailInput.value = '';
+        });
+      }
+
+      // optional: pressing "Enter" in input triggers the button
+      if (emailInput) {
+        emailInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            notifyBtn.click();
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
