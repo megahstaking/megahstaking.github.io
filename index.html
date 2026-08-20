@@ -56,45 +56,46 @@
 
     <style>
         /* ============================================================
-   ROOT — CYBERPUNK THEME (Purple + Green + Cyan)
+   ROOT — CYBERPUNK THEME
    ============================================================ */
         :root {
-            --bg: #0a0a12;
-            --bg2: #0f0f1a;
-            --bg3: #161625;
-            --card: rgba(15, 15, 26, 0.92);
-            --card2: #0f0f1a;
-            --line: #2a2a4a;
-            --line2: #3a3a5a;
-            --text: #e8e8ff;
-            --text2: #c8c8ee;
-            --muted: #6a6a9a;
-            --muted2: #4a4a7a;
+            --bg: #0c0c1a;
+            --bg2: #12122a;
+            --bg3: #1a1a3a;
+            --card: rgba(18, 18, 42, 0.95);
+            --card2: #12122a;
+            --line: #3a3a6a;
+            --line2: #4a4a7a;
+            --text: #f0f0ff;
+            --text2: #d0d0f0;
+            --muted: #8a8abb;
+            --muted2: #6a6a9a;
             --green: #00ff88;
-            --green2: rgba(0, 255, 136, 0.08);
-            --green3: rgba(0, 255, 136, 0.18);
-            --green4: rgba(0, 255, 136, 0.30);
+            --green2: rgba(0, 255, 136, 0.12);
+            --green3: rgba(0, 255, 136, 0.25);
+            --green4: rgba(0, 255, 136, 0.40);
             --cyan: #00d4ff;
-            --cyan2: rgba(0, 212, 255, 0.08);
-            --cyan3: rgba(0, 212, 255, 0.18);
+            --cyan2: rgba(0, 212, 255, 0.12);
+            --cyan3: rgba(0, 212, 255, 0.25);
             --purple: #a855f7;
-            --purple2: rgba(168, 85, 247, 0.08);
-            --purple3: rgba(168, 85, 247, 0.18);
-            --purple4: rgba(168, 85, 247, 0.30);
+            --purple2: rgba(168, 85, 247, 0.12);
+            --purple3: rgba(168, 85, 247, 0.25);
+            --purple4: rgba(168, 85, 247, 0.40);
             --red: #ff4466;
+            --red2: rgba(255, 68, 102, 0.12);
             --yellow: #fbbf24;
             --blue: #60a5fa;
-            --shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-            --shadow-3d: 0 3px 0 #0a0a1a, 0 6px 25px rgba(0, 0, 0, 0.5);
-            --shadow-3d-hover: 0 1px 0 #0a0a1a, 0 10px 35px rgba(0, 0, 0, 0.6);
-            --shadow-3d-active: 0 0px 0 #0a0a1a, 0 4px 15px rgba(0, 0, 0, 0.3);
+            --shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            --shadow-3d: 0 4px 0 rgba(0, 0, 0, 0.5), 0 6px 25px rgba(0, 0, 0, 0.4);
+            --shadow-3d-hover: 0 2px 0 rgba(0, 0, 0, 0.4), 0 10px 35px rgba(0, 0, 0, 0.5);
+            --shadow-3d-active: 0 0px 0 rgba(0, 0, 0, 0.3), 0 4px 15px rgba(0, 0, 0, 0.2);
             --radius: 14px;
             --radius2: 18px;
             --radius3: 22px;
             --font-base: 17px;
-            --glow-green: 0 0 30px rgba(0, 255, 136, 0.08);
-            --glow-purple: 0 0 30px rgba(168, 85, 247, 0.08);
-            --glow-cyan: 0 0 30px rgba(0, 212, 255, 0.08);
+            --glow-green: 0 0 30px rgba(0, 255, 136, 0.12);
+            --glow-purple: 0 0 30px rgba(168, 85, 247, 0.12);
+            --glow-cyan: 0 0 30px rgba(0, 212, 255, 0.12);
         }
 
         * {
@@ -112,9 +113,9 @@
             min-height: 100vh;
             background: var(--bg);
             background-image:
-                radial-gradient(700px 400px at 5% 0%, rgba(168, 85, 247, 0.05) 0%, transparent 55%),
-                radial-gradient(600px 350px at 50% 50%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
-                radial-gradient(700px 400px at 95% 100%, rgba(0, 212, 255, 0.04) 0%, transparent 55%);
+                radial-gradient(700px 400px at 5% 0%, rgba(168, 85, 247, 0.08) 0%, transparent 60%),
+                radial-gradient(600px 350px at 50% 50%, rgba(0, 255, 136, 0.05) 0%, transparent 60%),
+                radial-gradient(700px 400px at 95% 100%, rgba(0, 212, 255, 0.06) 0%, transparent 60%);
             color: var(--text);
             font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             font-size: var(--font-base);
@@ -134,6 +135,8 @@
 
         button {
             -webkit-tap-highlight-color: transparent;
+            cursor: pointer;
+            transition: all 0.15s ease;
         }
 
         .wrap {
@@ -148,11 +151,12 @@
             position: sticky;
             top: 0;
             z-index: 50;
-            background: rgba(10, 10, 18, 0.94);
-            border-bottom: 1px solid rgba(168, 85, 247, 0.08);
+            background: rgba(12, 12, 26, 0.94);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.15);
             backdrop-filter: blur(18px);
             padding-top: env(safe-area-inset-top, 8px);
             padding-bottom: 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
 
         .nav {
@@ -168,6 +172,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            text-decoration: none;
         }
 
         .brand-logo {
@@ -175,8 +180,8 @@
             height: 40px;
             border-radius: 10px;
             object-fit: cover;
-            background: #161625;
-            border: 1px solid rgba(168, 85, 247, 0.15);
+            background: #1a1a3a;
+            border: 2px solid rgba(168, 85, 247, 0.25);
         }
 
         .brand-title {
@@ -207,37 +212,50 @@
             display: none;
         }
 
+        /* ============================================================
+   NAV BUTTONS — 3D EFFECT
+   ============================================================ */
         .tab {
-            border: 1px solid transparent;
-            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(168, 85, 247, 0.08);
+            background: rgba(255, 255, 255, 0.03);
             color: var(--muted);
             padding: 8px 16px;
             border-radius: 10px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 13px;
             cursor: pointer;
             white-space: nowrap;
-            transition: all 0.25s;
+            transition: all 0.15s ease;
+            position: relative;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3), 0 4px 15px rgba(0, 0, 0, 0.15);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .tab:hover {
             background: var(--purple2);
             color: var(--purple);
             border-color: var(--purple3);
-            transform: translateY(-1px);
-            box-shadow: var(--glow-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), var(--glow-purple), 0 8px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .tab:active {
+            transform: translateY(2px);
+            box-shadow: 0 0px 0 rgba(0, 0, 0, 0.2), 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .tab.active {
             background: var(--purple2);
             color: var(--purple);
             border-color: var(--purple3);
-            box-shadow: 0 0 30px rgba(168, 85, 247, 0.06);
+            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3), 0 0 40px rgba(168, 85, 247, 0.08), 0 6px 20px rgba(0, 0, 0, 0.2);
         }
 
         .tab:disabled {
             opacity: 0.4;
             cursor: not-allowed;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+            transform: none !important;
         }
 
         .wallet-area {
@@ -257,15 +275,29 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            transition: all 0.3s;
+            transition: all 0.15s ease;
             border: 1px solid transparent;
             line-height: 1.4;
             color: var(--text) !important;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .wallet:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2), 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .wallet:active:not(:disabled) {
+            transform: translateY(2px);
+            box-shadow: 0 0px 0 rgba(0, 0, 0, 0.2), 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .wallet:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none !important;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) !important;
         }
 
         .wallet.red {
@@ -306,22 +338,22 @@
         }
 
         /* ============================================================
-   HERO
+   HERO — ENHANCED
    ============================================================ */
         .hero {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(168, 85, 247, 0.06);
+            border: 1px solid rgba(168, 85, 247, 0.10);
             border-radius: var(--radius2);
             background: var(--bg2);
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow), inset 0 0 80px rgba(168, 85, 247, 0.02);
         }
 
         .hero::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.03), rgba(0, 255, 136, 0.03), rgba(0, 212, 255, 0.03));
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), rgba(0, 255, 136, 0.05), rgba(0, 212, 255, 0.05));
             pointer-events: none;
         }
 
@@ -338,7 +370,7 @@
             display: flex;
             align-items: center;
             padding: 20px 28px;
-            background: linear-gradient(90deg, rgba(10, 10, 18, .95), rgba(10, 10, 18, .60) 50%, rgba(10, 10, 18, .15));
+            background: linear-gradient(90deg, rgba(12, 12, 26, .95), rgba(12, 12, 26, .60) 50%, rgba(12, 12, 26, .15));
         }
 
         .slide-bg {
@@ -360,12 +392,13 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            border: 1px solid rgba(168, 85, 247, 0.12);
-            background: rgba(10, 10, 18, 0.8);
+            border: 1px solid rgba(168, 85, 247, 0.15);
+            background: rgba(12, 12, 26, 0.8);
             border-radius: 999px;
             padding: 4px 12px;
             font-size: 10px;
             color: var(--text2);
+            backdrop-filter: blur(4px);
         }
 
         .eyebrow i {
@@ -373,7 +406,7 @@
             height: 6px;
             border-radius: 50%;
             background: var(--cyan);
-            box-shadow: 0 0 10px var(--cyan);
+            box-shadow: 0 0 12px var(--cyan);
         }
 
         h1 {
@@ -403,7 +436,7 @@
         }
 
         /* ============================================================
-   STATS
+   STATS — ENHANCED
    ============================================================ */
         .stats {
             display: grid;
@@ -414,16 +447,18 @@
 
         .stat {
             padding: 12px 16px;
-            border: 1px solid rgba(168, 85, 247, 0.06);
+            border: 1px solid rgba(168, 85, 247, 0.08);
             border-radius: var(--radius);
             background: var(--card);
             backdrop-filter: blur(4px);
-            transition: border-color 0.3s, box-shadow 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         .stat:hover {
-            border-color: rgba(168, 85, 247, 0.12);
-            box-shadow: var(--glow-purple);
+            border-color: rgba(168, 85, 247, 0.20);
+            box-shadow: var(--glow-purple), 0 6px 30px rgba(0, 0, 0, 0.25);
+            transform: translateY(-2px);
         }
 
         .stat label {
@@ -436,8 +471,9 @@
         .stat strong {
             display: block;
             margin-top: 4px;
-            font-size: 20px;
+            font-size: 22px;
             color: var(--text);
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.05);
         }
 
         .stat .stat-loading {
@@ -465,11 +501,12 @@
             gap: 4px;
             margin: 14px 0 10px;
             padding: 4px;
-            border: 1px solid rgba(168, 85, 247, 0.06);
+            border: 1px solid rgba(168, 85, 247, 0.08);
             border-radius: var(--radius);
-            background: rgba(10, 10, 18, 0.6);
+            background: rgba(12, 12, 26, 0.6);
             overflow-x: auto;
             scrollbar-width: none;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .tabs::-webkit-scrollbar {
@@ -485,7 +522,7 @@
         }
 
         /* ============================================================
-   PANELS
+   PANELS — ENHANCED
    ============================================================ */
         .cols {
             display: grid;
@@ -499,12 +536,13 @@
             border-radius: var(--radius);
             background: var(--card);
             backdrop-filter: blur(4px);
-            box-shadow: var(--shadow);
-            transition: border-color 0.3s;
+            box-shadow: var(--shadow), inset 0 0 60px rgba(168, 85, 247, 0.02);
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
         .panel:hover {
-            border-color: rgba(168, 85, 247, 0.10);
+            border-color: rgba(168, 85, 247, 0.12);
+            box-shadow: var(--shadow), 0 0 40px rgba(168, 85, 247, 0.03);
         }
 
         .panel h2 {
@@ -526,40 +564,41 @@
         }
 
         /* ============================================================
-   BADGES
+   BADGES — ENHANCED
    ============================================================ */
         .badge {
             display: inline-flex;
             align-items: center;
             border: 1px solid var(--line2);
-            background: rgba(10, 10, 18, 0.6);
+            background: rgba(12, 12, 26, 0.6);
             color: var(--text2);
             border-radius: 999px;
-            padding: 3px 10px;
+            padding: 3px 12px;
             font-size: 10px;
             font-weight: 700;
             white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .badge.green {
             border-color: #00ff88;
             color: #00ff88;
-            background: rgba(0, 255, 136, 0.08);
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.04);
+            background: rgba(0, 255, 136, 0.10);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.06);
         }
 
         .badge.cyan {
             border-color: #00d4ff;
             color: #00d4ff;
-            background: rgba(0, 212, 255, 0.08);
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.04);
+            background: rgba(0, 212, 255, 0.10);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.06);
         }
 
         .badge.purple {
             border-color: #a855f7;
             color: #a855f7;
-            background: rgba(168, 85, 247, 0.08);
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.04);
+            background: rgba(168, 85, 247, 0.10);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.06);
         }
 
         .badge.yellow {
@@ -613,56 +652,56 @@
         }
 
         /* ============================================================
-   NOTICES
+   NOTICES — ENHANCED
    ============================================================ */
         .notice {
             padding: 10px 14px;
             border-radius: var(--radius);
-            background: rgba(10, 10, 18, 0.5);
+            background: rgba(12, 12, 26, 0.6);
             border: 1px solid rgba(168, 85, 247, 0.06);
             color: var(--text2);
             font-size: 13px;
             line-height: 1.6;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .notice.warn {
             border-color: #4a4a1a;
             color: #fbbf24;
+            background: rgba(251, 191, 36, 0.04);
         }
 
         .notice.danger {
             border-color: #4a1a2a;
             color: #ff6a8a;
+            background: rgba(255, 68, 102, 0.04);
         }
 
         .notice.ok {
             border-color: #00ff88;
             color: #00ff88;
+            background: rgba(0, 255, 136, 0.04);
         }
 
         .notice.info {
             border-color: #1a3a6a;
             color: #60a5fa;
+            background: rgba(96, 165, 250, 0.04);
         }
 
         .notice.cyan {
             border-color: #00d4ff;
             color: #00d4ff;
+            background: rgba(0, 212, 255, 0.04);
         }
 
         /* ============================================================
-   BUTTONS — CYBERPUNK MULTI-COLOR 3D
+   ALL BUTTONS — 3D ENHANCED
    ============================================================ */
-        .actions {
-            display: flex;
-            gap: 7px;
-            flex-wrap: wrap;
-        }
-
         button,
         .btn {
             border: none;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.04);
             color: var(--text) !important;
             border-radius: 10px;
             padding: 10px 20px;
@@ -679,45 +718,52 @@
             position: relative;
             box-shadow: var(--shadow-3d);
             border: 1px solid rgba(168, 85, 247, 0.06);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
         }
 
-        button:hover:not(:disabled) {
+        button:hover:not(:disabled),
+        .btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: var(--shadow-3d-hover);
-            filter: brightness(1.05);
+            filter: brightness(1.08);
         }
 
-        button:active:not(:disabled) {
+        button:active:not(:disabled),
+        .btn:active:not(:disabled) {
             transform: translateY(2px);
             box-shadow: var(--shadow-3d-active);
         }
 
-        button:disabled {
+        button:disabled,
+        .btn:disabled {
             opacity: .4;
             cursor: not-allowed;
             filter: none;
-            transform: none;
-            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+            transform: none !important;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) !important;
         }
 
-        button .fa-spinner {
+        button .fa-spinner,
+        .btn .fa-spinner {
             animation: spin 0.8s linear infinite;
         }
 
-        /* GREEN NEON BUTTONS (Primary Actions) */
+        /* ============================================================
+   GREEN NEON BUTTONS (Primary Actions)
+   ============================================================ */
         .primary {
             background: linear-gradient(180deg, #00ff88, #00cc66) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(0, 255, 136, 0.20) !important;
-            box-shadow: 0 4px 0 #003322, 0 6px 30px rgba(0, 255, 136, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+            color: #0a0a12 !important;
+            border: 1px solid rgba(0, 255, 136, 0.25) !important;
+            box-shadow: 0 4px 0 #003322, 0 6px 30px rgba(0, 255, 136, 0.20) !important;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
         }
 
         .primary:hover:not(:disabled) {
             background: linear-gradient(180deg, #22ff99, #00dd77) !important;
-            box-shadow: 0 2px 0 #003322, 0 10px 40px rgba(0, 255, 136, 0.25) !important;
+            box-shadow: 0 2px 0 #003322, 0 10px 40px rgba(0, 255, 136, 0.30) !important;
             transform: translateY(-2px);
-            border-color: rgba(0, 255, 136, 0.30) !important;
+            border-color: rgba(0, 255, 136, 0.35) !important;
         }
 
         .primary:active:not(:disabled) {
@@ -725,20 +771,22 @@
             box-shadow: 0 0px 0 #003322, 0 4px 20px rgba(0, 255, 136, 0.10) !important;
         }
 
-        /* PURPLE NEON BUTTONS (Secondary Actions) */
+        /* ============================================================
+   PURPLE NEON BUTTONS (Secondary Actions)
+   ============================================================ */
         .purple-btn {
             background: linear-gradient(180deg, #a855f7, #7c3aed) !important;
             color: #ffffff !important;
-            border: 1px solid rgba(168, 85, 247, 0.20) !important;
-            box-shadow: 0 4px 0 #3a1a6a, 0 6px 30px rgba(168, 85, 247, 0.15) !important;
+            border: 1px solid rgba(168, 85, 247, 0.25) !important;
+            box-shadow: 0 4px 0 #3a1a6a, 0 6px 30px rgba(168, 85, 247, 0.20) !important;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
         }
 
         .purple-btn:hover:not(:disabled) {
             background: linear-gradient(180deg, #b86aff, #8a4af7) !important;
-            box-shadow: 0 2px 0 #3a1a6a, 0 10px 40px rgba(168, 85, 247, 0.25) !important;
+            box-shadow: 0 2px 0 #3a1a6a, 0 10px 40px rgba(168, 85, 247, 0.30) !important;
             transform: translateY(-2px);
-            border-color: rgba(168, 85, 247, 0.30) !important;
+            border-color: rgba(168, 85, 247, 0.35) !important;
         }
 
         .purple-btn:active:not(:disabled) {
@@ -746,20 +794,22 @@
             box-shadow: 0 0px 0 #3a1a6a, 0 4px 20px rgba(168, 85, 247, 0.10) !important;
         }
 
-        /* CYAN NEON BUTTONS (Info/Claim Actions) */
+        /* ============================================================
+   CYAN NEON BUTTONS (Info/Claim Actions)
+   ============================================================ */
         .cyan-btn {
             background: linear-gradient(180deg, #00d4ff, #0099cc) !important;
             color: #ffffff !important;
-            border: 1px solid rgba(0, 212, 255, 0.20) !important;
-            box-shadow: 0 4px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.15) !important;
+            border: 1px solid rgba(0, 212, 255, 0.25) !important;
+            box-shadow: 0 4px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.20) !important;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
         }
 
         .cyan-btn:hover:not(:disabled) {
             background: linear-gradient(180deg, #22ddff, #00aadd) !important;
-            box-shadow: 0 2px 0 #004466, 0 10px 40px rgba(0, 212, 255, 0.25) !important;
+            box-shadow: 0 2px 0 #004466, 0 10px 40px rgba(0, 212, 255, 0.30) !important;
             transform: translateY(-2px);
-            border-color: rgba(0, 212, 255, 0.30) !important;
+            border-color: rgba(0, 212, 255, 0.35) !important;
         }
 
         .cyan-btn:active:not(:disabled) {
@@ -767,20 +817,22 @@
             box-shadow: 0 0px 0 #004466, 0 4px 20px rgba(0, 212, 255, 0.10) !important;
         }
 
-        /* DANGER BUTTONS — RED */
+        /* ============================================================
+   DANGER BUTTONS — RED
+   ============================================================ */
         .danger {
             background: linear-gradient(180deg, #ff4466, #dd2244) !important;
             color: #ffffff !important;
-            border: 1px solid rgba(255, 68, 102, 0.20) !important;
-            box-shadow: 0 4px 0 #551122, 0 6px 30px rgba(255, 68, 102, 0.15) !important;
+            border: 1px solid rgba(255, 68, 102, 0.25) !important;
+            box-shadow: 0 4px 0 #551122, 0 6px 30px rgba(255, 68, 102, 0.20) !important;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
         }
 
         .danger:hover:not(:disabled) {
             background: linear-gradient(180deg, #ff5577, #ee3355) !important;
-            box-shadow: 0 2px 0 #551122, 0 10px 40px rgba(255, 68, 102, 0.25) !important;
+            box-shadow: 0 2px 0 #551122, 0 10px 40px rgba(255, 68, 102, 0.30) !important;
             transform: translateY(-2px);
-            border-color: rgba(255, 68, 102, 0.30) !important;
+            border-color: rgba(255, 68, 102, 0.35) !important;
         }
 
         .danger:active:not(:disabled) {
@@ -788,17 +840,20 @@
             box-shadow: 0 0px 0 #551122, 0 4px 20px rgba(255, 68, 102, 0.10) !important;
         }
 
-        /* OUTLINE BUTTONS */
+        /* ============================================================
+   OUTLINE BUTTONS
+   ============================================================ */
         .outline {
             background: transparent !important;
-            border: 1px solid rgba(168, 85, 247, 0.12) !important;
+            border: 1px solid rgba(168, 85, 247, 0.15) !important;
             color: var(--text2) !important;
             box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+            text-shadow: none !important;
         }
 
         .outline:hover:not(:disabled) {
-            background: rgba(168, 85, 247, 0.05) !important;
-            border-color: rgba(168, 85, 247, 0.25) !important;
+            background: rgba(168, 85, 247, 0.06) !important;
+            border-color: rgba(168, 85, 247, 0.30) !important;
             box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.2) !important;
             transform: translateY(-2px);
         }
@@ -808,20 +863,22 @@
             box-shadow: 0 0px 0 rgba(0, 0, 0, 0.2), 0 4px 15px rgba(0, 0, 0, 0.1) !important;
         }
 
-        /* CLAIM ROI — CYAN NEON */
+        /* ============================================================
+   CLAIM ROI — CYAN NEON
+   ============================================================ */
         #claimRoiBtn {
             background: linear-gradient(180deg, #00d4ff, #0099cc) !important;
             color: #ffffff !important;
-            border: 1px solid rgba(0, 212, 255, 0.20) !important;
-            box-shadow: 0 4px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.15) !important;
+            border: 1px solid rgba(0, 212, 255, 0.25) !important;
+            box-shadow: 0 4px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.20) !important;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
         }
 
         #claimRoiBtn:hover:not(:disabled) {
             background: linear-gradient(180deg, #22ddff, #00aadd) !important;
-            box-shadow: 0 2px 0 #004466, 0 10px 40px rgba(0, 212, 255, 0.25) !important;
+            box-shadow: 0 2px 0 #004466, 0 10px 40px rgba(0, 212, 255, 0.30) !important;
             transform: translateY(-2px);
-            border-color: rgba(0, 212, 255, 0.30) !important;
+            border-color: rgba(0, 212, 255, 0.35) !important;
         }
 
         #claimRoiBtn:active:not(:disabled) {
@@ -837,20 +894,22 @@
             text-shadow: none !important;
         }
 
-        /* CLAIM MATCHING — PURPLE NEON */
+        /* ============================================================
+   CLAIM MATCHING — PURPLE NEON
+   ============================================================ */
         #claimMatchingBtn {
             background: linear-gradient(180deg, #a855f7, #7c3aed) !important;
             color: #ffffff !important;
-            border: 1px solid rgba(168, 85, 247, 0.20) !important;
-            box-shadow: 0 4px 0 #3a1a6a, 0 6px 30px rgba(168, 85, 247, 0.15) !important;
+            border: 1px solid rgba(168, 85, 247, 0.25) !important;
+            box-shadow: 0 4px 0 #3a1a6a, 0 6px 30px rgba(168, 85, 247, 0.20) !important;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
         }
 
         #claimMatchingBtn:hover:not(:disabled) {
             background: linear-gradient(180deg, #b86aff, #8a4af7) !important;
-            box-shadow: 0 2px 0 #3a1a6a, 0 10px 40px rgba(168, 85, 247, 0.25) !important;
+            box-shadow: 0 2px 0 #3a1a6a, 0 10px 40px rgba(168, 85, 247, 0.30) !important;
             transform: translateY(-2px);
-            border-color: rgba(168, 85, 247, 0.30) !important;
+            border-color: rgba(168, 85, 247, 0.35) !important;
         }
 
         #claimMatchingBtn:active:not(:disabled) {
@@ -866,7 +925,9 @@
             text-shadow: none !important;
         }
 
-        /* CONNECT BUTTON — KEEP RED */
+        /* ============================================================
+   CONNECT BUTTON — RED WITH 3D
+   ============================================================ */
         #connectBtn {
             background: #1a0a0a !important;
             border: 1px solid #4a1a1a !important;
@@ -914,20 +975,22 @@
             box-shadow: 0 4px 0 #05050a, 0 6px 25px rgba(0, 0, 0, 0.4) !important;
         }
 
-        /* STAKE BUTTON — GREEN NEON */
+        /* ============================================================
+   STAKE BUTTON — GREEN NEON
+   ============================================================ */
         #stakeBtn {
             background: linear-gradient(180deg, #00ff88, #00cc66) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(0, 255, 136, 0.20) !important;
-            box-shadow: 0 4px 0 #003322, 0 6px 30px rgba(0, 255, 136, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+            color: #0a0a12 !important;
+            border: 1px solid rgba(0, 255, 136, 0.25) !important;
+            box-shadow: 0 4px 0 #003322, 0 6px 30px rgba(0, 255, 136, 0.20) !important;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
         }
 
         #stakeBtn:hover:not(:disabled) {
             background: linear-gradient(180deg, #22ff99, #00dd77) !important;
-            box-shadow: 0 2px 0 #003322, 0 10px 40px rgba(0, 255, 136, 0.25) !important;
+            box-shadow: 0 2px 0 #003322, 0 10px 40px rgba(0, 255, 136, 0.30) !important;
             transform: translateY(-2px);
-            border-color: rgba(0, 255, 136, 0.30) !important;
+            border-color: rgba(0, 255, 136, 0.35) !important;
         }
 
         #stakeBtn:active:not(:disabled) {
@@ -943,22 +1006,24 @@
             text-shadow: none !important;
         }
 
-        /* APPROVE & MAX BUTTONS — PURPLE NEON */
+        /* ============================================================
+   APPROVE & MAX BUTTONS — PURPLE NEON
+   ============================================================ */
         #approveBtn,
         #maxBtn {
             background: linear-gradient(180deg, #a855f7, #7c3aed) !important;
             color: #ffffff !important;
-            border: 1px solid rgba(168, 85, 247, 0.20) !important;
-            box-shadow: 0 4px 0 #3a1a6a, 0 6px 30px rgba(168, 85, 247, 0.15) !important;
+            border: 1px solid rgba(168, 85, 247, 0.25) !important;
+            box-shadow: 0 4px 0 #3a1a6a, 0 6px 30px rgba(168, 85, 247, 0.20) !important;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
         }
 
         #approveBtn:hover:not(:disabled),
         #maxBtn:hover:not(:disabled) {
             background: linear-gradient(180deg, #b86aff, #8a4af7) !important;
-            box-shadow: 0 2px 0 #3a1a6a, 0 10px 40px rgba(168, 85, 247, 0.25) !important;
+            box-shadow: 0 2px 0 #3a1a6a, 0 10px 40px rgba(168, 85, 247, 0.30) !important;
             transform: translateY(-2px);
-            border-color: rgba(168, 85, 247, 0.30) !important;
+            border-color: rgba(168, 85, 247, 0.35) !important;
         }
 
         #approveBtn:active:not(:disabled),
@@ -976,20 +1041,22 @@
             text-shadow: none !important;
         }
 
-        /* COPY REFERRAL — CYAN NEON */
+        /* ============================================================
+   COPY REFERRAL — CYAN NEON
+   ============================================================ */
         #copyReferral {
             background: linear-gradient(180deg, #00d4ff, #0099cc) !important;
             color: #ffffff !important;
-            border: 1px solid rgba(0, 212, 255, 0.20) !important;
-            box-shadow: 0 4px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.15) !important;
+            border: 1px solid rgba(0, 212, 255, 0.25) !important;
+            box-shadow: 0 4px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.20) !important;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
         }
 
         #copyReferral:hover:not(:disabled) {
             background: linear-gradient(180deg, #22ddff, #00aadd) !important;
-            box-shadow: 0 2px 0 #004466, 0 10px 40px rgba(0, 212, 255, 0.25) !important;
+            box-shadow: 0 2px 0 #004466, 0 10px 40px rgba(0, 212, 255, 0.30) !important;
             transform: translateY(-2px);
-            border-color: rgba(0, 212, 255, 0.30) !important;
+            border-color: rgba(0, 212, 255, 0.35) !important;
         }
 
         #copyReferral:active:not(:disabled) {
@@ -997,7 +1064,9 @@
             box-shadow: 0 0px 0 #004466, 0 4px 20px rgba(0, 212, 255, 0.10) !important;
         }
 
-        /* OWNER BUTTONS — PURPLE NEON */
+        /* ============================================================
+   OWNER BUTTONS — PURPLE NEON
+   ============================================================ */
         #setMinStake,
         #setRoi,
         #setLeaderBps,
@@ -1006,8 +1075,8 @@
         #adminStake {
             background: linear-gradient(180deg, #a855f7, #7c3aed) !important;
             color: #ffffff !important;
-            border: 1px solid rgba(168, 85, 247, 0.20) !important;
-            box-shadow: 0 4px 0 #3a1a6a, 0 6px 30px rgba(168, 85, 247, 0.15) !important;
+            border: 1px solid rgba(168, 85, 247, 0.25) !important;
+            box-shadow: 0 4px 0 #3a1a6a, 0 6px 30px rgba(168, 85, 247, 0.20) !important;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
         }
 
@@ -1018,9 +1087,9 @@
         #setLeader:hover:not(:disabled),
         #adminStake:hover:not(:disabled) {
             background: linear-gradient(180deg, #b86aff, #8a4af7) !important;
-            box-shadow: 0 2px 0 #3a1a6a, 0 10px 40px rgba(168, 85, 247, 0.25) !important;
+            box-shadow: 0 2px 0 #3a1a6a, 0 10px 40px rgba(168, 85, 247, 0.30) !important;
             transform: translateY(-2px);
-            border-color: rgba(168, 85, 247, 0.30) !important;
+            border-color: rgba(168, 85, 247, 0.35) !important;
         }
 
         #setMinStake:active:not(:disabled),
@@ -1033,20 +1102,22 @@
             box-shadow: 0 0px 0 #3a1a6a, 0 4px 20px rgba(168, 85, 247, 0.10) !important;
         }
 
-        /* RECOVER — RED */
+        /* ============================================================
+   RECOVER — RED
+   ============================================================ */
         #recoverBtn {
             background: linear-gradient(180deg, #ff4466, #dd2244) !important;
             color: #ffffff !important;
-            border: 1px solid rgba(255, 68, 102, 0.20) !important;
-            box-shadow: 0 4px 0 #551122, 0 6px 30px rgba(255, 68, 102, 0.15) !important;
+            border: 1px solid rgba(255, 68, 102, 0.25) !important;
+            box-shadow: 0 4px 0 #551122, 0 6px 30px rgba(255, 68, 102, 0.20) !important;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
         }
 
         #recoverBtn:hover:not(:disabled) {
             background: linear-gradient(180deg, #ff5577, #ee3355) !important;
-            box-shadow: 0 2px 0 #551122, 0 10px 40px rgba(255, 68, 102, 0.25) !important;
+            box-shadow: 0 2px 0 #551122, 0 10px 40px rgba(255, 68, 102, 0.30) !important;
             transform: translateY(-2px);
-            border-color: rgba(255, 68, 102, 0.30) !important;
+            border-color: rgba(255, 68, 102, 0.35) !important;
         }
 
         #recoverBtn:active:not(:disabled) {
@@ -1055,7 +1126,7 @@
         }
 
         /* ============================================================
-   FORMS — CYBERPUNK
+   FORMS — ENHANCED
    ============================================================ */
         .form {
             display: grid;
@@ -1080,19 +1151,20 @@
         select {
             width: 100%;
             padding: 11px 14px;
-            background: rgba(10, 10, 18, 0.8);
+            background: rgba(12, 12, 26, 0.8);
             color: var(--text);
-            border: 1px solid rgba(168, 85, 247, 0.06);
+            border: 1px solid rgba(168, 85, 247, 0.08);
             border-radius: 10px;
             outline: none;
             font-size: 15px;
             transition: border-color 0.3s, box-shadow 0.3s;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.15);
         }
 
         input:focus,
         select:focus {
             border-color: var(--cyan);
-            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.06), var(--glow-cyan);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.06), var(--glow-cyan), inset 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         input:disabled {
@@ -1106,15 +1178,16 @@
         }
 
         /* ============================================================
-   PROGRESS
+   PROGRESS — ENHANCED
    ============================================================ */
         .progress {
-            height: 6px;
+            height: 8px;
             border-radius: 9px;
             overflow: hidden;
             background: var(--bg3);
             margin-top: 8px;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(168, 85, 247, 0.06);
         }
 
         .progress i {
@@ -1124,10 +1197,11 @@
             background: linear-gradient(90deg, #a855f7, #00ff88, #00d4ff);
             box-shadow: 0 0 30px rgba(0, 255, 136, 0.15);
             transition: width .35s;
+            border-radius: 9px;
         }
 
         /* ============================================================
-   STEPS
+   STEPS — ENHANCED
    ============================================================ */
         .steps {
             display: grid;
@@ -1140,14 +1214,17 @@
             padding: 14px 16px;
             border: 1px solid rgba(168, 85, 247, 0.06);
             border-radius: var(--radius);
-            background: rgba(10, 10, 18, 0.5);
+            background: rgba(12, 12, 26, 0.5);
             font-size: 13px;
             line-height: 1.6;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         }
 
         .step:hover {
             border-color: rgba(0, 212, 255, 0.12);
+            box-shadow: var(--glow-cyan), 0 6px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
         }
 
         .step b {
@@ -1161,19 +1238,21 @@
         }
 
         /* ============================================================
-   FAQ
+   FAQ — ENHANCED
    ============================================================ */
         .faq {
             border: 1px solid rgba(168, 85, 247, 0.06);
             border-radius: var(--radius);
-            background: rgba(10, 10, 18, 0.5);
+            background: rgba(12, 12, 26, 0.5);
             margin: 6px 0;
             overflow: hidden;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .faq:hover {
-            border-color: rgba(168, 85, 247, 0.10);
+            border-color: rgba(168, 85, 247, 0.12);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
         }
 
         .faq summary {
@@ -1187,7 +1266,7 @@
         }
 
         .faq summary:hover {
-            background: rgba(168, 85, 247, 0.04);
+            background: rgba(168, 85, 247, 0.06);
         }
 
         .faq summary::-webkit-details-marker {
@@ -1208,7 +1287,7 @@
         }
 
         /* ============================================================
-   CONTRACT
+   CONTRACT — ENHANCED
    ============================================================ */
         .contract-grid {
             display: grid;
@@ -1218,14 +1297,16 @@
 
         .contract-item {
             padding: 10px 14px;
-            background: rgba(10, 10, 18, 0.5);
+            background: rgba(12, 12, 26, 0.5);
             border: 1px solid rgba(168, 85, 247, 0.06);
             border-radius: var(--radius);
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .contract-item:hover {
-            border-color: rgba(0, 212, 255, 0.10);
+            border-color: rgba(0, 212, 255, 0.12);
+            box-shadow: var(--glow-cyan), 0 4px 20px rgba(0, 0, 0, 0.15);
         }
 
         .contract-item label {
@@ -1244,7 +1325,7 @@
         }
 
         /* ============================================================
-   FOOTER
+   FOOTER — ENHANCED
    ============================================================ */
         .footer {
             text-align: center;
@@ -1283,7 +1364,7 @@
         }
 
         /* ============================================================
-   NOTIFICATION — CYBERPUNK
+   NOTIFICATION — ENHANCED
    ============================================================ */
         .notify-overlay {
             position: fixed;
@@ -1293,8 +1374,8 @@
             align-items: center;
             justify-content: center;
             padding: 18px;
-            background: rgba(0, 0, 0, .7);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, .75);
+            backdrop-filter: blur(12px);
         }
 
         .notify-overlay.show {
@@ -1303,10 +1384,10 @@
 
         .notify-box {
             width: min(420px, calc(100vw - 30px));
-            border: 1px solid rgba(168, 85, 247, 0.06);
+            border: 1px solid rgba(168, 85, 247, 0.08);
             border-radius: var(--radius2);
             background: linear-gradient(180deg, var(--bg2), var(--bg));
-            box-shadow: 0 30px 80px rgba(0, 0, 0, .7);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .7), inset 0 0 60px rgba(168, 85, 247, 0.02);
             padding: 24px 22px;
             text-align: center;
             animation: notifyIn .2s ease-out;
@@ -1334,8 +1415,9 @@
             justify-content: center;
             font-size: 22px;
             font-weight: 900;
-            background: rgba(10, 10, 18, 0.8);
+            background: rgba(12, 12, 26, 0.8);
             border: 1px solid var(--line2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .notify-box.ok .notify-icon {
@@ -1384,16 +1466,16 @@
             min-width: 100px;
             background: linear-gradient(180deg, #00d4ff, #0099cc) !important;
             color: #ffffff !important;
-            border: 1px solid rgba(0, 212, 255, 0.20) !important;
-            box-shadow: 0 4px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.15) !important;
+            border: 1px solid rgba(0, 212, 255, 0.25) !important;
+            box-shadow: 0 4px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.20) !important;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
         }
 
         .notify-action:hover {
             background: linear-gradient(180deg, #22ddff, #00aadd) !important;
-            box-shadow: 0 2px 0 #004466, 0 10px 40px rgba(0, 212, 255, 0.25) !important;
+            box-shadow: 0 2px 0 #004466, 0 10px 40px rgba(0, 212, 255, 0.30) !important;
             transform: translateY(-2px);
-            border-color: rgba(0, 212, 255, 0.30) !important;
+            border-color: rgba(0, 212, 255, 0.35) !important;
         }
 
         .notify-action:active {
@@ -1412,7 +1494,7 @@
         }
 
         /* ============================================================
-   DISCLAIMER BOX
+   DISCLAIMER BOX — ENHANCED
    ============================================================ */
         .disclaimer-box {
             display: grid;
@@ -1420,9 +1502,9 @@
             gap: 16px;
             margin-top: 18px;
             padding: 18px 22px;
-            border: 1px solid rgba(255, 68, 102, 0.10);
+            border: 1px solid rgba(255, 68, 102, 0.12);
             border-radius: var(--radius);
-            background: linear-gradient(135deg, rgba(255, 68, 102, 0.03), rgba(10, 10, 18, 0.8));
+            background: linear-gradient(135deg, rgba(255, 68, 102, 0.04), rgba(12, 12, 26, 0.8));
             backdrop-filter: blur(4px);
             box-shadow: var(--shadow);
             transition: border-color 0.3s, box-shadow 0.3s;
@@ -1441,8 +1523,8 @@
         }
 
         .disclaimer-box:hover {
-            border-color: rgba(255, 68, 102, 0.18);
-            box-shadow: 0 8px 40px rgba(255, 68, 102, 0.04);
+            border-color: rgba(255, 68, 102, 0.20);
+            box-shadow: 0 8px 40px rgba(255, 68, 102, 0.06);
         }
 
         .disclaimer-icon {
@@ -1452,12 +1534,13 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: rgba(255, 68, 102, 0.08);
-            border: 1px solid rgba(255, 68, 102, 0.12);
+            background: rgba(255, 68, 102, 0.10);
+            border: 1px solid rgba(255, 68, 102, 0.15);
             color: var(--red);
             font-size: 1.4rem;
             flex-shrink: 0;
             align-self: center;
+            box-shadow: 0 0 30px rgba(255, 68, 102, 0.04);
         }
 
         .disclaimer-content {
@@ -1472,8 +1555,8 @@
             gap: 4px;
             padding: 2px 12px;
             border-radius: 999px;
-            background: rgba(255, 68, 102, 0.08);
-            border: 1px solid rgba(255, 68, 102, 0.12);
+            background: rgba(255, 68, 102, 0.10);
+            border: 1px solid rgba(255, 68, 102, 0.15);
             color: var(--red);
             font-size: 9px;
             font-weight: 800;
@@ -1517,22 +1600,23 @@
             transition: all 0.25s;
             cursor: pointer;
             border: none;
-            background: rgba(255, 68, 102, 0.08);
-            border: 1px solid rgba(255, 68, 102, 0.12);
+            background: rgba(255, 68, 102, 0.10);
+            border: 1px solid rgba(255, 68, 102, 0.15);
             color: var(--red);
             width: fit-content;
-            box-shadow: 0 4px 15px rgba(255, 68, 102, 0.03);
+            box-shadow: 0 4px 0 rgba(100, 20, 30, 0.2), 0 6px 20px rgba(0, 0, 0, 0.15);
         }
 
         .disclaimer-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 68, 102, 0.08);
-            background: rgba(255, 68, 102, 0.12);
-            border-color: rgba(255, 68, 102, 0.20);
+            box-shadow: 0 2px 0 rgba(100, 20, 30, 0.15), 0 8px 25px rgba(255, 68, 102, 0.08);
+            background: rgba(255, 68, 102, 0.15);
+            border-color: rgba(255, 68, 102, 0.25);
         }
 
         .disclaimer-btn:active {
-            transform: scale(0.97);
+            transform: translateY(2px);
+            box-shadow: 0 0px 0 rgba(100, 20, 30, 0.1), 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .disclaimer-btn i {
@@ -1540,7 +1624,7 @@
         }
 
         /* ============================================================
-   POPUP DISCLAIMER — CYBERPUNK
+   POPUP DISCLAIMER — ENHANCED
    ============================================================ */
         .popup-overlay {
             position: fixed;
@@ -1550,7 +1634,7 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: rgba(10, 10, 18, 0.92);
+            background: rgba(12, 12, 26, 0.92);
             backdrop-filter: blur(14px);
         }
 
@@ -1575,10 +1659,10 @@
             max-height: 90vh;
             overflow-y: auto;
             padding: 30px 28px 26px;
-            border: 1px solid rgba(168, 85, 247, 0.10);
+            border: 1px solid rgba(168, 85, 247, 0.12);
             border-radius: var(--radius3);
             background: linear-gradient(145deg, var(--bg2), var(--bg));
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), inset 0 0 60px rgba(168, 85, 247, 0.02);
             text-align: center;
             position: relative;
             animation: popupFadeIn 0.4s ease-out;
@@ -1606,7 +1690,7 @@
             border: 1px solid var(--purple);
             color: var(--purple);
             font-size: 1.8rem;
-            box-shadow: 0 0 40px rgba(168, 85, 247, 0.06);
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.08);
         }
 
         .popup-content h3 {
@@ -1645,16 +1729,16 @@
             border: none;
             background: linear-gradient(180deg, #00d4ff, #0099cc) !important;
             color: #ffffff !important;
-            border: 1px solid rgba(0, 212, 255, 0.20) !important;
-            box-shadow: 0 4px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.15) !important;
+            border: 1px solid rgba(0, 212, 255, 0.25) !important;
+            box-shadow: 0 4px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.20) !important;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
         }
 
         .popup-btn:hover {
             background: linear-gradient(180deg, #22ddff, #00aadd) !important;
-            box-shadow: 0 2px 0 #004466, 0 10px 40px rgba(0, 212, 255, 0.25) !important;
+            box-shadow: 0 2px 0 #004466, 0 10px 40px rgba(0, 212, 255, 0.30) !important;
             transform: translateY(-2px);
-            border-color: rgba(0, 212, 255, 0.30) !important;
+            border-color: rgba(0, 212, 255, 0.35) !important;
         }
 
         .popup-btn:active {
@@ -1667,7 +1751,7 @@
         }
 
         /* ============================================================
-   CHIP & LOCK BADGE
+   CHIP & LOCK BADGE — ENHANCED
    ============================================================ */
         .chip {
             display: inline-flex;
@@ -1678,6 +1762,7 @@
             font-size: 11px;
             font-weight: 700;
             font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .chip-ok {
@@ -1701,20 +1786,21 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
             font-weight: 700;
-            background: rgba(168, 85, 247, 0.05);
-            border: 1px solid rgba(168, 85, 247, 0.06);
+            background: rgba(168, 85, 247, 0.06);
+            border: 1px solid rgba(168, 85, 247, 0.08);
             color: var(--text2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         /* ============================================================
-   HINT
+   HINT — ENHANCED
    ============================================================ */
         .hint {
             display: flex;
             gap: 8px;
             align-items: flex-start;
-            background: rgba(0, 212, 255, 0.03);
-            border: 1px solid rgba(0, 212, 255, 0.06);
+            background: rgba(0, 212, 255, 0.04);
+            border: 1px solid rgba(0, 212, 255, 0.08);
             border-left: 3px solid var(--cyan);
             border-radius: 0 var(--radius) var(--radius) 0;
             padding: 9px 12px;
@@ -1731,22 +1817,23 @@
         }
 
         /* ============================================================
-   CALCULATOR — CYBERPUNK
+   CALCULATOR — ENHANCED
    ============================================================ */
         .calc-input-wrapper {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(10, 10, 18, 0.8);
-            border: 1px solid rgba(168, 85, 247, 0.06);
+            background: rgba(12, 12, 26, 0.8);
+            border: 1px solid rgba(168, 85, 247, 0.08);
             border-radius: 10px;
             padding: 4px 8px 4px 14px;
             transition: all .2s;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.15);
         }
 
         .calc-input-wrapper:focus-within {
             border-color: var(--cyan);
-            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.06), var(--glow-cyan);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.06), var(--glow-cyan), inset 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .calc-input-wrapper input {
@@ -1780,16 +1867,19 @@
         }
 
         .calc-result-item {
-            background: rgba(10, 10, 18, 0.5);
+            background: rgba(12, 12, 26, 0.5);
             border: 1px solid rgba(168, 85, 247, 0.06);
             border-radius: var(--radius);
             padding: 8px 10px;
             text-align: center;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .calc-result-item:hover {
-            border-color: rgba(0, 212, 255, 0.10);
+            border-color: rgba(0, 212, 255, 0.12);
+            box-shadow: var(--glow-cyan), 0 4px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
         }
 
         .calc-result-item .label {
@@ -1809,17 +1899,17 @@
 
         .calc-result-item .value.green {
             color: var(--green);
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.08);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.10);
         }
 
         .calc-result-item .value.cyan {
             color: var(--cyan);
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.08);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.10);
         }
 
         .calc-result-item .value.purple {
             color: var(--purple);
-            text-shadow: 0 0 20px rgba(168, 85, 247, 0.08);
+            text-shadow: 0 0 20px rgba(168, 85, 247, 0.10);
         }
 
         .calc-result-item .value.gold {
@@ -1839,7 +1929,7 @@
         .calc-result-item.highlight {
             border-color: var(--green);
             background: var(--green2);
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.03);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.04);
         }
 
         .calc-result-item.highlight .value {
@@ -1848,11 +1938,12 @@
         }
 
         .calc-summary-dash {
-            background: rgba(10, 10, 18, 0.4);
+            background: rgba(12, 12, 26, 0.4);
             border-radius: var(--radius);
             padding: 8px 12px;
             margin-top: 6px;
             border-left: 3px solid var(--cyan);
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .calc-summary-dash p {
@@ -1897,9 +1988,10 @@
             display: flex;
             justify-content: space-between;
             padding: 2px 6px;
-            background: rgba(10, 10, 18, 0.3);
+            background: rgba(12, 12, 26, 0.3);
             border-radius: 4px;
             font-size: 9px;
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
         }
 
         .calc-matching-dash .levels .lvl span:first-child {
@@ -1916,9 +2008,10 @@
             justify-content: space-between;
             padding: 3px 6px;
             margin-top: 4px;
-            background: rgba(0, 255, 136, 0.05);
+            background: rgba(0, 255, 136, 0.06);
             border-radius: 4px;
             font-size: 10px;
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
         }
 
         .calc-matching-dash .total-match span:first-child {
@@ -1932,7 +2025,7 @@
         }
 
         /* ============================================================
-   RESPONSIVE — SAME AS BEFORE
+   RESPONSIVE — KEEP EXISTING, ONLY ENHANCE
    ============================================================ */
         @media(max-width: 600px) {
             .disclaimer-box {
@@ -2151,7 +2244,7 @@
             .slide {
                 padding: 16px 16px 44px;
                 align-items: flex-end;
-                background: linear-gradient(0deg, rgba(10, 10, 18, .98), rgba(10, 10, 18, .60) 60%, rgba(10, 10, 18, .15));
+                background: linear-gradient(0deg, rgba(12, 12, 26, .98), rgba(12, 12, 26, .60) 60%, rgba(12, 12, 26, .15));
             }
 
             .slide-content {
@@ -2457,8 +2550,7 @@
             </div>
 
             <nav>
-                <button class="tab active" data-tab="dashboard"><i
-                        class="fa-solid fa-user-tie"></i>Dashboard</button>
+                <button class="tab active" data-tab="dashboard"><i class="fa-solid fa-user-tie"></i>Dashboard</button>
                 <button class="tab" data-tab="stake"><i class="fa-solid fa-piggy-bank"></i>Stake</button>
                 <button class="tab" data-tab="calculator"><i class="fa-solid fa-calculator"></i>Estimator</button>
                 <button class="tab" data-tab="network"><i class="fa-solid fa-network-wired"></i>Referral</button>
@@ -2582,7 +2674,7 @@
             <button class="tab" data-tab="network"><i class="fa-solid fa-network-wired"></i>Referral</button>
             <button class="tab" data-tab="guide"><i class="fa-brands fa-readme"></i>Guide</button>
             <button id="ownerTab2" class="tab" data-tab="owner" style="display:none"><i
-                    class="fa-solid fa-crown"></i>Owner Panel</button>
+                    class="fa-solid fa-crown"></i>Owner</button>
         </div>
 
         <!-- ============================================================ -->
@@ -6069,7 +6161,7 @@
                 setTimeout(function () {
                     popup.classList.add('show');
                     document.body.classList.add('modal-open');
-                }, 15000); // 15 seconds
+                }, 30000); // 30 seconds
             }
 
             acceptBtn.addEventListener('click', function () {
