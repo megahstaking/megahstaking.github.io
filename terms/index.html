@@ -1,34 +1,85 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Terms & Conditions | Megah Staking</title>
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/png" href="https://megahstaking.github.io/favicon.png">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#070910">
+    <title>Terms & Conditions – Megah Staking</title>
 
     <meta name="description"
-        content="Read the Terms & Conditions for Megah Staking, including staking participation, rewards, wallet responsibility, blockchain transactions, risks, and user responsibilities.">
+        content="Terms and conditions for MEGAH Staking platform on BNB Smart Chain. Understand the rules, risks, and mechanics of staking $MEGAH tokens.">
 
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="Megah Staking">
-    <meta name="theme-color" content="#0b1020">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+
+    <meta name="author" content="Admin">
 
     <link rel="canonical" href="https://megahstaking.github.io/terms/">
 
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Terms & Conditions | Megah Staking">
+    <meta property="og:title" content="Terms & Conditions – Megah Staking">
     <meta property="og:description"
-        content="Terms and conditions governing participation in the Megah Staking platform.">
+        content="Terms and conditions for MEGAH Staking platform on BNB Smart Chain. Understand the rules, risks, and mechanics of staking $MEGAH tokens.">
     <meta property="og:url" content="https://megahstaking.github.io/terms/">
     <meta property="og:site_name" content="Megah Staking">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="https://megahstaking.github.io/images/megah-staking-banner.webp">
 
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Terms & Conditions | Megah Staking">
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Terms & Conditions – Megah Staking">
     <meta name="twitter:description"
-        content="Terms and conditions governing participation in the Megah Staking platform.">
+        content="Terms and conditions for MEGAH Staking platform on BNB Smart Chain. Understand the rules, risks, and mechanics of staking $MEGAH tokens.">
+    <meta name="twitter:image" content="https://megahstaking.github.io/images/megah-staking-banner.webp">
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.15.0/dist/ethers.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <style>
+        /* ============================================================
+   ROOT — CYBERPUNK THEME (Purple + Green + Cyan)
+   ============================================================ */
+        :root {
+            --bg: #0a0a12;
+            --bg2: #0f0f1a;
+            --bg3: #161625;
+            --card: rgba(15, 15, 26, 0.92);
+            --card2: #0f0f1a;
+            --line: #2a2a4a;
+            --line2: #3a3a5a;
+            --text: #e8e8ff;
+            --text2: #c8c8ee;
+            --muted: #6a6a9a;
+            --muted2: #4a4a7a;
+            --green: #00ff88;
+            --green2: rgba(0, 255, 136, 0.08);
+            --green3: rgba(0, 255, 136, 0.18);
+            --green4: rgba(0, 255, 136, 0.30);
+            --cyan: #00d4ff;
+            --cyan2: rgba(0, 212, 255, 0.08);
+            --cyan3: rgba(0, 212, 255, 0.18);
+            --purple: #a855f7;
+            --purple2: rgba(168, 85, 247, 0.08);
+            --purple3: rgba(168, 85, 247, 0.18);
+            --purple4: rgba(168, 85, 247, 0.30);
+            --red: #ff4466;
+            --yellow: #fbbf24;
+            --blue: #60a5fa;
+            --shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+            --radius: 14px;
+            --radius2: 18px;
+            --radius3: 22px;
+            --font-base: 17px;
+            --glow-green: 0 0 30px rgba(0, 255, 136, 0.08);
+            --glow-purple: 0 0 30px rgba(168, 85, 247, 0.08);
+            --glow-cyan: 0 0 30px rgba(0, 212, 255, 0.08);
+        }
+
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
@@ -38,660 +89,981 @@
 
         body {
             margin: 0;
-            background: #080c18;
-            color: #e8ecf7;
-            font-family:
-                Inter,
-                system-ui,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-            line-height: 1.75;
+            min-height: 100vh;
+            background: var(--bg);
+            background-image:
+                radial-gradient(700px 400px at 5% 0%, rgba(168, 85, 247, 0.05) 0%, transparent 55%),
+                radial-gradient(600px 350px at 50% 50%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(700px 400px at 95% 100%, rgba(0, 212, 255, 0.04) 0%, transparent 55%);
+            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: var(--font-base);
+            line-height: 1.6;
+            padding-top: 0;
         }
 
-        a {
-            color: #8fa7ff;
-            text-decoration: none;
+        .wrap {
+            width: min(900px, calc(100% - 28px));
+            margin: auto;
         }
 
-        a:hover {
-            text-decoration: underline;
+        /* ============================================================
+   HEADER
+   ============================================================ */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(10, 10, 18, 0.94);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.08);
+            backdrop-filter: blur(18px);
+            padding-top: env(safe-area-inset-top, 8px);
+            padding-bottom: 0;
         }
 
-        .page {
-            width: min(920px, calc(100% - 32px));
-            margin: 0 auto;
-            padding: 60px 0 80px;
-        }
-
-        .top {
-            margin-bottom: 42px;
+        .nav {
+            min-height: 64px;
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 14px;
+            padding: 8px 0;
         }
 
         .brand {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 28px;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #161625;
+            border: 1px solid rgba(168, 85, 247, 0.15);
+        }
+
+        .brand-title {
             font-weight: 800;
-            font-size: 18px;
-            color: #fff;
+            font-size: 16px;
+            background: linear-gradient(90deg, #a855f7, #00ff88, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
         }
 
-        .brand-mark {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            background: linear-gradient(135deg, #6f7cff, #9b5cff);
-            color: #fff;
-            font-size: 15px;
-            font-weight: 900;
+        .brand-sub {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 1px;
         }
 
-        h1 {
-            margin: 0 0 12px;
-            color: #fff;
-            font-size: clamp(32px, 6vw, 52px);
-            line-height: 1.1;
-            letter-spacing: -1.5px;
-        }
-
-        .intro {
-            max-width: 760px;
-            margin: 0;
-            color: #aeb7cb;
-            font-size: 17px;
-        }
-
-        .updated {
-            margin-top: 16px;
-            color: #7f8aa3;
+        .back-link {
+            color: var(--text2);
+            text-decoration: none;
+            font-weight: 600;
             font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(168, 85, 247, 0.10);
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .content {
-            background: #0d1324;
-            border: 1px solid #202a43;
-            border-radius: 18px;
-            padding: clamp(22px, 5vw, 42px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, .18);
+        .back-link:hover {
+            background: var(--purple2);
+            border-color: var(--purple3);
+            color: var(--purple);
+            box-shadow: var(--glow-purple);
+            transform: translateY(-1px);
         }
 
-        section {
-            margin-bottom: 42px;
+        /* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+        main {
+            padding: 30px 0 60px;
         }
 
-        section:last-child {
+        .terms-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .terms-header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #a855f7, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .terms-header p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .terms-header .last-updated {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(0, 212, 255, 0.10);
+            background: rgba(0, 212, 255, 0.04);
+            color: var(--cyan);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* ============================================================
+   TERMS SECTIONS
+   ============================================================ */
+        .terms-section {
+            background: var(--card);
+            border: 1px solid rgba(168, 85, 247, 0.06);
+            border-radius: var(--radius2);
+            padding: 24px 28px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            transition: border-color 0.3s;
+        }
+
+        .terms-section:hover {
+            border-color: rgba(168, 85, 247, 0.10);
+        }
+
+        .terms-section h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terms-section h2 i {
+            color: var(--cyan);
+            width: 24px;
+            text-align: center;
+        }
+
+        .terms-section h2 .badge {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 2px 10px;
+            border-radius: 999px;
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.12);
+            color: var(--cyan);
+        }
+
+        .terms-section h2 .badge.red {
+            background: rgba(255, 68, 102, 0.08);
+            border-color: rgba(255, 68, 102, 0.12);
+            color: var(--red);
+        }
+
+        .terms-section h2 .badge.green {
+            background: rgba(0, 255, 136, 0.08);
+            border-color: rgba(0, 255, 136, 0.12);
+            color: var(--green);
+        }
+
+        .terms-section h2 .badge.purple {
+            background: rgba(168, 85, 247, 0.08);
+            border-color: rgba(168, 85, 247, 0.12);
+            color: var(--purple);
+        }
+
+        .terms-section p {
+            color: var(--text2);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .terms-section p:last-child {
             margin-bottom: 0;
         }
 
-        h2 {
-            margin: 0 0 14px;
-            color: #fff;
-            font-size: 24px;
-            line-height: 1.3;
+        .terms-section ul,
+        .terms-section ol {
+            color: var(--text2);
+            font-size: 14px;
+            line-height: 1.8;
+            padding-left: 24px;
+            margin: 8px 0 12px 0;
         }
 
-        h3 {
-            margin: 24px 0 8px;
-            color: #f4f6fc;
-            font-size: 17px;
+        .terms-section ul li,
+        .terms-section ol li {
+            margin-bottom: 4px;
         }
 
-        p {
-            margin: 0 0 14px;
-            color: #b9c1d3;
+        .terms-section ul li strong,
+        .terms-section ol li strong {
+            color: var(--text);
         }
 
-        ul {
-            margin: 12px 0 16px;
-            padding-left: 22px;
-            color: #b9c1d3;
+        .terms-section .highlight-box {
+            background: rgba(0, 255, 136, 0.03);
+            border-left: 3px solid var(--green);
+            padding: 12px 16px;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin: 10px 0;
         }
 
-        li {
-            margin: 7px 0;
+        .terms-section .highlight-box.cyan {
+            border-left-color: var(--cyan);
+            background: rgba(0, 212, 255, 0.03);
         }
 
-        strong {
-            color: #eef1fa;
+        .terms-section .highlight-box.red {
+            border-left-color: var(--red);
+            background: rgba(255, 68, 102, 0.03);
         }
 
-        .notice {
-            margin: 0 0 40px;
-            padding: 18px 20px;
-            border-radius: 12px;
-            background: #111a30;
-            border: 1px solid #2b3858;
-            color: #bfc8da;
+        .terms-section .highlight-box.purple {
+            border-left-color: var(--purple);
+            background: rgba(168, 85, 247, 0.03);
         }
 
-        .footer {
-            margin-top: 28px;
-            text-align: center;
-            color: #68748d;
+        .terms-section .highlight-box p {
+            margin: 0;
             font-size: 13px;
         }
 
-        @media (max-width: 600px) {
-            .page {
-                width: min(100% - 20px, 920px);
-                padding: 30px 0 50px;
+        .terms-section .highlight-box p strong {
+            color: var(--text);
+        }
+
+        .terms-section .highlight-box .label {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 2px 10px;
+            border-radius: 999px;
+            margin-bottom: 4px;
+        }
+
+        .terms-section .highlight-box .label.green {
+            background: rgba(0, 255, 136, 0.08);
+            color: var(--green);
+            border: 1px solid rgba(0, 255, 136, 0.12);
+        }
+
+        .terms-section .highlight-box .label.cyan {
+            background: rgba(0, 212, 255, 0.08);
+            color: var(--cyan);
+            border: 1px solid rgba(0, 212, 255, 0.12);
+        }
+
+        .terms-section .highlight-box .label.red {
+            background: rgba(255, 68, 102, 0.08);
+            color: var(--red);
+            border: 1px solid rgba(255, 68, 102, 0.12);
+        }
+
+        .terms-section .highlight-box .label.purple {
+            background: rgba(168, 85, 247, 0.08);
+            color: var(--purple);
+            border: 1px solid rgba(168, 85, 247, 0.12);
+        }
+
+        .terms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 8px 0;
+        }
+
+        .terms-grid-item {
+            background: rgba(10, 10, 18, 0.4);
+            border: 1px solid rgba(168, 85, 247, 0.04);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            transition: border-color 0.3s;
+        }
+
+        .terms-grid-item:hover {
+            border-color: rgba(168, 85, 247, 0.10);
+        }
+
+        .terms-grid-item strong {
+            display: block;
+            color: var(--text);
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .terms-grid-item span {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .divider {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.15), transparent);
+            margin: 20px 0;
+        }
+
+        /* ============================================================
+   DISCLAIMER BOX
+   ============================================================ */
+        .disclaimer-box {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 16px;
+            margin-top: 24px;
+            padding: 18px 22px;
+            border: 1px solid rgba(255, 68, 102, 0.10);
+            border-radius: var(--radius);
+            background: linear-gradient(135deg, rgba(255, 68, 102, 0.03), rgba(10, 10, 18, 0.8));
+            backdrop-filter: blur(4px);
+            box-shadow: var(--shadow);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .disclaimer-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--red), transparent);
+        }
+
+        .disclaimer-box:hover {
+            border-color: rgba(255, 68, 102, 0.18);
+            box-shadow: 0 8px 40px rgba(255, 68, 102, 0.04);
+        }
+
+        .disclaimer-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 68, 102, 0.08);
+            border: 1px solid rgba(255, 68, 102, 0.12);
+            color: var(--red);
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            align-self: center;
+        }
+
+        .disclaimer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .disclaimer-content h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .disclaimer-content h3 strong {
+            color: var(--red);
+        }
+
+        .disclaimer-content p {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text2);
+            margin: 0;
+        }
+
+        /* ============================================================
+   FOOTER
+   ============================================================ */
+        .footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 40px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(168, 85, 247, 0.06);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
+        }
+
+        .footer-links a {
+            color: var(--text2);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 11px;
+            transition: all 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--cyan);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+            text-decoration: underline;
+        }
+
+        .footer-note {
+            opacity: .7;
+            font-size: 10px;
+        }
+
+        /* ============================================================
+   RESPONSIVE
+   ============================================================ */
+        @media(max-width: 768px) {
+            .wrap {
+                width: calc(100% - 16px);
             }
 
-            .content {
-                border-radius: 14px;
-                padding: 20px 18px;
+            .nav {
+                grid-template-columns: auto 1fr;
+                gap: 10px;
+                min-height: 56px;
+                padding: 6px 0;
             }
 
-            h2 {
-                font-size: 21px;
+            .brand-logo {
+                width: 32px;
+                height: 32px;
             }
 
-            .intro {
-                font-size: 15px;
+            .brand-title {
+                font-size: 14px;
+            }
+
+            .brand-sub {
+                font-size: 8px;
+            }
+
+            .back-link {
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+
+            .terms-header h1 {
+                font-size: 28px;
+            }
+
+            .terms-section {
+                padding: 18px 16px;
+            }
+
+            .terms-section h2 {
+                font-size: 16px;
+            }
+
+            .terms-section h2 i {
+                width: 20px;
+                font-size: 14px;
+            }
+
+            .terms-section p,
+            .terms-section ul,
+            .terms-section ol {
+                font-size: 13px;
+            }
+
+            .terms-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .disclaimer-box {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 16px 18px;
+            }
+
+            .disclaimer-icon {
+                margin: 0 auto;
+                width: 44px;
+                height: 44px;
+                font-size: 1.2rem;
+            }
+
+            .footer-links {
+                gap: 10px;
+            }
+
+            .footer-links a {
+                font-size: 10px;
+            }
+        }
+
+        @media(max-width: 480px) {
+            .terms-header h1 {
+                font-size: 24px;
+            }
+
+            .terms-section {
+                padding: 14px 12px;
+            }
+
+            .terms-section h2 {
+                font-size: 14px;
+                flex-wrap: wrap;
+            }
+
+            .terms-section p,
+            .terms-section ul,
+            .terms-section ol {
+                font-size: 12px;
+            }
+
+            .terms-section ul,
+            .terms-section ol {
+                padding-left: 18px;
+            }
+
+            .highlight-box {
+                padding: 10px 12px;
+            }
+
+            .highlight-box p {
+                font-size: 12px !important;
             }
         }
     </style>
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Terms & Conditions | Megah Staking",
-        "url": "https://megahstaking.github.io/terms/",
-        "description": "Terms and conditions governing participation in the Megah Staking platform.",
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "Megah Staking",
-            "url": "https://megahstaking.github.io/"
-        }
-    }
-    </script>
 </head>
 
 <body>
 
-<main class="page">
-
-    <header class="top">
-
-        <a class="brand" href="https://megahstaking.github.io/">
-            <span class="brand-mark">M</span>
-            <span>Megah Staking</span>
-        </a>
-
-        <h1>Terms &amp; Conditions</h1>
-
-        <p class="intro">
-            Please read these terms carefully before participating in
-            the Megah Staking program. By using the platform or submitting
-            a staking transaction, you acknowledge that you understand
-            and accept these terms.
-        </p>
-
-        <div class="updated">
-            Last updated: August 2026
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="wrap nav">
+            <a href="https://megahstaking.github.io/" class="brand">
+                <img class="brand-logo" src="https://megahstaking.github.io/images/MEGAH.png" alt="MEGAH Staking">
+                <div>
+                    <div class="brand-title">MEGAH Staking</div>
+                    <div class="brand-sub">Web3 staking platform</div>
+                </div>
+            </a>
+            <div style="display:flex;justify-content:flex-end;">
+                <a href="https://megahstaking.github.io/" class="back-link">
+                    <i class="fa-solid fa-arrow-left"></i> Back to App
+                </a>
+            </div>
         </div>
-
     </header>
 
+    <!-- ===== MAIN ===== -->
+    <main class="wrap">
 
-    <article class="content">
-
-        <div class="notice">
-            <strong>Important:</strong>
-            Megah Staking operates through blockchain technology.
-            Blockchain transactions are generally irreversible.
-            Always review the network, token, amount, wallet address,
-            and transaction details before confirming a transaction.
+        <div class="terms-header">
+            <h1>Terms &amp; Conditions</h1>
+            <p>Understanding how MEGAH Staking works — the rules, the mechanics, and the risks.</p>
+            <span class="last-updated"><i class="fa-regular fa-clock"></i> Last updated: August 2026</span>
         </div>
 
-
-        <section>
-            <h2>1. About Megah Staking</h2>
-
+        <!-- SECTION 1: INTRODUCTION -->
+        <div class="terms-section">
+            <h2><i class="fa-solid fa-info-circle"></i> 1. Introduction</h2>
             <p>
-                Megah Staking is a blockchain-based staking platform that
-                allows eligible users to deposit supported tokens into a
-                staking program and participate according to the rules
-                configured for the program.
+                <strong>MEGAH Staking</strong> is a decentralized Web3 application ("dApp") that allows users to
+                stake <strong>$MEGAH</strong> tokens on the <strong>BNB Smart Chain</strong> through a
+                transparent, non-custodial smart contract.
+            </p>
+            <p>
+                These Terms explain how the platform functions, what you can expect, and the risks involved.
+                By connecting your wallet and interacting with the smart contract, you agree to these Terms.
+            </p>
+            <div class="highlight-box cyan">
+                <p>
+                    <strong>⚡ Key Point:</strong> This is a <strong>non-custodial</strong> platform.
+                    Your tokens are always in your wallet until you stake them into the smart contract.
+                    We never hold, store, or control your funds.
+                </p>
+            </div>
+        </div>
+
+        <!-- SECTION 2: SYSTEM MECHANICS -->
+        <div class="terms-section">
+            <h2><i class="fa-solid fa-gears"></i> 2. System Mechanics</h2>
+            <p>
+                The MEGAH Staking system operates through a verified smart contract deployed on BNB Smart Chain.
+                All interactions are <strong>on-chain</strong> and publicly verifiable.
             </p>
 
-            <p>
-                Staking participation, reward calculations, reward claims,
-                and other relevant account information are recorded or
-                determined through blockchain-based systems.
-            </p>
+            <div class="terms-grid">
+                <div class="terms-grid-item">
+                    <strong>🟢 Daily ROI</strong>
+                    <span>0.3% (30 BPS) calculated per second on your staked amount</span>
+                </div>
+                <div class="terms-grid-item">
+                    <strong>🟣 10-Level Matching</strong>
+                    <span>L1: 5% | L2: 3.5% | L3: 2.5% | L4: 2% | L5: 1.5% | L6: 1% | L7: 0.75% | L8: 0.5% | L9: 0.35% |
+                        L10: 0.25%</span>
+                </div>
+                <div class="terms-grid-item">
+                    <strong>🟡 Leader Bonus</strong>
+                    <span>5% extra bonus for registered Leaders (not included in Max Cap)</span>
+                </div>
+                <div class="terms-grid-item">
+                    <strong>🔴 Maximum Cap</strong>
+                    <span>200% of your total staked amount — protects system sustainability</span>
+                </div>
+            </div>
 
-            <p>
-                The platform interface is provided as a convenient way to
-                interact with the underlying blockchain system. The
-                blockchain transaction itself is the authoritative record
-                of a confirmed transaction.
-            </p>
-        </section>
+            <div class="highlight-box">
+                <p>
+                    <strong>📊 How ROI is calculated:</strong><br>
+                    <code style="color:var(--text2);font-size:13px;">
+                        Daily ROI = (Staked Amount × DailyROI_BPS) / 10000
+                    </code><br>
+                    <span style="font-size:12px;color:var(--muted);">
+                        Example: Stake 1,000 MEGAH at 0.3% daily ROI → Earn 3 MEGAH per day
+                    </span>
+                </p>
+            </div>
 
+            <div class="highlight-box purple">
+                <p>
+                    <strong>🔗 Referral System:</strong><br>
+                    When your downline claims ROI, you receive matching bonuses from <strong>all 10 levels</strong>
+                    automatically. You <strong>do not need to be a Leader</strong> to earn referral bonuses —
+                    matching bonuses are available to <strong>everyone</strong> with active staking who hasn't
+                    reached Max Cap.
+                </p>
+            </div>
+        </div>
 
-        <section>
-            <h2>2. Eligibility</h2>
+        <!-- SECTION 3: STAKING RULES -->
+        <div class="terms-section">
+            <h2><i class="fa-solid fa-lock"></i> 3. Staking Rules</h2>
 
-            <p>
-                You are responsible for determining whether you are legally
-                permitted to use blockchain-based staking services in your
-                jurisdiction.
-            </p>
+            <div class="highlight-box red">
+                <p>
+                    <span class="label red">⚠️ IMPORTANT</span><br>
+                    <strong>Staked tokens are PERMANENTLY LOCKED.</strong>
+                    Once you stake $MEGAH into the smart contract, you <strong>cannot withdraw</strong> the
+                    principal amount. Only <strong>rewards (ROI, matching bonuses, leader bonuses)</strong>
+                    can be claimed.
+                </p>
+            </div>
 
-            <p>
-                By participating, you confirm that:
-            </p>
-
+            <p><strong>Before you stake, ensure you understand:</strong></p>
             <ul>
-                <li>You have the legal capacity to use the platform.</li>
-                <li>You control the wallet used for participation.</li>
-                <li>You are responsible for complying with applicable laws and regulations.</li>
-                <li>You understand the risks associated with digital assets and blockchain transactions.</li>
+                <li><strong>Minimum Stake:</strong> 1 MEGAH (subject to admin updates)</li>
+                <li><strong>Upline:</strong> Optional on first stake — once set, it cannot be changed</li>
+                <li><strong>Gas Fees:</strong> All transactions require <strong>BNB</strong> for gas on BNB Smart Chain
+                </li>
+                <li><strong>Top-up:</strong> Adding more stake saves your pending ROI (<code>savedReward</code>) and
+                    resets your last claim time</li>
             </ul>
 
-            <p>
-                If participation in staking is restricted or prohibited
-                where you live, you should not use the platform.
-            </p>
-        </section>
+            <div class="highlight-box cyan">
+                <p>
+                    <strong>💡 Tip:</strong> Use the <strong>"Estimator"</strong> tab to calculate potential
+                    earnings before committing your tokens.
+                </p>
+            </div>
+        </div>
 
+        <!-- SECTION 4: REWARD SYSTEM -->
+        <div class="terms-section">
+            <h2><i class="fa-solid fa-gift"></i> 4. Reward System</h2>
 
-        <section>
-            <h2>3. Wallet Responsibility</h2>
+            <p><strong>Rewards are distributed in three ways:</strong></p>
 
-            <p>
-                You are solely responsible for your cryptocurrency wallet
-                and all transactions initiated from it.
-            </p>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0;">
+                <div
+                    style="background:rgba(0,255,136,0.04);border:1px solid rgba(0,255,136,0.08);border-radius:var(--radius);padding:12px;text-align:center;">
+                    <div style="font-size:24px;color:var(--green);">📈</div>
+                    <div style="font-size:13px;font-weight:700;color:var(--text);">ROI</div>
+                    <div style="font-size:11px;color:var(--muted);">0.3% daily</div>
+                </div>
+                <div
+                    style="background:rgba(168,85,247,0.04);border:1px solid rgba(168,85,247,0.08);border-radius:var(--radius);padding:12px;text-align:center;">
+                    <div style="font-size:24px;color:var(--purple);">👥</div>
+                    <div style="font-size:13px;font-weight:700;color:var(--text);">Matching</div>
+                    <div style="font-size:11px;color:var(--muted);">10-level referral</div>
+                </div>
+                <div
+                    style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.08);border-radius:var(--radius);padding:12px;text-align:center;">
+                    <div style="font-size:24px;color:var(--cyan);">👑</div>
+                    <div style="font-size:13px;font-weight:700;color:var(--text);">Leader</div>
+                    <div style="font-size:11px;color:var(--muted);">5% extra bonus</div>
+                </div>
+            </div>
 
-            <p>
-                Megah Staking does not request, collect, or require your
-                seed phrase, private key, or wallet password.
-            </p>
-
-            <p>
-                Never provide these credentials to anyone claiming to
-                represent the platform.
-            </p>
-
-            <p>
-                If you lose access to your wallet, lose your private key,
-                or sign an incorrect transaction, the platform may not be
-                able to recover your assets.
-            </p>
-        </section>
-
-
-        <section>
-            <h2>4. Staking Participation</h2>
-
-            <p>
-                When you participate in staking, you authorize the
-                blockchain transaction required to deposit the supported
-                token into the staking program.
-            </p>
-
-            <p>
-                Before confirming a transaction, you should carefully
-                verify the token, amount, network, destination contract,
-                and transaction fee displayed by your wallet.
-            </p>
-
-            <p>
-                Once a staking transaction has been successfully confirmed
-                on the blockchain, it may not be possible to reverse it.
-            </p>
-        </section>
-
-
-        <section>
-            <h2>5. Staking Rewards</h2>
-
-            <p>
-                Staking rewards are determined according to the rules and
-                parameters currently configured for the staking program.
-            </p>
-
-            <p>
-                Reward calculations may depend on factors such as the
-                user's staking amount, elapsed time, previously claimed
-                rewards, applicable limits, and other rules implemented
-                by the staking system.
-            </p>
-
-            <p>
-                The displayed reward is not a guarantee of future earnings.
-                Users should review the current staking information shown
-                by the platform before participating.
-            </p>
-        </section>
-
-
-        <section>
-            <h2>6. Reward Claims</h2>
-
-            <p>
-                Available rewards may become claimable according to the
-                rules of the staking program.
-            </p>
-
-            <p>
-                Claiming a reward requires a blockchain transaction and
-                may require the user to pay the applicable network gas fee.
-            </p>
-
-            <p>
-                A reward shown as pending, available, or claimable in the
-                interface should not be interpreted as a promise that the
-                transaction will succeed under every circumstance.
-            </p>
-
-            <p>
-                Users should always confirm the transaction details in
-                their wallet before signing.
-            </p>
-        </section>
-
-
-        <section>
-            <h2>7. Maximum Reward Limit</h2>
-
-            <p>
-                The staking program may apply a maximum reward limit to
-                individual staking positions.
-            </p>
-
-            <p>
-                This limit is part of the rules of the staking program and
-                may affect how much additional reward can become available
-                for a particular staking position.
-            </p>
-
-            <p>
-                Users should refer to the current information displayed
-                by the platform and the blockchain record associated with
-                their wallet.
-            </p>
-        </section>
-
-
-        <section>
-            <h2>8. Sponsor and Network Rewards</h2>
-
-            <p>
-                Where applicable, the staking program may provide
-                additional rewards associated with sponsor or network
-                participation.
-            </p>
-
-            <p>
-                Eligibility and reward distribution depend on the rules
-                configured for the program and the user's position within
-                the relevant network structure.
-            </p>
-
-            <p>
-                Sponsor-related rewards are not guaranteed and may be
-                subject to applicable limits or qualification requirements.
-            </p>
-        </section>
-
-
-        <section>
-            <h2>9. Blockchain Transactions and Gas Fees</h2>
-
-            <p>
-                Every blockchain transaction requires the applicable
-                network fee.
-            </p>
-
-            <p>
-                Gas fees are paid through the blockchain network and are
-                separate from any staking amount or reward.
-            </p>
-
-            <p>
-                Megah Staking does not control network congestion,
-                transaction fees, validator activity, block production,
-                wallet behavior, or blockchain availability.
-            </p>
-        </section>
-
-
-        <section>
-            <h2>10. Digital Asset Risks</h2>
-
-            <p>
-                Digital assets involve substantial risk. Their value may
-                change significantly and may become difficult to trade,
-                transfer, or use.
-            </p>
-
-            <p>
-                By participating in staking, you acknowledge that you may
-                lose some or all of the digital assets involved.
-            </p>
-
-            <p>
-                Nothing on this website should be interpreted as a promise
-                of profit, investment advice, financial advice, or a
-                guarantee that the value of any digital asset will increase.
-            </p>
-        </section>
-
-
-        <section>
-            <h2>11. Smart Contract Risk</h2>
-
-            <p>
-                Blockchain applications depend on smart contracts and
-                other software systems. Although reasonable care may be
-                taken in developing and operating the platform, software
-                can contain vulnerabilities, unexpected behavior, or
-                technical limitations.
-            </p>
-
-            <p>
-                Blockchain networks can also experience congestion,
-                forks, outages, protocol changes, or other events that may
-                affect the availability or behavior of a staking program.
-            </p>
-
-            <p>
-                Participation therefore involves smart contract and
-                blockchain infrastructure risk.
-            </p>
-        </section>
-
-
-        <section>
-            <h2>12. No Guarantee of Availability</h2>
-
-            <p>
-                Megah Staking does not guarantee that the website,
-                interface, blockchain connection, wallet connection,
-                staking dashboard, or related services will always be
-                available without interruption.
-            </p>
-
-            <p>
-                Temporary interruptions may occur because of maintenance,
-                network conditions, RPC availability, wallet providers,
-                blockchain congestion, software updates, or other
-                technical circumstances.
-            </p>
-        </section>
-
-
-        <section>
-            <h2>13. User Responsibility</h2>
-
-            <p>
-                You are responsible for reviewing all information before
-                submitting a blockchain transaction.
-            </p>
-
+            <p><strong>Important notes about rewards:</strong></p>
             <ul>
-                <li>Use a wallet that you control.</li>
-                <li>Verify the correct blockchain network.</li>
-                <li>Verify the token and staking contract addresses.</li>
-                <li>Check the staking amount before signing.</li>
-                <li>Maintain sufficient native tokens for network fees.</li>
-                <li>Protect your wallet credentials.</li>
-                <li>Keep records of your own transactions.</li>
+                <li>✅ ROI and Matching Bonuses are <strong>counted toward</strong> your 200% Max Cap</li>
+                <li>✅ <strong>Leader Bonus is NOT</strong> counted toward Max Cap — it's pure extra</li>
+                <li>✅ Rewards <strong>do not auto-claim</strong> — you must claim them manually</li>
+                <li>✅ Matching bonuses are distributed <strong>automatically</strong> when downlines claim ROI</li>
+                <li>✅ <strong>Everyone</strong> with active staking and not at Max Cap receives matching bonuses</li>
             </ul>
-        </section>
 
+            <div class="highlight-box">
+                <p>
+                    <strong>🎯 Pro Tip:</strong> The more active downlines you have, the faster you reach
+                    your Max Cap. Build your referral network and claim regularly!
+                </p>
+            </div>
+        </div>
 
-        <section>
-            <h2>14. Prohibited Use</h2>
+        <!-- SECTION 5: REFERRAL & LEADER SYSTEM -->
+        <div class="terms-section">
+            <h2><i class="fa-solid fa-network-wired"></i> 5. Referral &amp; Leader System</h2>
 
-            <p>
-                You agree not to use the platform for unlawful activities,
-                fraudulent transactions, manipulation of the platform,
-                unauthorized access, exploitation of vulnerabilities, or
-                activities intended to interfere with the operation of
-                the platform or its underlying infrastructure.
-            </p>
-        </section>
+            <div class="highlight-box purple">
+                <p>
+                    <span class="label purple">📢 FOR EVERYONE</span><br>
+                    <strong>You do NOT need to be a Leader to earn referral bonuses.</strong><br>
+                    Anyone with <strong>active staking</strong> and <strong>not at Max Cap</strong>
+                    automatically receives <strong>10-Level Matching Bonuses</strong> from their referral network.
+                </p>
+            </div>
 
+            <p><strong>How the 10-Level Matching System works:</strong></p>
+            <ul>
+                <li>📤 When your downline claims ROI, bonuses are distributed to <strong>all eligible uplines</strong>
+                </li>
+                <li>💰 Each level receives a percentage of the claimed ROI</li>
+                <li>🔄 Eligibility: active stake + not reached Max Cap</li>
+                <li>🔍 The contract searches up to 10 levels in your upline chain</li>
+            </ul>
 
-        <section>
-            <h2>15. Third-Party Services</h2>
+            <p><strong>Leader System (Extra Bonus):</strong></p>
+            <ul>
+                <li>👑 Leaders are <strong>registered by the admin</strong> — not automatic</li>
+                <li>📤 Leader Bonus (5%) is <strong>on top</strong> of matching bonuses</li>
+                <li>💎 Leader Bonus is <strong>NOT</strong> counted toward Max Cap</li>
+                <li>🔍 Contract searches for the <strong>nearest Leader</strong> in your upline chain</li>
+            </ul>
 
-            <p>
-                The platform may rely on third-party infrastructure such
-                as cryptocurrency wallets, blockchain networks, RPC
-                providers, blockchain explorers, hosting providers, and
-                other external services.
-            </p>
+            <div class="highlight-box cyan">
+                <p>
+                    <strong>📊 Example:</strong><br>
+                    Your downline claims <strong>100 MEGAH</strong> ROI:<br>
+                    → You (regular user) earn: <strong>5 MEGAH</strong> (Level 1 Matching Bonus)<br>
+                    → If you're also a Leader: <strong>5 MEGAH + 5 MEGAH = 10 MEGAH</strong> 🎉
+                </p>
+            </div>
+        </div>
 
-            <p>
-                Third-party services operate independently and may have
-                their own terms, policies, limitations, outages, or
-                technical issues.
-            </p>
-        </section>
+        <!-- SECTION 6: MAX CAP -->
+        <div class="terms-section">
+            <h2><i class="fa-solid fa-chart-line"></i> 6. Maximum Cap (200%)</h2>
 
+            <div class="highlight-box">
+                <p>
+                    <strong>🛡️ What is Max Cap?</strong><br>
+                    Max Cap = <strong>Total Staked × 2</strong><br>
+                    Example: Stake 100 MEGAH → Max Cap = 200 MEGAH
+                </p>
+            </div>
 
-        <section>
-            <h2>16. No Financial Advice</h2>
+            <p><strong>How Max Cap works:</strong></p>
+            <ul>
+                <li>✅ Total rewards (ROI + Matching Bonus) cannot exceed 200% of your staked amount</li>
+                <li>✅ Once reached, you <strong>stop earning</strong> ROI and matching bonuses</li>
+                <li>👑 <strong>Leader Bonus continues</strong> — it's <strong>EXEMPT</strong> from Max Cap</li>
+                <li>📊 Track your progress in the <strong>Dashboard</strong> progress bar</li>
+            </ul>
 
-            <p>
-                Information provided through Megah Staking is intended for
-                general informational purposes only.
-            </p>
+            <div class="highlight-box red">
+                <p>
+                    <strong>⚠️ Important:</strong><br>
+                    Max Cap protects the system from inflation. It's a <strong>feature, not a bug</strong>.
+                    Plan your staking strategy accordingly.
+                </p>
+            </div>
+        </div>
 
-            <p>
-                Nothing on the platform constitutes financial, investment,
-                legal, tax, or other professional advice.
-            </p>
-
-            <p>
-                You should conduct your own research and obtain
-                independent professional advice where appropriate before
-                participating.
-            </p>
-        </section>
-
-
-        <section>
-            <h2>17. Taxes</h2>
-
-            <p>
-                You are solely responsible for determining and fulfilling
-                any tax obligations arising from your digital asset
-                activities, staking rewards, transactions, or other use
-                of the platform.
-            </p>
-
-            <p>
-                Tax treatment varies between jurisdictions. Megah Staking
-                does not provide tax advice.
-            </p>
-        </section>
-
-
-        <section>
-            <h2>18. Changes to the Platform</h2>
-
-            <p>
-                The platform, interface, documentation, staking parameters,
-                supported assets, or other features may be changed,
-                updated, suspended, or discontinued when necessary.
-            </p>
-
-            <p>
-                Users should review the current information available on
-                the platform before initiating new transactions.
-            </p>
-        </section>
-
-
-        <section>
-            <h2>19. Limitation of Liability</h2>
+        <!-- SECTION 7: TOKENOMICS -->
+        <div class="terms-section">
+            <h2><i class="fa-solid fa-coins"></i> 7. Tokenomics — Reward Pool</h2>
 
             <p>
-                To the maximum extent permitted by applicable law,
-                Megah Staking and its contributors shall not be responsible
-                for losses resulting from blockchain network failures,
-                wallet errors, incorrect transactions, lost credentials,
-                smart contract vulnerabilities, market movements,
-                transaction fees, third-party service failures, or other
-                circumstances outside the reasonable control of the
-                platform.
+                MEGAH Staking V2 is funded by a <strong>10% tokenomic allocation</strong> for campaigns,
+                promotions, and community rewards.
             </p>
-        </section>
 
+            <div class="terms-grid">
+                <div class="terms-grid-item">
+                    <strong>Initial Reward Pool</strong>
+                    <span>~10,000 MEGAH</span>
+                </div>
+                <div class="terms-grid-item">
+                    <strong>Status</strong>
+                    <span>Allocated and available for distribution</span>
+                </div>
+                <div class="terms-grid-item">
+                    <strong>When Pool Exhausts</strong>
+                    <span>Rewards <strong>pause</strong> until replenishment</span>
+                </div>
+                <div class="terms-grid-item">
+                    <strong>Replenishment</strong>
+                    <span>Subject to community interest and token availability</span>
+                </div>
+            </div>
 
-        <section>
-            <h2>20. Acceptance of These Terms</h2>
+            <div class="highlight-box red">
+                <p>
+                    <span class="label red">⚠️ LIMITED REWARDS</span><br>
+                    <strong>Staking rewards are limited by the available reward pool.</strong>
+                    Once the 10,000 MEGAH pool is fully distributed, rewards will <strong>temporarily stop</strong>
+                    until the pool is replenished. <strong>Rewards are NOT guaranteed indefinitely.</strong>
+                </p>
+            </div>
+        </div>
 
+        <!-- SECTION 8: RISKS -->
+        <div class="terms-section">
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 8. Risks</h2>
+
+            <p><strong>By using this platform, you acknowledge the following risks:</strong></p>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0;">
+                <div
+                    style="background:rgba(255,68,102,0.04);border:1px solid rgba(255,68,102,0.08);border-radius:var(--radius);padding:12px 14px;">
+                    <strong style="color:var(--red);">📉 Token Value</strong>
+                    <span style="display:block;font-size:12px;color:var(--muted);">$MEGAH value can go down as well as
+                        up. You may lose your entire investment.</span>
+                </div>
+                <div
+                    style="background:rgba(255,68,102,0.04);border:1px solid rgba(255,68,102,0.08);border-radius:var(--radius);padding:12px 14px;">
+                    <strong style="color:var(--red);">🔒 Permanent Locking</strong>
+                    <span style="display:block;font-size:12px;color:var(--muted);">Staked tokens <strong>CANNOT</strong>
+                        be withdrawn under any circumstances.</span>
+                </div>
+                <div
+                    style="background:rgba(255,68,102,0.04);border:1px solid rgba(255,68,102,0.08);border-radius:var(--radius);padding:12px 14px;">
+                    <strong style="color:var(--red);">🔗 Smart Contract Risk</strong>
+                    <span style="display:block;font-size:12px;color:var(--muted);">While audited and verified, smart
+                        contracts can contain bugs or vulnerabilities.</span>
+                </div>
+                <div
+                    style="background:rgba(255,68,102,0.04);border:1px solid rgba(255,68,102,0.08);border-radius:var(--radius);padding:12px 14px;">
+                    <strong style="color:var(--red);">🌐 Network Risk</strong>
+                    <span style="display:block;font-size:12px;color:var(--muted);">Blockchain networks can experience
+                        congestion, high fees, or technical issues.</span>
+                </div>
+                <div
+                    style="background:rgba(255,68,102,0.04);border:1px solid rgba(255,68,102,0.08);border-radius:var(--radius);padding:12px 14px;">
+                    <strong style="color:var(--red);">🛡️ Max Cap</strong>
+                    <span style="display:block;font-size:12px;color:var(--muted);">Once reached, you <strong>stop
+                            earning</strong> ROI and matching bonuses.</span>
+                </div>
+                <div
+                    style="background:rgba(255,68,102,0.04);border:1px solid rgba(255,68,102,0.08);border-radius:var(--radius);padding:12px 14px;">
+                    <strong style="color:var(--red);">📊 Reward Pool Exhaustion</strong>
+                    <span style="display:block;font-size:12px;color:var(--muted);">Rewards are <strong>not
+                            guaranteed</strong> indefinitely and depend on the available pool.</span>
+                </div>
+            </div>
+
+            <div class="highlight-box red">
+                <p>
+                    <span class="label red">⚠️ FINANCIAL ADVICE DISCLAIMER</span><br>
+                    This platform does NOT provide financial advice. All information is for
+                    <strong>educational and informational purposes only</strong>.
+                    <strong style="color:var(--red);">Never invest more than you can afford to lose.</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- SECTION 9: YOUR RESPONSIBILITY -->
+        <div class="terms-section">
+            <h2><i class="fa-solid fa-user-check"></i> 9. Your Responsibility</h2>
+
+            <p><strong>You are solely responsible for:</strong></p>
+            <ul>
+                <li>🔐 <strong>Wallet Security:</strong> Keeping your private keys and seed phrases secure. We never ask
+                    for them.</li>
+                <li>🧠 <strong>Understanding the System:</strong> Knowing how staking works, the Max Cap, and the reward
+                    mechanics.</li>
+                <li>📚 <strong>Doing Your Own Research (DYOR):</strong> Understanding $MEGAH tokenomics, risks, and the
+                    smart contract.</li>
+                <li>⛽ <strong>Gas Fees:</strong> Ensuring you have enough BNB for transactions on BNB Smart Chain.</li>
+                <li>📊 <strong>Reward Management:</strong> Claiming your rewards regularly to maximize earnings.</li>
+                <li>🔗 <strong>Network Selection:</strong> Using the correct network (BNB Smart Chain).</li>
+            </ul>
+
+            <div class="highlight-box cyan">
+                <p>
+                    <strong>✅ Smart Contract Verification:</strong><br>
+                    The contract is verified and viewable on BscScan:
+                    <a href="https://bscscan.com/address/0xc55d416476CFC6e879948eD5a5F4461c43Af45Aa" target="_blank"
+                        style="color:var(--cyan);text-decoration:underline;">
+                        0xc55d416476CFC6e879948eD5a5F4461c43Af45Aa
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- SECTION 10: MODIFICATIONS -->
+        <div class="terms-section">
+            <h2><i class="fa-solid fa-pen"></i> 10. Modifications</h2>
             <p>
-                By accessing Megah Staking, connecting a wallet, or
-                submitting a staking transaction, you acknowledge that you
-                have read, understood, and agreed to these Terms &amp;
-                Conditions.
+                These Terms may be updated from time to time to reflect changes in the platform,
+                user feedback, or system mechanics. Continued use of the platform after any changes
+                constitutes acceptance of the updated Terms.
             </p>
-
-            <p>
-                If you do not agree with these terms or do not understand
-                the risks involved, you should not participate in the
-                staking program.
+            <p style="font-size:12px;color:var(--muted);">
+                <i class="fa-regular fa-clock"></i> Last updated: August 2026
             </p>
-        </section>
+        </div>
 
+        <!-- DISCLAIMER BOX -->
+        <div class="disclaimer-box">
+            <div class="disclaimer-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div class="disclaimer-content">
+                <h3>📢 Important: <strong>Read Before You Stake</strong></h3>
+                <p>
+                    Staking $MEGAH is a <strong>high-risk activity</strong>. Your staked tokens are
+                    <strong>permanently locked</strong> and cannot be withdrawn. Rewards are
+                    <strong>not guaranteed</strong> and depend on the available reward pool.
+                    <strong style="color:var(--red);">Never invest more than you can afford to lose.</strong>
+                    Always <strong>DYOR (Do Your Own Research)</strong> before participating.
+                </p>
+            </div>
+        </div>
 
-        <section>
-            <h2>21. Contact and Official Information</h2>
+        <!-- ===== FOOTER ===== -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="https://megahstaking.github.io/"><i class="fa-solid fa-arrow-left"></i> Back to App</a>
+                <a href="https://megahcrypto.github.io/buy/" target="_blank" rel="nofollow"><i
+                        class="fa-solid fa-cart-plus"></i> Buy MEGAH</a>
+                <a href="https://pancakeswap.finance/swap?outputCurrency=0xc55d416476CFC6e879948eD5a5F4461c43Af45Aa"
+                    target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-chart-line"></i> Trade MEGAH</a>
+                <a href="https://megahstaking.github.io/" target="_blank"><i class="fa-solid fa-home"></i> Home</a>
+            </div>
+            <div class="footer-note">© 2026 MegahWeb3 • BNB Smart Chain</div>
+        </footer>
 
-            <p>
-                For official platform information, always use the official
-                Megah Staking website and verify contract addresses before
-                interacting with the staking program.
-            </p>
-
-            <p>
-                Never rely solely on unofficial links, messages, or social
-                media accounts claiming to represent the platform.
-            </p>
-        </section>
-
-    </article>
-
-
-    <footer class="footer">
-        © 2026 Megah Staking. All rights reserved.
-    </footer>
-
-</main>
+    </main>
 
 </body>
+
 </html>
