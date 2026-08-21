@@ -89,10 +89,46 @@
             --glow-cyan: 0 0 40px rgba(0, 212, 255, 0.12);
         }
 
+        /* ============================================================
+   RESET & SCROLLBAR
+   ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+            border-radius: 9px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--cyan);
+            border-radius: 9px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--blue);
+        }
+
+        /* ============================================================
+   SELECTION
+   ============================================================ */
+        ::selection {
+            background: var(--cyan2);
+            color: var(--cyan);
+        }
+
+        ::-moz-selection {
+            background: var(--cyan2);
+            color: var(--cyan);
         }
 
         html {
@@ -174,6 +210,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            text-decoration: none;
         }
 
         .brand-logo {
@@ -215,10 +252,13 @@
             display: none;
         }
 
+        /* ============================================================
+   TAB / NAV MENU
+   ============================================================ */
         .tab {
             border: 1px solid transparent;
             background: rgba(255, 255, 255, 0.02);
-            color: var(--muted);
+            color: var(--muted) !important;
             padding: 8px 16px;
             border-radius: 10px;
             font-weight: 600;
@@ -228,20 +268,25 @@
             transition: all 0.3s ease;
             position: relative;
             box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+            text-shadow: none !important;
+            min-height: auto !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid transparent !important;
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2) !important;
         }
 
         .tab:hover {
-            background: var(--purple2);
-            color: var(--purple);
-            border-color: var(--purple3);
+            background: var(--purple2) !important;
+            color: var(--purple) !important;
+            border-color: var(--purple3) !important;
             transform: translateY(-2px);
             box-shadow: var(--glow-purple), 0 4px 0 rgba(0, 0, 0, 0.2);
         }
 
         .tab.active {
-            background: var(--purple2);
-            color: var(--purple);
-            border-color: var(--purple3);
+            background: var(--purple2) !important;
+            color: var(--purple) !important;
+            border-color: var(--purple3) !important;
             box-shadow: 0 0 40px rgba(168, 85, 247, 0.08), 0 4px 0 rgba(0, 0, 0, 0.2);
         }
 
@@ -269,7 +314,7 @@
         }
 
         /* ============================================================
-   WALLET BUTTON — 3D TIMBUL
+   WALLET BUTTON
    ============================================================ */
         .wallet {
             min-width: 150px;
@@ -557,7 +602,7 @@
         }
 
         /* ============================================================
-   TABS — GLASS
+   TABS CONTAINER
    ============================================================ */
         .tabs {
             display: flex;
@@ -770,7 +815,7 @@
         }
 
         /* ============================================================
-   BUTTONS — 3D TIMBUL EFEK (SEMUA TOMBOL)
+   BUTTONS — SEMUA HIJAU (KECUALI CONNECT, DANGER, OUTLINE)
    ============================================================ */
         .actions {
             display: flex;
@@ -778,6 +823,7 @@
             flex-wrap: wrap;
         }
 
+        /* ---- BASE BUTTON ---- */
         button,
         .btn {
             border: none;
@@ -794,21 +840,25 @@
             transition: all 0.12s ease;
             min-height: 44px;
             position: relative;
-            border: 1px solid rgba(168, 85, 247, 0.06);
-            color: var(--text) !important;
-            box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35), 0 6px 25px rgba(0, 0, 0, 0.2);
             top: 0;
+            color: #000000 !important;
+            background: linear-gradient(180deg, #00ff88, #00cc66) !important;
+            border: 1px solid rgba(0, 255, 136, 0.25) !important;
+            box-shadow: 0 5px 0 #003322, 0 6px 30px rgba(0, 255, 136, 0.15) !important;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         button:hover:not(:disabled) {
+            background: linear-gradient(180deg, #22ff99, #00dd77) !important;
+            box-shadow: 0 2px 0 #003322, 0 12px 45px rgba(0, 255, 136, 0.25) !important;
             transform: translateY(-3px);
-            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35), 0 12px 40px rgba(0, 0, 0, 0.25);
-            filter: brightness(1.08);
+            border-color: rgba(0, 255, 136, 0.35) !important;
+            filter: brightness(1.05);
         }
 
         button:active:not(:disabled) {
             transform: translateY(5px);
-            box-shadow: 0 0px 0 rgba(0, 0, 0, 0.35), 0 4px 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 0px 0 #003322, 0 4px 20px rgba(0, 255, 136, 0.10) !important;
         }
 
         button:disabled {
@@ -817,267 +867,77 @@
             filter: none;
             transform: none !important;
             box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2) !important;
+            background: #1a2a22 !important;
+            color: #4a6a5a !important;
+            border-color: rgba(0, 255, 136, 0.05) !important;
+            text-shadow: none !important;
         }
 
         button .fa-spinner {
             animation: spin 0.8s linear infinite;
         }
 
-        /* ---- GREEN NEON (Primary) ---- */
-        .primary {
-            background: linear-gradient(180deg, #00ff88, #00cc66) !important;
-            color: #000000 !important;
-            border: 1px solid rgba(0, 255, 136, 0.25) !important;
-            box-shadow: 0 5px 0 #003322, 0 6px 30px rgba(0, 255, 136, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
-        }
-
-        .primary:hover:not(:disabled) {
-            background: linear-gradient(180deg, #22ff99, #00dd77) !important;
-            box-shadow: 0 2px 0 #003322, 0 12px 45px rgba(0, 255, 136, 0.25) !important;
-            transform: translateY(-3px);
-            border-color: rgba(0, 255, 136, 0.35) !important;
-        }
-
-        .primary:active:not(:disabled) {
-            transform: translateY(5px);
-            box-shadow: 0 0px 0 #003322, 0 4px 20px rgba(0, 255, 136, 0.10) !important;
-        }
-
-        /* ---- PURPLE NEON ---- */
-        .purple-btn {
-            background: linear-gradient(180deg, #a855f7, #7c3aed) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(168, 85, 247, 0.25) !important;
-            box-shadow: 0 5px 0 #3a1a6a, 0 6px 30px rgba(168, 85, 247, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-        }
-
-        .purple-btn:hover:not(:disabled) {
-            background: linear-gradient(180deg, #b86aff, #8a4af7) !important;
-            box-shadow: 0 2px 0 #3a1a6a, 0 12px 45px rgba(168, 85, 247, 0.25) !important;
-            transform: translateY(-3px);
-            border-color: rgba(168, 85, 247, 0.35) !important;
-        }
-
-        .purple-btn:active:not(:disabled) {
-            transform: translateY(5px);
-            box-shadow: 0 0px 0 #3a1a6a, 0 4px 20px rgba(168, 85, 247, 0.10) !important;
-        }
-
-        /* ---- CYAN NEON (Claim ROI) ---- */
-        .cyan-btn,
-        #claimRoiBtn {
-            background: linear-gradient(180deg, #00d4ff, #0099cc) !important;
-            color: #000000 !important;
-            border: 1px solid rgba(0, 212, 255, 0.25) !important;
-            box-shadow: 0 5px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
-        }
-
-        .cyan-btn:hover:not(:disabled),
-        #claimRoiBtn:hover:not(:disabled) {
-            background: linear-gradient(180deg, #22ddff, #00aadd) !important;
-            box-shadow: 0 2px 0 #004466, 0 12px 45px rgba(0, 212, 255, 0.25) !important;
-            transform: translateY(-3px);
-            border-color: rgba(0, 212, 255, 0.35) !important;
-        }
-
-        .cyan-btn:active:not(:disabled),
-        #claimRoiBtn:active:not(:disabled) {
-            transform: translateY(5px);
-            box-shadow: 0 0px 0 #004466, 0 4px 20px rgba(0, 212, 255, 0.10) !important;
-        }
-
-        .cyan-btn:disabled,
-        #claimRoiBtn:disabled {
-            background: #1a2a3a !important;
-            color: #4a6a7a !important;
-            box-shadow: 0 2px 0 #0a1a2a !important;
-            border-color: rgba(0, 212, 255, 0.05) !important;
+        /* ---- CONNECT WALLET (TETAP MERAH) ---- */
+        #connectBtn {
+            background: #1a0a0a !important;
+            border: 1px solid #4a1a1a !important;
+            color: #ff6a8a !important;
+            box-shadow: 0 4px 0 #0a0000, 0 6px 25px rgba(0, 0, 0, 0.4) !important;
             text-shadow: none !important;
         }
 
-        /* ---- CLAIM REFERRAL (PURPLE) ---- */
-        #claimReferralBtn {
-            background: linear-gradient(180deg, #a855f7, #7c3aed) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(168, 85, 247, 0.25) !important;
-            box-shadow: 0 5px 0 #3a1a6a, 0 6px 30px rgba(168, 85, 247, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-        }
-
-        #claimReferralBtn:hover:not(:disabled) {
-            background: linear-gradient(180deg, #b86aff, #8a4af7) !important;
-            box-shadow: 0 2px 0 #3a1a6a, 0 12px 45px rgba(168, 85, 247, 0.25) !important;
+        #connectBtn:hover:not(:disabled) {
+            background: #2a0a0a !important;
+            box-shadow: 0 1px 0 #0a0000, 0 10px 35px rgba(0, 0, 0, 0.5) !important;
             transform: translateY(-3px);
-            border-color: rgba(168, 85, 247, 0.35) !important;
+            border-color: #6a1a1a !important;
         }
 
-        #claimReferralBtn:active:not(:disabled) {
+        #connectBtn:active:not(:disabled) {
             transform: translateY(5px);
-            box-shadow: 0 0px 0 #3a1a6a, 0 4px 20px rgba(168, 85, 247, 0.10) !important;
+            box-shadow: 0 0px 0 #0a0000, 0 4px 15px rgba(0, 0, 0, 0.2) !important;
         }
 
-        #claimReferralBtn:disabled {
-            background: #1a1a2a !important;
-            color: #4a4a6a !important;
-            box-shadow: 0 2px 0 #0a0a1a !important;
-            border-color: rgba(168, 85, 247, 0.05) !important;
-            text-shadow: none !important;
+        #connectBtn.wallet.green {
+            background: #0a1a0a !important;
+            border-color: #1a4a2a !important;
+            color: #70dfbd !important;
+            box-shadow: 0 4px 0 #051205, 0 6px 25px rgba(0, 0, 0, 0.4) !important;
         }
 
-        /* ---- STAKE BUTTON (GREEN) ---- */
-        #stakeBtn {
-            background: linear-gradient(180deg, #00ff88, #00cc66) !important;
-            color: #000000 !important;
-            border: 1px solid rgba(0, 255, 136, 0.25) !important;
-            box-shadow: 0 5px 0 #003322, 0 6px 30px rgba(0, 255, 136, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
+        #connectBtn.wallet.yellow {
+            background: #1a1a0a !important;
+            border-color: #4a4a1a !important;
+            color: #efd26f !important;
+            box-shadow: 0 4px 0 #0a0a00, 0 6px 25px rgba(0, 0, 0, 0.4) !important;
         }
 
-        #stakeBtn:hover:not(:disabled) {
-            background: linear-gradient(180deg, #22ff99, #00dd77) !important;
-            box-shadow: 0 2px 0 #003322, 0 12px 45px rgba(0, 255, 136, 0.25) !important;
-            transform: translateY(-3px);
-            border-color: rgba(0, 255, 136, 0.35) !important;
+        #connectBtn.wallet.blue {
+            background: #0a0a1a !important;
+            border-color: #1a2a4a !important;
+            color: #8dc4ff !important;
+            box-shadow: 0 4px 0 #00000a, 0 6px 25px rgba(0, 0, 0, 0.4) !important;
         }
 
-        #stakeBtn:active:not(:disabled) {
-            transform: translateY(5px);
-            box-shadow: 0 0px 0 #003322, 0 4px 20px rgba(0, 255, 136, 0.10) !important;
+        #connectBtn.wallet.gray {
+            background: #0f0f1a !important;
+            border-color: #2a2a4a !important;
+            color: #aaaac0 !important;
+            box-shadow: 0 4px 0 #05050a, 0 6px 25px rgba(0, 0, 0, 0.4) !important;
         }
 
-        #stakeBtn:disabled {
-            background: #1a2a22 !important;
-            color: #4a6a5a !important;
-            box-shadow: 0 2px 0 #0a1a12 !important;
-            border-color: rgba(0, 255, 136, 0.05) !important;
-            text-shadow: none !important;
-        }
-
-        /* ---- APPROVE & MAX (PURPLE) ---- */
-        #approveBtn,
-        #maxBtn {
-            background: linear-gradient(180deg, #a855f7, #7c3aed) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(168, 85, 247, 0.25) !important;
-            box-shadow: 0 5px 0 #3a1a6a, 0 6px 30px rgba(168, 85, 247, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-        }
-
-        #approveBtn:hover:not(:disabled),
-        #maxBtn:hover:not(:disabled) {
-            background: linear-gradient(180deg, #b86aff, #8a4af7) !important;
-            box-shadow: 0 2px 0 #3a1a6a, 0 12px 45px rgba(168, 85, 247, 0.25) !important;
-            transform: translateY(-3px);
-            border-color: rgba(168, 85, 247, 0.35) !important;
-        }
-
-        #approveBtn:active:not(:disabled),
-        #maxBtn:active:not(:disabled) {
-            transform: translateY(5px);
-            box-shadow: 0 0px 0 #3a1a6a, 0 4px 20px rgba(168, 85, 247, 0.10) !important;
-        }
-
-        #approveBtn:disabled,
-        #maxBtn:disabled {
-            background: #1a1a2a !important;
-            color: #4a4a6a !important;
-            box-shadow: 0 2px 0 #0a0a1a !important;
-            border-color: rgba(168, 85, 247, 0.05) !important;
-            text-shadow: none !important;
-        }
-
-        /* ---- COPY REFERRAL (CYAN) ---- */
-        #copyReferral {
-            background: linear-gradient(180deg, #00d4ff, #0099cc) !important;
-            color: #000000 !important;
-            border: 1px solid rgba(0, 212, 255, 0.25) !important;
-            box-shadow: 0 5px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
-        }
-
-        #copyReferral:hover:not(:disabled) {
-            background: linear-gradient(180deg, #22ddff, #00aadd) !important;
-            box-shadow: 0 2px 0 #004466, 0 12px 45px rgba(0, 212, 255, 0.25) !important;
-            transform: translateY(-3px);
-            border-color: rgba(0, 212, 255, 0.35) !important;
-        }
-
-        #copyReferral:active:not(:disabled) {
-            transform: translateY(5px);
-            box-shadow: 0 0px 0 #004466, 0 4px 20px rgba(0, 212, 255, 0.10) !important;
-        }
-
-        /* ---- OWNER BUTTONS (PURPLE) ---- */
-        #setMinStake,
-        #setRoi,
-        #setLeaderBps,
-        #setLevels,
-        #setLeader,
-        #adminStake {
-            background: linear-gradient(180deg, #a855f7, #7c3aed) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(168, 85, 247, 0.25) !important;
-            box-shadow: 0 5px 0 #3a1a6a, 0 6px 30px rgba(168, 85, 247, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-        }
-
-        #setMinStake:hover:not(:disabled),
-        #setRoi:hover:not(:disabled),
-        #setLeaderBps:hover:not(:disabled),
-        #setLevels:hover:not(:disabled),
-        #setLeader:hover:not(:disabled),
-        #adminStake:hover:not(:disabled) {
-            background: linear-gradient(180deg, #b86aff, #8a4af7) !important;
-            box-shadow: 0 2px 0 #3a1a6a, 0 12px 45px rgba(168, 85, 247, 0.25) !important;
-            transform: translateY(-3px);
-            border-color: rgba(168, 85, 247, 0.35) !important;
-        }
-
-        #setMinStake:active:not(:disabled),
-        #setRoi:active:not(:disabled),
-        #setLeaderBps:active:not(:disabled),
-        #setLevels:active:not(:disabled),
-        #setLeader:active:not(:disabled),
-        #adminStake:active:not(:disabled) {
-            transform: translateY(5px);
-            box-shadow: 0 0px 0 #3a1a6a, 0 4px 20px rgba(168, 85, 247, 0.10) !important;
-        }
-
-        /* ---- RECOVER (DANGER RED) ---- */
-        #recoverBtn {
-            background: linear-gradient(180deg, #ff4466, #dd2244) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(255, 68, 102, 0.25) !important;
-            box-shadow: 0 5px 0 #551122, 0 6px 30px rgba(255, 68, 102, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-        }
-
-        #recoverBtn:hover:not(:disabled) {
-            background: linear-gradient(180deg, #ff5577, #ee3355) !important;
-            box-shadow: 0 2px 0 #551122, 0 12px 45px rgba(255, 68, 102, 0.25) !important;
-            transform: translateY(-3px);
-            border-color: rgba(255, 68, 102, 0.35) !important;
-        }
-
-        #recoverBtn:active:not(:disabled) {
-            transform: translateY(5px);
-            box-shadow: 0 0px 0 #551122, 0 4px 20px rgba(255, 68, 102, 0.10) !important;
-        }
-
-        /* ---- OUTLINE BUTTON (Refresh) ---- */
+        /* ---- OUTLINE BUTTON (REFRESH) ---- */
         .outline {
             background: transparent !important;
-            border: 1px solid rgba(168, 85, 247, 0.15) !important;
-            color: var(--text2) !important;
+            border: 1px solid rgba(0, 255, 136, 0.20) !important;
+            color: var(--green) !important;
             box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25), 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+            text-shadow: none !important;
         }
 
         .outline:hover:not(:disabled) {
-            background: rgba(168, 85, 247, 0.06) !important;
-            border-color: rgba(168, 85, 247, 0.30) !important;
+            background: rgba(0, 255, 136, 0.06) !important;
+            border-color: rgba(0, 255, 136, 0.35) !important;
             box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 12px 35px rgba(0, 0, 0, 0.2) !important;
             transform: translateY(-3px);
         }
@@ -1087,46 +947,110 @@
             box-shadow: 0 0px 0 rgba(0, 0, 0, 0.25), 0 4px 15px rgba(0, 0, 0, 0.1) !important;
         }
 
-        /* ---- RENOUNCE OWNERSHIP (DANGER) ---- */
-        #renounceOwnershipBtn {
-            background: linear-gradient(180deg, #dc2626, #991b1b) !important;
+        /* ---- DANGER BUTTONS ---- */
+        #renounceOwnershipBtn,
+        #recoverBtn {
+            background: linear-gradient(180deg, #ff4466, #dd2244) !important;
             color: #ffffff !important;
-            border: 1px solid rgba(220, 38, 38, 0.25) !important;
-            box-shadow: 0 5px 0 #551122, 0 6px 30px rgba(220, 38, 38, 0.15) !important;
+            border: 1px solid rgba(255, 68, 102, 0.25) !important;
+            box-shadow: 0 5px 0 #551122, 0 6px 30px rgba(255, 68, 102, 0.15) !important;
             text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
         }
 
-        #renounceOwnershipBtn:hover:not(:disabled) {
-            background: linear-gradient(180deg, #ef4444, #dc2626) !important;
-            box-shadow: 0 2px 0 #551122, 0 12px 45px rgba(220, 38, 38, 0.25) !important;
+        #renounceOwnershipBtn:hover:not(:disabled),
+        #recoverBtn:hover:not(:disabled) {
+            background: linear-gradient(180deg, #ff5577, #ee3355) !important;
+            box-shadow: 0 2px 0 #551122, 0 12px 45px rgba(255, 68, 102, 0.25) !important;
             transform: translateY(-3px);
-            border-color: rgba(220, 38, 38, 0.35) !important;
+            border-color: rgba(255, 68, 102, 0.35) !important;
         }
 
-        #renounceOwnershipBtn:active:not(:disabled) {
+        #renounceOwnershipBtn:active:not(:disabled),
+        #recoverBtn:active:not(:disabled) {
             transform: translateY(5px);
-            box-shadow: 0 0px 0 #551122, 0 4px 20px rgba(220, 38, 38, 0.10) !important;
+            box-shadow: 0 0px 0 #551122, 0 4px 20px rgba(255, 68, 102, 0.10) !important;
         }
 
-        /* ---- TRANSFER OWNERSHIP ---- */
-        #transferOwnershipBtn {
-            background: linear-gradient(180deg, #a855f7, #7c3aed) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(168, 85, 247, 0.25) !important;
-            box-shadow: 0 5px 0 #3a1a6a, 0 6px 30px rgba(168, 85, 247, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+        /* ---- SPECIFIC BUTTON OVERRIDES ---- */
+        #setMinStake,
+        #setRoi,
+        #setLeaderBps,
+        #setLevels,
+        #setLeader,
+        #adminStake,
+        #transferOwnershipBtn,
+        #copyReferral,
+        #claimRoiBtn,
+        #claimReferralBtn,
+        #stakeBtn,
+        #approveBtn,
+        #maxBtn,
+        #calcBtn,
+        .notify-action,
+        .popup-btn,
+        .disclaimer-btn {
+            background: linear-gradient(180deg, #00ff88, #00cc66) !important;
+            color: #000000 !important;
+            border: 1px solid rgba(0, 255, 136, 0.25) !important;
+            box-shadow: 0 5px 0 #003322, 0 6px 30px rgba(0, 255, 136, 0.15) !important;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
-        #transferOwnershipBtn:hover:not(:disabled) {
-            background: linear-gradient(180deg, #b86aff, #8a4af7) !important;
-            box-shadow: 0 2px 0 #3a1a6a, 0 12px 45px rgba(168, 85, 247, 0.25) !important;
+        #setMinStake:hover:not(:disabled),
+        #setRoi:hover:not(:disabled),
+        #setLeaderBps:hover:not(:disabled),
+        #setLevels:hover:not(:disabled),
+        #setLeader:hover:not(:disabled),
+        #adminStake:hover:not(:disabled),
+        #transferOwnershipBtn:hover:not(:disabled),
+        #copyReferral:hover:not(:disabled),
+        #claimRoiBtn:hover:not(:disabled),
+        #claimReferralBtn:hover:not(:disabled),
+        #stakeBtn:hover:not(:disabled),
+        #approveBtn:hover:not(:disabled),
+        #maxBtn:hover:not(:disabled),
+        #calcBtn:hover:not(:disabled),
+        .notify-action:hover,
+        .popup-btn:hover,
+        .disclaimer-btn:hover {
+            background: linear-gradient(180deg, #22ff99, #00dd77) !important;
+            box-shadow: 0 2px 0 #003322, 0 12px 45px rgba(0, 255, 136, 0.25) !important;
             transform: translateY(-3px);
-            border-color: rgba(168, 85, 247, 0.35) !important;
+            border-color: rgba(0, 255, 136, 0.35) !important;
         }
 
-        #transferOwnershipBtn:active:not(:disabled) {
+        #setMinStake:active:not(:disabled),
+        #setRoi:active:not(:disabled),
+        #setLeaderBps:active:not(:disabled),
+        #setLevels:active:not(:disabled),
+        #setLeader:active:not(:disabled),
+        #adminStake:active:not(:disabled),
+        #transferOwnershipBtn:active:not(:disabled),
+        #copyReferral:active:not(:disabled),
+        #claimRoiBtn:active:not(:disabled),
+        #claimReferralBtn:active:not(:disabled),
+        #stakeBtn:active:not(:disabled),
+        #approveBtn:active:not(:disabled),
+        #maxBtn:active:not(:disabled),
+        #calcBtn:active:not(:disabled),
+        .notify-action:active,
+        .popup-btn:active,
+        .disclaimer-btn:active {
             transform: translateY(5px);
-            box-shadow: 0 0px 0 #3a1a6a, 0 4px 20px rgba(168, 85, 247, 0.10) !important;
+            box-shadow: 0 0px 0 #003322, 0 4px 20px rgba(0, 255, 136, 0.10) !important;
+        }
+
+        /* ---- DISABLED STATE ---- */
+        #claimRoiBtn:disabled,
+        #claimReferralBtn:disabled,
+        #stakeBtn:disabled,
+        #approveBtn:disabled,
+        #maxBtn:disabled {
+            background: #1a2a22 !important;
+            color: #4a6a5a !important;
+            box-shadow: 0 2px 0 #0a1a12 !important;
+            border-color: rgba(0, 255, 136, 0.05) !important;
+            text-shadow: none !important;
         }
 
         /* ============================================================
@@ -1167,11 +1091,31 @@
 
         input:focus,
         select:focus {
-            border-color: var(--cyan);
-            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.06), var(--glow-cyan), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-color: var(--cyan) !important;
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.06), var(--glow-cyan), inset 0 2px 4px rgba(0, 0, 0, 0.2) !important;
         }
 
-        input:disabled {
+        /* ---- SELECT HOVER & FOCUS (HARUS BIRU/CYAN) ---- */
+        select:hover {
+            border-color: var(--cyan3);
+        }
+
+        select option {
+            background: var(--bg2);
+            color: var(--text);
+            padding: 8px 12px;
+        }
+
+        select option:hover,
+        select option:focus,
+        select option:active,
+        select option:checked {
+            background: var(--cyan2) !important;
+            color: var(--cyan) !important;
+        }
+
+        input:disabled,
+        select:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
@@ -1461,38 +1405,6 @@
             white-space: pre-line;
         }
 
-        .notify-action {
-            margin-top: 14px;
-            min-width: 100px;
-            background: linear-gradient(180deg, #00d4ff, #0099cc) !important;
-            color: #000000 !important;
-            border: 1px solid rgba(0, 212, 255, 0.25) !important;
-            box-shadow: 0 5px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
-        }
-
-        .notify-action:hover {
-            background: linear-gradient(180deg, #22ddff, #00aadd) !important;
-            box-shadow: 0 2px 0 #004466, 0 12px 45px rgba(0, 212, 255, 0.25) !important;
-            transform: translateY(-3px);
-            border-color: rgba(0, 212, 255, 0.35) !important;
-        }
-
-        .notify-action:active {
-            transform: translateY(5px);
-            box-shadow: 0 0px 0 #004466, 0 4px 20px rgba(0, 212, 255, 0.10) !important;
-        }
-
-        .spinner-small {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-        }
-
         /* ============================================================
    DISCLAIMER BOX
    ============================================================ */
@@ -1601,41 +1513,6 @@
             font-weight: 700;
         }
 
-        .disclaimer-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 24px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.25s ease;
-            cursor: pointer;
-            border: none;
-            background: rgba(255, 68, 102, 0.08);
-            border: 1px solid rgba(255, 68, 102, 0.12);
-            color: var(--red);
-            width: fit-content;
-            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .disclaimer-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 10px 30px rgba(255, 68, 102, 0.08);
-            background: rgba(255, 68, 102, 0.12);
-            border-color: rgba(255, 68, 102, 0.20);
-        }
-
-        .disclaimer-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 0px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .disclaimer-btn i {
-            font-size: 14px;
-        }
-
         /* ============================================================
    POPUP DISCLAIMER — GLASS
    ============================================================ */
@@ -1728,41 +1605,6 @@
 
         .popup-content p strong {
             color: var(--cyan);
-        }
-
-        .popup-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 40px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.25s ease;
-            cursor: pointer;
-            border: none;
-            background: linear-gradient(180deg, #00d4ff, #0099cc) !important;
-            color: #000000 !important;
-            border: 1px solid rgba(0, 212, 255, 0.25) !important;
-            box-shadow: 0 5px 0 #004466, 0 6px 30px rgba(0, 212, 255, 0.15) !important;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
-        }
-
-        .popup-btn:hover {
-            background: linear-gradient(180deg, #22ddff, #00aadd) !important;
-            box-shadow: 0 2px 0 #004466, 0 12px 45px rgba(0, 212, 255, 0.25) !important;
-            transform: translateY(-3px);
-            border-color: rgba(0, 212, 255, 0.35) !important;
-        }
-
-        .popup-btn:active {
-            transform: translateY(5px);
-            box-shadow: 0 0px 0 #004466, 0 4px 20px rgba(0, 212, 255, 0.10) !important;
-        }
-
-        .popup-btn i {
-            font-size: 15px;
         }
 
         /* ============================================================
@@ -2034,6 +1876,89 @@
         }
 
         /* ============================================================
+   SPINNER
+   ============================================================ */
+        .spinner-small {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        /* ============================================================
+   NOTIFY ACTION (Tombol OK di Notification)
+   ============================================================ */
+        .notify-action {
+            background: linear-gradient(180deg, #00ff88, #00cc66) !important;
+            color: #000000 !important;
+            border: 1px solid rgba(0, 255, 136, 0.25) !important;
+            box-shadow: 0 5px 0 #003322, 0 6px 30px rgba(0, 255, 136, 0.15) !important;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        .notify-action:hover:not(:disabled) {
+            background: linear-gradient(180deg, #22ff99, #00dd77) !important;
+            box-shadow: 0 2px 0 #003322, 0 12px 45px rgba(0, 255, 136, 0.25) !important;
+            transform: translateY(-3px);
+            border-color: rgba(0, 255, 136, 0.35) !important;
+        }
+
+        .notify-action:active:not(:disabled) {
+            transform: translateY(5px);
+            box-shadow: 0 0px 0 #003322, 0 4px 20px rgba(0, 255, 136, 0.10) !important;
+        }
+
+        /* ============================================================
+   POPUP BUTTON
+   ============================================================ */
+        .popup-btn {
+            background: linear-gradient(180deg, #00ff88, #00cc66) !important;
+            color: #000000 !important;
+            border: 1px solid rgba(0, 255, 136, 0.25) !important;
+            box-shadow: 0 5px 0 #003322, 0 6px 30px rgba(0, 255, 136, 0.15) !important;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        .popup-btn:hover:not(:disabled) {
+            background: linear-gradient(180deg, #22ff99, #00dd77) !important;
+            box-shadow: 0 2px 0 #003322, 0 12px 45px rgba(0, 255, 136, 0.25) !important;
+            transform: translateY(-3px);
+            border-color: rgba(0, 255, 136, 0.35) !important;
+        }
+
+        .popup-btn:active:not(:disabled) {
+            transform: translateY(5px);
+            box-shadow: 0 0px 0 #003322, 0 4px 20px rgba(0, 255, 136, 0.10) !important;
+        }
+
+        /* ============================================================
+   DISCLAIMER BUTTON
+   ============================================================ */
+        .disclaimer-btn {
+            background: linear-gradient(180deg, #00ff88, #00cc66) !important;
+            color: #000000 !important;
+            border: 1px solid rgba(0, 255, 136, 0.25) !important;
+            box-shadow: 0 5px 0 #003322, 0 6px 30px rgba(0, 255, 136, 0.15) !important;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
+            width: fit-content;
+        }
+
+        .disclaimer-btn:hover:not(:disabled) {
+            background: linear-gradient(180deg, #22ff99, #00dd77) !important;
+            box-shadow: 0 2px 0 #003322, 0 12px 45px rgba(0, 255, 136, 0.25) !important;
+            transform: translateY(-3px);
+            border-color: rgba(0, 255, 136, 0.35) !important;
+        }
+
+        .disclaimer-btn:active:not(:disabled) {
+            transform: translateY(5px);
+            box-shadow: 0 0px 0 #003322, 0 4px 20px rgba(0, 255, 136, 0.10) !important;
+        }
+
+        /* ============================================================
    RESPONSIVE
    ============================================================ */
         @media(max-width:600px) {
@@ -2069,6 +1994,11 @@
                 width: 100%;
                 justify-content: center;
                 margin: 0 auto;
+            }
+
+            .calc-result-grid {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 4px !important;
             }
         }
 
@@ -3673,7 +3603,8 @@
                 <p>Staking is a high-risk activity. The value of crypto assets can fluctuate significantly. Make sure
                     you understand the risks involved before staking. This platform does not guarantee profits and is
                     not responsible for any potential losses. <strong>Always do your own research (DYOR)</strong>.</p>
-                <a href="https://megahstaking.github.io/disclaimer/" rel="nofollow" class="disclaimer-btn"><i
+                <a href="https://megahstaking.github.io/disclaimer/" rel="nofollow"
+                    style="display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:12px;font-size:13px;font-weight:700;text-decoration:none;background:linear-gradient(180deg,#00ff88,#00cc66);color:#000;border:1px solid rgba(0,255,136,0.25);box-shadow:0 5px 0 #003322,0 6px 30px rgba(0,255,136,0.15);width:fit-content;"><i
                         class="fa-solid fa-file-lines"></i> Read Full Disclaimer</a>
             </div>
         </div>
