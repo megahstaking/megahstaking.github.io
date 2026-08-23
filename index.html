@@ -89,6 +89,29 @@
             --glow-cyan: 0 0 40px rgba(0, 212, 255, 0.12);
         }
 
+        #tvlChartContainer {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            contain: layout style;
+        }
+
+        #tvlChart {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
+            contain: layout style;
+        }
+
+        .chart-wrapper {
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
         /* ============================================================
    RESET & SCROLLBAR
    ============================================================ */
@@ -5604,451 +5627,590 @@
         src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
 
     <script>
-        const API_BASE = 'https://megahcrypto.com/staking/api/';
-        const API_HISTORY = API_BASE + 'tvl_api.php?days=30';
-        const API_LATEST = API_BASE + 'tvl_latest.php';
-        const API_SAVE = API_BASE + 'save_tvl.php';
+        (async () => {
+            'use strict';
 
-        let chart = null;
-        let candlestickSeries = null;
-        let volumeSeries = null;
-        let chartData = [];
-        let isChartReady = false;
-        let updateInterval = null;
-        let isUpdating = false;
-        let resizeTimer = null;
+            const API_BASE = 'https://megahcrypto.com/staking/api/';
+            const API_HISTORY = API_BASE + 'tvl_api.php?days=30';
+            const API_LATEST = API_BASE + 'tvl_latest.php';
+            const API_SAVE = API_BASE + 'save_tvl.php';
 
-        function isMobile() {
-            return window.innerWidth < 768;
-        }
+            let chart = null;
+            let candlestickSeries = null;
+            let volumeSeries = null;
+            let chartData = [];
+            let isChartReady = false;
+            let updateInterval = null;
+            let isUpdating = false;
+            let resizeTimer = null;
+            let visibilityObserver = null;
+            let isChartInitialized = false;
 
-        function isSmallMobile() {
-            return window.innerWidth < 480;
-        }
+            function isMobile() {
+                return window.innerWidth < 768;
+            }
 
-        function fillMissingData(data) {
-            if (data.length === 0) return data;
+            function isModalOpen() {
+                return document.body.classList.contains('modal-open');
+            }
 
-            const sorted = [...data].sort((a, b) => a.time - b.time);
-            const filled = [];
-            let lastValue = sorted[0].value;
-            let lastTime = sorted[0].time;
-            const INTERVAL = 300; // 5 menit
+            function fillMissingData(data) {
+                if (data.length === 0) return data;
 
-            for (let i = 0; i < sorted.length; i++) {
-                const current = sorted[i];
+                const sorted = [...data].sort((a, b) => a.time - b.time);
+                const filled = [];
+                let lastValue = sorted[0].value;
+                let lastTime = sorted[0].time;
+                const INTERVAL = 300;
 
-                if (i > 0 && (current.time - lastTime) > INTERVAL) {
-                    const gap = current.time - lastTime;
-                    const steps = Math.ceil(gap / INTERVAL);
-                    for (let j = 1; j < steps; j++) {
-                        filled.push({
-                            time: lastTime + (j * INTERVAL),
-                            value: lastValue,
-                            isFilled: true
-                        });
+                for (let i = 0; i < sorted.length; i++) {
+                    const current = sorted[i];
+
+                    if (i > 0 && (current.time - lastTime) > INTERVAL) {
+                        const gap = current.time - lastTime;
+                        const steps = Math.ceil(gap / INTERVAL);
+                        for (let j = 1; j < steps; j++) {
+                            filled.push({
+                                time: lastTime + (j * INTERVAL),
+                                value: lastValue,
+                                isFilled: true
+                            });
+                        }
                     }
-                }
 
-                filled.push({
-                    time: current.time,
-                    value: current.value,
-                    isFilled: false
-                });
-
-                lastValue = current.value;
-                lastTime = current.time;
-            }
-
-            return filled;
-        }
-
-        function buildCandleData(data) {
-            return data.map((p, index, arr) => {
-                const value = p.value;
-
-                if (index === 0) {
-                    return {
-                        time: p.time,
-                        open: value,
-                        high: value,
-                        low: value,
-                        close: value,
-                    };
-                }
-
-                const prevValue = arr[index - 1].value;
-                const open = prevValue;
-                const close = value;
-                const high = Math.max(open, close);
-                const low = Math.min(open, close);
-
-                return {
-                    time: p.time,
-                    open: open,
-                    high: high,
-                    low: low,
-                    close: close,
-                };
-            });
-        }
-
-        async function fetchOnChainData() {
-            try {
-                const response = await fetch(API_SAVE + '?force=1&_=' + Date.now());
-                const result = await response.json();
-                if (result.success) {
-                    const tvlEl = document.getElementById('tvlCurrentValue');
-                    if (tvlEl && result.tvl !== undefined) {
-                        tvlEl.textContent = isMobile() ? result.tvl.toFixed(2) : result.tvl.toFixed(4);
-                    }
-                    console.log('📊 On-Chain TVL:', result.tvl.toFixed(4), 'MEGAH');
-                    return result;
-                }
-                return null;
-            } catch (e) {
-                console.warn('Fetch on-chain error:', e);
-                return null;
-            }
-        }
-
-        async function fetchTVLHistory(days = 30) {
-            try {
-                const maxPoints = isMobile() ? 100 : 300;
-                const response = await fetch(API_BASE + 'tvl_api.php?days=' + days + '&_=' + Date.now());
-                const result = await response.json();
-
-                if (result.success && result.data.length > 0) {
-                    let data = result.data.map(item => ({
-                        time: Math.floor(new Date(item.timestamp).getTime() / 1000),
-                        value: parseFloat(item.tvl)
-                    }));
-
-                    data = fillMissingData(data);
-
-                    if (data.length > maxPoints) {
-                        const step = Math.ceil(data.length / maxPoints);
-                        data = data.filter((_, i) => i % step === 0);
-                    }
-                    return data;
-                }
-                return [];
-            } catch (e) {
-                console.error('Fetch history error:', e);
-                return [];
-            }
-        }
-
-        async function fetchLatestTVL() {
-            try {
-                const response = await fetch(API_LATEST + '?_=' + Date.now());
-                const result = await response.json();
-                if (result.success) {
-                    return {
-                        tvl: result.current.tvl,
-                        summary: result.summary
-                    };
-                }
-                return null;
-            } catch (e) {
-                console.error('Fetch latest error:', e);
-                return null;
-            }
-        }
-
-        async function autoUpdate() {
-            if (!isChartReady || isUpdating) return;
-            isUpdating = true;
-
-            try {
-                await fetchOnChainData();
-
-                const latest = await fetchLatestTVL();
-                if (!latest) {
-                    isUpdating = false;
-                    return;
-                }
-
-                const now = Math.floor(Date.now() / 1000);
-                const lastPoint = chartData[chartData.length - 1];
-
-                const timeDiff = lastPoint ? (now - lastPoint.time) : 999;
-                const valueDiff = lastPoint ? Math.abs(latest.tvl - lastPoint.value) : 999;
-
-                const SAVE_THRESHOLD = 0.00001;
-                const SAVE_TIME_THRESHOLD = 300;
-
-                if (!lastPoint || valueDiff > SAVE_THRESHOLD || timeDiff > SAVE_TIME_THRESHOLD) {
-
-                    chartData.push({
-                        time: now,
-                        value: latest.tvl,
+                    filled.push({
+                        time: current.time,
+                        value: current.value,
                         isFilled: false
                     });
 
-                    chartData = fillMissingData(chartData);
-
-                    const maxPoints = isMobile() ? 200 : 500;
-                    if (chartData.length > maxPoints) {
-                        chartData = chartData.slice(-maxPoints);
-                    }
-
-                    const candleData = buildCandleData(chartData);
-                    candlestickSeries.setData(candleData);
-
-                    const volumeData = chartData.map(p => ({
-                        time: p.time,
-                        value: 1,
-                        color: 'rgba(34,197,94,0.15)'
-                    }));
-                    volumeSeries.setData(volumeData);
-
-                    if (chart) chart.timeScale().fitContent();
-
-                    console.log('📊 TVL Updated:', latest.tvl.toFixed(4), 'MEGAH |', new Date().toLocaleTimeString());
+                    lastValue = current.value;
+                    lastTime = current.time;
                 }
 
-                updateDisplay(latest.tvl, latest.summary);
-
-            } catch (e) {
-                console.warn('Auto update error:', e);
+                return filled;
             }
 
-            isUpdating = false;
-        }
+            function buildCandleData(data) {
+                return data.map((p, index, arr) => {
+                    const value = p.value;
 
-        function updateDisplay(value, summary) {
-            const el = document.getElementById('tvlCurrentValue');
-            if (el) el.textContent = isMobile() ? value.toFixed(2) : value.toFixed(4);
+                    if (index === 0) {
+                        return {
+                            time: p.time,
+                            open: value,
+                            high: value,
+                            low: value,
+                            close: value,
+                        };
+                    }
 
-            const pointsEl = document.getElementById('tvlDataPoints');
-            if (pointsEl && summary) {
-                pointsEl.textContent = summary.total_points || '—';
-            }
+                    const prevValue = arr[index - 1].value;
+                    const open = prevValue;
+                    const close = value;
+                    const high = Math.max(open, close);
+                    const low = Math.min(open, close);
 
-            const minMaxEl = document.getElementById('tvlMinMax');
-            if (minMaxEl && summary) {
-                const min = summary.min_tvl || 0;
-                const max = summary.max_tvl || 0;
-                minMaxEl.textContent = (isMobile() ? min.toFixed(1) : min.toFixed(2)) + '/' + (isMobile() ? max.toFixed(1) : max.toFixed(2));
-            }
-
-            const timeEl = document.getElementById('tvlLastUpdate');
-            if (timeEl) {
-                const now = new Date();
-                const timeStr = now.toLocaleTimeString('id-ID', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: isMobile() ? undefined : '2-digit'
+                    return {
+                        time: p.time,
+                        open: open,
+                        high: high,
+                        low: low,
+                        close: close,
+                    };
                 });
-                timeEl.innerHTML = '<i class="fa-regular fa-clock"></i> ' + timeStr;
             }
-        }
 
-        function handleResize() {
-            if (!chart) return;
-            const container = document.getElementById('tvlChart');
-            if (!container) return;
+            async function fetchOnChainData() {
+                try {
+                    const response = await fetch(API_SAVE + '?force=1&_=' + Date.now());
+                    const result = await response.json();
+                    if (result.success) {
+                        const tvlEl = document.getElementById('tvlCurrentValue');
+                        if (tvlEl && result.tvl !== undefined) {
+                            tvlEl.textContent = isMobile() ? result.tvl.toFixed(2) : result.tvl.toFixed(4);
+                        }
+                        return result;
+                    }
+                    return null;
+                } catch (e) {
+                    console.warn('Fetch on-chain error:', e);
+                    return null;
+                }
+            }
 
-            const width = container.clientWidth || 600;
-            const height = isMobile() ? 180 : 220;
+            async function fetchTVLHistory(days = 30) {
+                try {
+                    const maxPoints = isMobile() ? 100 : 300;
+                    const response = await fetch(API_BASE + 'tvl_api.php?days=' + days + '&_=' + Date.now());
+                    const result = await response.json();
 
-            try {
-                chart.applyOptions({
-                    width: width,
-                    height: height
+                    if (result.success && result.data.length > 0) {
+                        let data = result.data.map(item => ({
+                            time: Math.floor(new Date(item.timestamp).getTime() / 1000),
+                            value: parseFloat(item.tvl)
+                        }));
+
+                        data = fillMissingData(data);
+
+                        if (data.length > maxPoints) {
+                            const step = Math.ceil(data.length / maxPoints);
+                            data = data.filter((_, i) => i % step === 0);
+                        }
+                        return data;
+                    }
+                    return [];
+                } catch (e) {
+                    console.error('Fetch history error:', e);
+                    return [];
+                }
+            }
+
+            async function fetchLatestTVL() {
+                try {
+                    const response = await fetch(API_LATEST + '?_=' + Date.now());
+                    const result = await response.json();
+                    if (result.success) {
+                        return {
+                            tvl: result.current.tvl,
+                            summary: result.summary
+                        };
+                    }
+                    return null;
+                } catch (e) {
+                    console.error('Fetch latest error:', e);
+                    return null;
+                }
+            }
+
+            function getChartDimensions() {
+                const container = document.getElementById('tvlChart');
+                if (!container) return { width: 600, height: 220 };
+
+                if (container.offsetParent === null) {
+                    return { width: 600, height: 220 };
+                }
+
+                const rect = container.getBoundingClientRect();
+                const parentWidth = container.parentElement?.clientWidth || window.innerWidth || 600;
+
+                let width = Math.min(rect.width || parentWidth, parentWidth);
+                width = Math.max(width, 100);
+
+                let height = isMobile() ? 180 : 220;
+                if (rect.height > 0) {
+                    height = Math.min(Math.max(rect.height, 100), 400);
+                }
+
+                return { width, height };
+            }
+
+            function handleResize() {
+                if (!chart || !isChartReady) return;
+                if (isModalOpen()) return;
+
+                const container = document.getElementById('tvlChart');
+                if (!container || container.offsetParent === null) return;
+
+                const { width, height } = getChartDimensions();
+
+                try {
+                    if (chart && typeof chart.applyOptions === 'function') {
+                        chart.applyOptions({ width, height });
+
+                        setTimeout(() => {
+                            if (chart && typeof chart.timeScale === 'function' && !isModalOpen()) {
+                                chart.timeScale().fitContent();
+                            }
+                        }, 100);
+                    }
+                } catch (e) {
+                    console.warn('Resize error:', e);
+                }
+            }
+
+            function setupVisibilityObserver() {
+                const container = document.getElementById('tvlChart');
+                if (!container || visibilityObserver) return;
+
+                visibilityObserver = new ResizeObserver(() => {
+                    if (isModalOpen()) return;
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(handleResize, 200);
                 });
-                setTimeout(() => {
-                    if (chart) chart.timeScale().fitContent();
-                }, 100);
-            } catch (e) {
-                console.warn('Resize error:', e);
-            }
-        }
 
-        async function initTVLChart() {
-            const container = document.getElementById('tvlChart');
-            if (!container) {
-                setTimeout(initTVLChart, 300);
-                return;
+                visibilityObserver.observe(container);
             }
 
-            if (typeof LightweightCharts === 'undefined') {
-                console.log('⏳ Menunggu Lightweight Charts library...');
-                setTimeout(initTVLChart, 1000);
-                return;
+            function cleanupVisibilityObserver() {
+                if (visibilityObserver) {
+                    visibilityObserver.disconnect();
+                    visibilityObserver = null;
+                }
             }
 
-            const rect = container.getBoundingClientRect();
-            if (rect.width === 0 || rect.height === 0) {
-                console.log('⏳ Container belum visible, menunggu...');
-                setTimeout(initTVLChart, 300);
-                return;
+            function updateDisplay(value, summary) {
+                const el = document.getElementById('tvlCurrentValue');
+                if (el) {
+                    const precision = isMobile() ? 2 : 4;
+                    el.textContent = value.toFixed(precision);
+                }
+
+                const pointsEl = document.getElementById('tvlDataPoints');
+                if (pointsEl && summary) {
+                    pointsEl.textContent = summary.total_points || '—';
+                }
+
+                const minMaxEl = document.getElementById('tvlMinMax');
+                if (minMaxEl && summary) {
+                    const min = summary.min_tvl || 0;
+                    const max = summary.max_tvl || 0;
+                    const precision = isMobile() ? 1 : 2;
+                    minMaxEl.textContent = min.toFixed(precision) + '/' + max.toFixed(precision);
+                }
+
+                const timeEl = document.getElementById('tvlLastUpdate');
+                if (timeEl) {
+                    const now = new Date();
+                    const timeStr = now.toLocaleTimeString('id-ID', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: isMobile() ? undefined : '2-digit'
+                    });
+                    timeEl.innerHTML = '<i class="fa-regular fa-clock"></i> ' + timeStr;
+                }
             }
 
-            console.log('🚀 Init Candlestick Chart (Mobile: ' + isMobile() + ')');
+            async function autoUpdate() {
+                if (!isChartReady || isUpdating) return;
+                if (isModalOpen()) return;
 
-            await fetchOnChainData();
+                isUpdating = true;
 
-            const history = await fetchTVLHistory(30);
+                try {
+                    await fetchOnChainData();
 
-            if (history.length > 0) {
-                chartData = history;
-                console.log('✅ Loaded ' + chartData.length + ' data points');
-            } else {
-                console.log('⚠️ No history, creating initial data...');
-                const latest = await fetchLatestTVL();
-                if (latest && latest.tvl > 0) {
+                    const latest = await fetchLatestTVL();
+                    if (!latest) {
+                        isUpdating = false;
+                        return;
+                    }
+
                     const now = Math.floor(Date.now() / 1000);
-                    const count = isMobile() ? 5 : 10;
-                    const INTERVAL = 300;
-                    for (let i = 0; i < count; i++) {
-                        const time = now - (count - i) * INTERVAL;
+                    const lastPoint = chartData[chartData.length - 1];
+
+                    const timeDiff = lastPoint ? (now - lastPoint.time) : 999;
+                    const valueDiff = lastPoint ? Math.abs(latest.tvl - lastPoint.value) : 999;
+
+                    const SAVE_THRESHOLD = 0.00001;
+                    const SAVE_TIME_THRESHOLD = 300;
+
+                    if (!lastPoint || valueDiff > SAVE_THRESHOLD || timeDiff > SAVE_TIME_THRESHOLD) {
                         chartData.push({
-                            time: time,
+                            time: now,
                             value: latest.tvl,
                             isFilled: false
                         });
-                    }
-                    chartData.push({
-                        time: now,
-                        value: latest.tvl,
-                        isFilled: false
-                    });
 
-                    chartData = fillMissingData(chartData);
+                        chartData = fillMissingData(chartData);
+
+                        const maxPoints = isMobile() ? 200 : 500;
+                        if (chartData.length > maxPoints) {
+                            chartData = chartData.slice(-maxPoints);
+                        }
+
+                        const candleData = buildCandleData(chartData);
+                        candlestickSeries.setData(candleData);
+
+                        const volumeData = chartData.map(p => ({
+                            time: p.time,
+                            value: 1,
+                            color: 'rgba(34,197,94,0.15)'
+                        }));
+                        volumeSeries.setData(volumeData);
+
+                        if (chart && !isModalOpen()) {
+                            chart.timeScale().fitContent();
+                        }
+                    }
+
+                    updateDisplay(latest.tvl, latest.summary);
+
+                } catch (e) {
+                    console.warn('Auto update error:', e);
+                }
+
+                isUpdating = false;
+            }
+
+            async function initTVLChart() {
+                if (isChartInitialized) {
+                    console.log('Chart already initialized');
+                    return;
+                }
+
+                const container = document.getElementById('tvlChart');
+                if (!container) {
+                    setTimeout(initTVLChart, 300);
+                    return;
+                }
+
+                if (container.offsetParent === null) {
+                    setTimeout(initTVLChart, 500);
+                    return;
+                }
+
+                if (typeof LightweightCharts === 'undefined') {
+                    setTimeout(initTVLChart, 1000);
+                    return;
+                }
+
+                container.style.width = '100%';
+                container.style.maxWidth = '100%';
+                container.style.overflow = 'hidden';
+                container.style.position = 'relative';
+
+                const parent = container.parentElement;
+                if (parent) {
+                    parent.style.width = '100%';
+                    parent.style.maxWidth = '100%';
+                    parent.style.overflow = 'hidden';
+                }
+
+                await fetchOnChainData();
+                const history = await fetchTVLHistory(30);
+
+                if (history.length > 0) {
+                    chartData = history;
+                } else {
+                    const latest = await fetchLatestTVL();
+                    if (latest && latest.tvl > 0) {
+                        const now = Math.floor(Date.now() / 1000);
+                        const count = isMobile() ? 5 : 10;
+                        const INTERVAL = 300;
+                        for (let i = 0; i < count; i++) {
+                            const time = now - (count - i) * INTERVAL;
+                            chartData.push({
+                                time: time,
+                                value: latest.tvl,
+                                isFilled: false
+                            });
+                        }
+                        chartData.push({
+                            time: now,
+                            value: latest.tvl,
+                            isFilled: false
+                        });
+
+                        chartData = fillMissingData(chartData);
+                    }
+                }
+
+                const { width, height } = getChartDimensions();
+
+                chart = LightweightCharts.createChart(container, {
+                    width: width,
+                    height: height,
+                    layout: {
+                        background: { color: '#0f1220' },
+                        textColor: '#8892b0',
+                    },
+                    grid: {
+                        vertLines: { color: 'rgba(34,197,94,0.05)' },
+                        horzLines: { color: 'rgba(34,197,94,0.05)' },
+                    },
+                    crosshair: {
+                        mode: LightweightCharts.CrosshairMode.Normal,
+                        vertLine: {
+                            color: 'rgba(34,197,94,0.2)',
+                            style: LightweightCharts.LineStyle.Dashed,
+                        },
+                        horzLine: {
+                            color: 'rgba(34,197,94,0.2)',
+                            style: LightweightCharts.LineStyle.Dashed,
+                        },
+                    },
+                    rightPriceScale: {
+                        borderColor: 'rgba(34,197,94,0.1)',
+                        scaleMargins: {
+                            top: 0.1,
+                            bottom: 0.1,
+                        },
+                    },
+                    timeScale: {
+                        borderColor: 'rgba(34,197,94,0.1)',
+                        timeVisible: true,
+                        secondsVisible: false,
+                        fixLeftEdge: true,
+                        fixRightEdge: true,
+                        tickMarkFormatter: function (time) {
+                            const date = new Date(time * 1000);
+                            if (isMobile()) {
+                                return date.getHours() + ':' + String(date.getMinutes()).padStart(2, '0');
+                            }
+                            return date.toLocaleString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                        },
+                    },
+                    handleScroll: !isMobile(),
+                    handleScale: !isMobile(),
+                });
+
+                candlestickSeries = chart.addCandlestickSeries({
+                    upColor: '#22c55e',
+                    downColor: '#ff536b',
+                    borderVisible: false,
+                    wickUpColor: '#22c55e',
+                    wickDownColor: '#ff536b',
+                    priceScaleId: 'right',
+                    priceFormat: {
+                        type: 'price',
+                        precision: isMobile() ? 2 : 4,
+                        minMove: isMobile() ? 0.01 : 0.0001,
+                    },
+                });
+
+                volumeSeries = chart.addHistogramSeries({
+                    color: 'rgba(34,197,94,0.2)',
+                    priceFormat: {
+                        type: 'volume',
+                    },
+                    priceScaleId: '',
+                    scaleMargins: {
+                        top: isMobile() ? 0.90 : 0.85,
+                        bottom: 0,
+                    },
+                });
+
+                const candleData = buildCandleData(chartData);
+                candlestickSeries.setData(candleData);
+
+                const volumeData = chartData.map(p => ({
+                    time: p.time,
+                    value: 1,
+                    color: 'rgba(34,197,94,0.15)'
+                }));
+                volumeSeries.setData(volumeData);
+
+                setTimeout(() => {
+                    if (chart && !isModalOpen()) {
+                        chart.timeScale().fitContent();
+                    }
+                }, 200);
+
+                isChartReady = true;
+                isChartInitialized = true;
+
+                const latest = await fetchLatestTVL();
+                if (latest) {
+                    updateDisplay(latest.tvl, latest.summary);
+                }
+
+                setupVisibilityObserver();
+
+                if (updateInterval) clearInterval(updateInterval);
+                updateInterval = setInterval(autoUpdate, 10000);
+
+                // Setup window resize
+                window.addEventListener('resize', function () {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(function () {
+                        if (!isModalOpen()) {
+                            handleResize();
+                        }
+                    }, 250);
+                });
+
+                const modalObserver = new MutationObserver(() => {
+                    if (!isModalOpen()) {
+                        setTimeout(handleResize, 150);
+                        setTimeout(autoUpdate, 500);
+                    }
+                });
+                modalObserver.observe(document.body, {
+                    attributes: true,
+                    attributeFilter: ['class']
+                });
+
+                console.log('✅ Candlestick Chart ready - ' + chartData.length + ' data points');
+            }
+
+            function destroyChart() {
+                if (updateInterval) {
+                    clearInterval(updateInterval);
+                    updateInterval = null;
+                }
+                cleanupVisibilityObserver();
+                if (chart) {
+                    try {
+                        chart.remove();
+                    } catch (e) {
+                        console.warn('Chart removal error:', e);
+                    }
+                    chart = null;
+                }
+                candlestickSeries = null;
+                volumeSeries = null;
+                isChartReady = false;
+                isChartInitialized = false;
+                chartData = [];
+            }
+
+            function reinitChart() {
+                destroyChart();
+                setTimeout(initTVLChart, 500);
+            }
+
+            function startChart() {
+                if (typeof LightweightCharts !== 'undefined') {
+                    initTVLChart();
+                } else {
+                    setTimeout(startChart, 500);
                 }
             }
 
-            const width = container.clientWidth || 600;
-            const height = isMobile() ? 180 : 220;
+            window.TVLChart = {
+                init: initTVLChart,
+                destroy: destroyChart,
+                reinit: reinitChart,
+                resize: handleResize,
+                update: autoUpdate,
+                isReady: () => isChartReady,
+                forceUpdate: async function () {
+                    await fetchOnChainData();
+                    await autoUpdate();
+                }
+            };
 
-            chart = LightweightCharts.createChart(container, {
-                width: width,
-                height: height,
-                layout: {
-                    background: { color: '#0f1220' },
-                    textColor: '#8892b0',
-                },
-                grid: {
-                    vertLines: { color: 'rgba(34,197,94,0.05)' },
-                    horzLines: { color: 'rgba(34,197,94,0.05)' },
-                },
-                crosshair: {
-                    mode: LightweightCharts.CrosshairMode.Normal,
-                    vertLine: {
-                        color: 'rgba(34,197,94,0.2)',
-                        style: LightweightCharts.LineStyle.Dashed,
-                    },
-                    horzLine: {
-                        color: 'rgba(34,197,94,0.2)',
-                        style: LightweightCharts.LineStyle.Dashed,
-                    },
-                },
-                rightPriceScale: {
-                    borderColor: 'rgba(34,197,94,0.1)',
-                    scaleMargins: {
-                        top: 0.1,
-                        bottom: 0.1,
-                    },
-                },
-                timeScale: {
-                    borderColor: 'rgba(34,197,94,0.1)',
-                    timeVisible: true,
-                    secondsVisible: false,
-                    fixLeftEdge: true,
-                    fixRightEdge: true,
-                    tickMarkFormatter: function (time) {
-                        const date = new Date(time * 1000);
-                        if (isMobile()) {
-                            return date.getHours() + ':' + String(date.getMinutes()).padStart(2, '0');
-                        }
-                        return date.toLocaleString('id-ID', { hour: '2-digit', minute: '2-digit' });
-                    },
-                },
-                handleScroll: !isMobile(),
-                handleScale: !isMobile(),
-            });
-
-            candlestickSeries = chart.addCandlestickSeries({
-                upColor: '#22c55e',
-                downColor: '#ff536b',
-                borderVisible: false,
-                wickUpColor: '#22c55e',
-                wickDownColor: '#ff536b',
-                priceScaleId: 'right',
-                priceFormat: {
-                    type: 'price',
-                    precision: isMobile() ? 2 : 4,
-                    minMove: isMobile() ? 0.01 : 0.0001,
-                },
-            });
-
-            volumeSeries = chart.addHistogramSeries({
-                color: 'rgba(34,197,94,0.2)',
-                priceFormat: {
-                    type: 'volume',
-                },
-                priceScaleId: '',
-                scaleMargins: {
-                    top: isMobile() ? 0.90 : 0.85,
-                    bottom: 0,
-                },
-            });
-
-            const candleData = buildCandleData(chartData);
-            candlestickSeries.setData(candleData);
-
-            const volumeData = chartData.map(p => ({
-                time: p.time,
-                value: 1,
-                color: 'rgba(34,197,94,0.15)'
-            }));
-            volumeSeries.setData(volumeData);
-
-            setTimeout(() => {
-                if (chart) chart.timeScale().fitContent();
-            }, 100);
-
-            isChartReady = true;
-
-            const latest = await fetchLatestTVL();
-            if (latest) {
-                updateDisplay(latest.tvl, latest.summary);
-            }
-
-            if (updateInterval) clearInterval(updateInterval);
-            const updateIntervalMs = 10000;
-            updateInterval = setInterval(autoUpdate, updateIntervalMs);
-            console.log('📊 Auto update setiap 10 detik');
-
-            window.addEventListener('resize', function () {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function () {
-                    handleResize();
-                }, 250);
-            });
-
-            console.log('✅ Candlestick Chart ready - ' + chartData.length + ' data points (kontinu tanpa bolong)');
-        }
-
-        function startChart() {
-            if (typeof LightweightCharts !== 'undefined') {
-                initTVLChart();
-            } else {
-                setTimeout(startChart, 500);
-            }
-        }
-
-        if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            setTimeout(startChart, 800);
-        } else {
-            document.addEventListener('DOMContentLoaded', function () {
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
                 setTimeout(startChart, 800);
-            });
-        }
+            } else {
+                document.addEventListener('DOMContentLoaded', function () {
+                    setTimeout(startChart, 800);
+                });
+            }
 
-        console.log('📊 TVL Candlestick Chart - Real-time update setiap 10 detik (tanpa bolong)');
+            window.handleChartAfterModalClose = function () {
+                setTimeout(() => {
+                    if (!isModalOpen() && isChartReady) {
+                        handleResize();
+                        setTimeout(autoUpdate, 500);
+                    }
+                }, 200);
+            };
+
+            const originalCloseNotify = window.closeNotify || function () { };
+            window.closeNotify = function () {
+                originalCloseNotify();
+                setTimeout(() => {
+                    if (!isModalOpen() && isChartReady) {
+                        handleResize();
+                    }
+                }, 150);
+            };
+
+            console.log('📊 TVL Chart system initialized');
+
+        })();
     </script>
 
 </body>
