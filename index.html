@@ -2630,9 +2630,7 @@
                     <div class="kv"><span>Available Referral Bonus</span><span id="referralClaimAmount">—</span></div>
                 </div>
             </div>
-            <!-- ============================================================ -->
-            <!-- TVL CHART                          -->
-            <!-- ============================================================ -->
+            <!-- TVL CHART -->
             <div class="panel" style="margin-top:14px;">
                 <div class="panel-title-row">
                     <h2 style="font-size:14px;"><i class="fa-solid fa-chart-simple"></i> Total Staked Global (TVL)</h2>
@@ -2647,7 +2645,7 @@
                 </div>
 
                 <div
-                    style="display:grid;grid-template-columns:repeat(auto-fit, minmax(100px, 1fr));gap:6px;margin-top:10px;padding:8px 10px;background:rgba(15,18,32,0.4);border-radius:var(--radius);border:1px solid rgba(34,197,94,0.06);">
+                    style="display:grid;grid-template-columns:repeat(auto-fit, minmax(120px, 1fr));gap:6px;margin-top:10px;padding:8px 10px;background:rgba(15,18,32,0.4);border-radius:var(--radius);border:1px solid rgba(34,197,94,0.06);">
 
                     <div style="text-align:center;">
                         <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">TVL
@@ -2657,19 +2655,13 @@
 
                     <div style="text-align:center;">
                         <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">
-                            Stakers</div>
-                        <div style="font-size:14px;font-weight:700;color:var(--text);" id="tvlStakers">—</div>
-                    </div>
-
-                    <div style="text-align:center;">
-                        <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">
                             Data</div>
                         <div style="font-size:14px;font-weight:700;color:var(--text);" id="tvlDataPoints">—</div>
                     </div>
 
                     <div style="text-align:center;">
-                        <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">
-                            Min/Max</div>
+                        <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">Min
+                            / Max</div>
                         <div style="font-size:11px;font-weight:600;color:var(--text2);" id="tvlMinMax">—</div>
                     </div>
 
@@ -2678,7 +2670,7 @@
                 <div
                     style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;margin-top:6px;padding:0 2px;">
                     <span style="font-size:9px;color:var(--muted);">
-                        <i class="fa-solid fa-database"></i> BNB Chain
+                        <i class="fa-solid fa-database"></i> BscChain
                     </span>
                     <span style="font-size:9px;color:var(--muted2);" id="tvlLastUpdate">
                         <i class="fa-regular fa-clock"></i> —
@@ -5612,8 +5604,11 @@
         src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
 
     <script>
+        // ============================================================
+        // TVL CHART - CANDLESTICK (TANPA BOLONG / KONTINU)
+        // ============================================================
 
-        const API_BASE = 'https://megahcrypto.com/staking/api/';
+        const API_BASE = window.location.origin + 'https://megahcrypto.com/staking/api/';
         const API_HISTORY = API_BASE + 'tvl_api.php?days=30';
         const API_LATEST = API_BASE + 'tvl_latest.php';
         const API_SAVE = API_BASE + 'save_tvl.php';
@@ -5642,23 +5637,18 @@
             const filled = [];
             let lastValue = sorted[0].value;
             let lastTime = sorted[0].time;
-
             const INTERVAL = 300; // 5 menit
 
             for (let i = 0; i < sorted.length; i++) {
                 const current = sorted[i];
 
                 if (i > 0 && (current.time - lastTime) > INTERVAL) {
-
                     const gap = current.time - lastTime;
                     const steps = Math.ceil(gap / INTERVAL);
-
                     for (let j = 1; j < steps; j++) {
-                        const fillTime = lastTime + (j * INTERVAL);
                         filled.push({
-                            time: fillTime,
+                            time: lastTime + (j * INTERVAL),
                             value: lastValue,
-                            stakers: current.stakers || 0,
                             isFilled: true
                         });
                     }
@@ -5667,7 +5657,6 @@
                 filled.push({
                     time: current.time,
                     value: current.value,
-                    stakers: current.stakers || 0,
                     isFilled: false
                 });
 
@@ -5717,8 +5706,7 @@
                     if (tvlEl && result.tvl !== undefined) {
                         tvlEl.textContent = isMobile() ? result.tvl.toFixed(2) : result.tvl.toFixed(4);
                     }
-
-                    console.log('📊 On-Chain TVL:', result.tvl.toFixed(4), 'MEGAH | Stakers:', result.stakers);
+                    console.log('📊 On-Chain TVL:', result.tvl.toFixed(4), 'MEGAH');
                     return result;
                 }
                 return null;
@@ -5737,11 +5725,9 @@
                 if (result.success && result.data.length > 0) {
                     let data = result.data.map(item => ({
                         time: Math.floor(new Date(item.timestamp).getTime() / 1000),
-                        value: parseFloat(item.tvl),
-                        stakers: parseInt(item.stakers) || 0
+                        value: parseFloat(item.tvl)
                     }));
 
-                    // 🔥 ISI DATA KOSONG
                     data = fillMissingData(data);
 
                     if (data.length > maxPoints) {
@@ -5764,7 +5750,6 @@
                 if (result.success) {
                     return {
                         tvl: result.current.tvl,
-                        stakers: result.current.stakers || 0,
                         summary: result.summary
                     };
                 }
@@ -5802,7 +5787,6 @@
                     chartData.push({
                         time: now,
                         value: latest.tvl,
-                        stakers: latest.stakers || 0,
                         isFilled: false
                     });
 
@@ -5828,7 +5812,7 @@
                     console.log('📊 TVL Updated:', latest.tvl.toFixed(4), 'MEGAH |', new Date().toLocaleTimeString());
                 }
 
-                updateDisplay(latest.tvl, latest.stakers, latest.summary);
+                updateDisplay(latest.tvl, latest.summary);
 
             } catch (e) {
                 console.warn('Auto update error:', e);
@@ -5837,14 +5821,9 @@
             isUpdating = false;
         }
 
-        function updateDisplay(value, stakers, summary) {
+        function updateDisplay(value, summary) {
             const el = document.getElementById('tvlCurrentValue');
             if (el) el.textContent = isMobile() ? value.toFixed(2) : value.toFixed(4);
-
-            const stakersEl = document.getElementById('tvlStakers');
-            if (stakersEl) {
-                stakersEl.textContent = stakers > 0 ? stakers.toLocaleString() : '—';
-            }
 
             const pointsEl = document.getElementById('tvlDataPoints');
             if (pointsEl && summary) {
@@ -5876,7 +5855,6 @@
             if (!container) return;
 
             const width = container.clientWidth || 600;
-
             const height = isMobile() ? 180 : 220;
 
             try {
@@ -5927,20 +5905,18 @@
                 if (latest && latest.tvl > 0) {
                     const now = Math.floor(Date.now() / 1000);
                     const count = isMobile() ? 5 : 10;
-                    const INTERVAL = 300; // 5 menit
+                    const INTERVAL = 300;
                     for (let i = 0; i < count; i++) {
                         const time = now - (count - i) * INTERVAL;
                         chartData.push({
                             time: time,
                             value: latest.tvl,
-                            stakers: latest.stakers || 0,
                             isFilled: false
                         });
                     }
                     chartData.push({
                         time: now,
                         value: latest.tvl,
-                        stakers: latest.stakers || 0,
                         isFilled: false
                     });
 
@@ -5949,7 +5925,6 @@
             }
 
             const width = container.clientWidth || 600;
-
             const height = isMobile() ? 180 : 220;
 
             chart = LightweightCharts.createChart(container, {
@@ -6043,7 +6018,7 @@
 
             const latest = await fetchLatestTVL();
             if (latest) {
-                updateDisplay(latest.tvl, latest.stakers, latest.summary);
+                updateDisplay(latest.tvl, latest.summary);
             }
 
             if (updateInterval) clearInterval(updateInterval);
