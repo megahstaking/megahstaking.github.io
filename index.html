@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -7,30 +7,30 @@
     <meta name="viewport"
         content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1.0,user-scalable=no">
     <meta name="theme-color" content="#070910">
-    <title>Megah Staking · ROI & Hadiah Referral</title>
+    <title>Megah Staking · ROI & Referral Rewards</title>
 
     <meta name="description"
-        content="Megah Staking adalah platform staking crypto di BNB Smart Chain. Staking MEGAH, lacak reward on-chain, dan dapatkan bonus referral yang memenuhi syarat.">
+        content="Megah Staking is a crypto staking platform on BNB Smart Chain. Stake MEGAH, track on-chain rewards, and earn eligible referral bonuses.">
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
     <meta name="author" content="Megah Staking">
     <link rel="canonical" href="https://megahstaking.github.io/">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Megah Staking · ROI & Hadiah Referral">
+    <meta property="og:title" content="Megah Staking · ROI & Referral Rewards">
     <meta property="og:description"
-        content="Megah Staking adalah platform staking crypto di BNB Smart Chain. Staking MEGAH, lacak reward on-chain, dan dapatkan bonus referral yang memenuhi syarat.">
-    <meta property="og:url" content="https://megahstaking.github.io/megahstaking.github.io">
+        content="Megah Staking is a crypto staking platform on BNB Smart Chain. Stake MEGAH, track on-chain rewards, and earn eligible referral bonuses.">
+    <meta property="og:url" content="https://megahstaking.github.io/">
     <meta property="og:site_name" content="Megah Staking">
-    <meta property="og:locale" content="id_ID">
+    <meta property="og:locale" content="en_US">
     <meta property="og:image" content="https://megahstaking.github.io/images/megah-staking-banner.webp">
-    <meta property="og:image:alt" content="Platform Staking Token MEGAH di BNB Smart Chain">
+    <meta property="og:image:alt" content="MEGAH Token Staking Platform on BNB Smart Chain">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Megah Staking · ROI & Hadiah Referral">
+    <meta name="twitter:title" content="Megah Staking · ROI & Referral Rewards">
     <meta name="twitter:description"
-        content="Megah Staking adalah platform staking crypto di BNB Smart Chain. Staking MEGAH, lacak reward on-chain, dan dapatkan bonus referral yang memenuhi syarat.">
+        content="Megah Staking is a crypto staking platform on BNB Smart Chain. Stake MEGAH, track on-chain rewards, and earn eligible referral bonuses.">
     <meta name="twitter:image" content="https://megahstaking.github.io/images/megah-staking-banner.webp">
-    <meta name="twitter:image:alt" content="Megah Staking di BNB Smart Chain">
+    <meta name="twitter:image:alt" content="Megah Staking on BNB Smart Chain">
 
     <script type="application/ld+json">
         {
@@ -38,11 +38,11 @@
             "@type": "WebApplication",
             "name": "Megah Staking",
             "url": "https://megahstaking.github.io/",
-            "description": "Megah Staking adalah platform staking crypto di BNB Smart Chain. Staking MEGAH, lacak reward on-chain, dan dapatkan bonus referral yang memenuhi syarat.",
+            "description": "Megah Staking is a crypto staking platform on BNB Smart Chain. Stake MEGAH, track on-chain rewards, and earn eligible referral bonuses.",
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "Web Browser",
-            "browserRequirements": "Membutuhkan dompet Web3 yang kompatibel dengan EVM",
-            "inLanguage": "id-ID"
+            "browserRequirements": "Requires an EVM-compatible Web3 wallet",
+            "inLanguage": "en-US"
         }
     </script>
 
@@ -51,10 +51,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <style>
-        /* ============================================================
-   01. DESIGN SYSTEM
-   ============================================================ */
-
         :root {
             /* ---------- Core ---------- */
             --bg: #080b10;
@@ -146,7 +142,7 @@
 
         /* ============================================================
    02. RESET
-   ============================================================ */
+        ============================================================ */
 
         *,
         *::before,
@@ -605,6 +601,46 @@
             color: var(--gold-light) !important;
         }
 
+        .nav-bar .tab:nth-child(1) i {
+            color: var(--gold-light) !important;
+        }
+
+        .nav-bar .tab:nth-child(2) i {
+            color: var(--green-light) !important;
+        }
+
+        .nav-bar .tab:nth-child(3) i {
+            color: var(--blue-light) !important;
+        }
+
+        .nav-bar .tab:nth-child(4) i {
+            color: #c0a9e7 !important;
+        }
+
+        .nav-bar .tab.owner-tab i {
+            color: var(--red-light) !important;
+        }
+
+        .nav-bar .tab:nth-child(1):hover:not(:disabled) {
+            border-color: var(--gold-border) !important;
+        }
+
+        .nav-bar .tab:nth-child(2):hover:not(:disabled) {
+            border-color: var(--green-border) !important;
+        }
+
+        .nav-bar .tab:nth-child(3):hover:not(:disabled) {
+            border-color: var(--blue-border) !important;
+        }
+
+        .nav-bar .tab:nth-child(4):hover:not(:disabled) {
+            border-color: var(--purple-border) !important;
+        }
+
+        .nav-bar .tab.owner-tab:hover:not(:disabled) {
+            border-color: var(--red-border) !important;
+        }
+
         .nav-bar .tab.active::after {
             content: none;
         }
@@ -664,7 +700,13 @@
 
             border-radius: var(--radius-xl);
 
-            background: #0d141c;
+            min-height: 250px;
+
+            background-color: #0d141c;
+            background-image: url("https://megahstaking.github.io/images/megah-staking-banner.webp");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
 
             box-shadow: var(--shadow);
         }
@@ -686,45 +728,11 @@
             z-index: 1;
         }
 
-        .slides {
-            display: flex;
-
-            width: 100%;
-            height: 250px;
-
-            transition: transform .45s ease;
-        }
-
-        .slide {
-            position: relative;
-
-            min-width: 100%;
-            height: 250px;
-
-            display: flex;
-            align-items: center;
-
-            padding: 20px;
-
-            overflow: hidden;
-        }
-
-        .slide-bg {
-            position: absolute;
-            inset: 0;
-
-            background-position: center;
-            background-size: cover;
-
-            opacity: .62;
-        }
-
-        .slide-content {
+        .hero-content {
             position: relative;
             z-index: 2;
-
             width: 100%;
-            max-width: 610px;
+            max-width: 690px;
         }
 
         .eyebrow {
@@ -771,7 +779,7 @@
             letter-spacing: -1px;
         }
 
-        .slide p {
+        .hero-content>p {
             max-width: 560px;
 
             color: #c9d3dd;
@@ -788,6 +796,27 @@
             gap: 7px;
 
             margin-top: 11px;
+        }
+
+        .hero-points {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 10px;
+            margin-top: 10px;
+        }
+
+        .hero-points span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #b9c6d1;
+            font-size: 8px;
+            font-weight: 700;
+        }
+
+        .hero-points span i {
+            color: var(--green-light);
+            font-size: 9px;
         }
 
 
@@ -912,6 +941,17 @@
             padding: 8px 12px;
 
             font-size: 10px;
+        }
+
+        .hero-actions .hero-guide-btn {
+            background: var(--blue-dark) !important;
+            border-color: var(--blue-border) !important;
+        }
+
+        .hero-actions .hero-guide-btn:hover:not(:disabled) {
+            background: var(--blue) !important;
+            border-color: rgba(121, 195, 250, .65) !important;
+            color: #06111a !important;
         }
 
 
@@ -2444,7 +2484,7 @@
         }
 
 
-        /* Calculator fixed data */
+        /* Calculator data */
         #calculator #calcBtn {
             width: 100% !important;
 
@@ -3060,7 +3100,6 @@
    39. INLINE STYLE NORMALIZATION
    ============================================================ */
 
-        /* Remove excessive empty spacing created by old inline CSS */
         main>div[style*="height:4px"],
         main>div[style*="height:8px"],
         main>div[style*="height:10px"],
@@ -3068,7 +3107,6 @@
             height: 6px !important;
         }
 
-        /* Generic old card backgrounds */
         #calculator div[style*="rgba(15,18,32,0.4)"],
         #about div[style*="rgba(15,18,32,0.4)"] {
             background: #0d151d !important;
@@ -3076,23 +3114,19 @@
             border-color: var(--line) !important;
         }
 
-        /* Old purple separator lines */
         [style*="rgba(168,85,247,0.06)"] {
             border-color: var(--line-soft) !important;
         }
 
-        /* Old yellow calculator separators */
         #calculator [style*="rgba(245,158,11,0.06)"] {
             border-color: var(--line-soft) !important;
         }
 
-        /* Old cyan guide panel */
         #guide [style*="rgba(0,212,255,0.04)"] {
             background: var(--blue-bg) !important;
             border-color: var(--blue-border) !important;
         }
 
-        /* Old red owner warning */
         #owner [style*="rgba(255,83,107,0.2)"] {
             border-color: var(--red-border) !important;
         }
@@ -3279,21 +3313,13 @@
                 border-radius: 14px;
             }
 
-            .hero .slides,
-            .hero .slide {
-                height: 245px;
+
+            .hero {
+                min-height: 245px;
             }
 
-            .slide {
-                align-items: flex-end;
-
-                padding: 16px 16px 20px;
-
-                background:
-                    linear-gradient(0deg,
-                        rgba(8, 11, 16, .97),
-                        rgba(8, 11, 16, .68) 62%,
-                        rgba(8, 11, 16, .20));
+            .hero-content {
+                padding: 16px;
             }
 
             h1 {
@@ -3304,7 +3330,7 @@
                 letter-spacing: -.5px;
             }
 
-            .slide p {
+            .hero-content>p {
                 font-size: 10px;
 
                 line-height: 1.5;
@@ -3326,6 +3352,15 @@
                 padding: 7px 10px;
 
                 font-size: 9px;
+            }
+
+            .hero-points {
+                gap: 5px 8px;
+                margin-top: 8px;
+            }
+
+            .hero-points span {
+                font-size: 7px;
             }
 
             /* Buttons */
@@ -3670,20 +3705,20 @@
                 font-size: 10px;
             }
 
-            .hero .slides,
-            .hero .slide {
-                height: 225px;
+
+            .hero {
+                min-height: 225px;
             }
 
-            .slide {
-                padding: 13px 13px 17px;
+            .hero-content {
+                padding: 13px;
             }
 
             h1 {
                 font-size: 23px;
             }
 
-            .slide p {
+            .hero-content>p {
                 font-size: 9px;
             }
 
@@ -3693,6 +3728,14 @@
                 padding: 6px 8px;
 
                 font-size: 8px;
+            }
+
+            .hero-points {
+                gap: 4px 6px;
+            }
+
+            .hero-points span {
+                font-size: 6.5px;
             }
 
             .panel {
@@ -3922,12 +3965,12 @@
                 font-size: 10px;
             }
 
-            .hero .slides,
-            .hero .slide {
-                height: 265px;
+
+            .hero {
+                min-height: 265px;
             }
 
-            .slide {
+            .hero-content {
                 padding: 24px 28px;
             }
 
@@ -3935,7 +3978,7 @@
                 font-size: 38px;
             }
 
-            .slide p {
+            .hero-content>p {
                 font-size: 13px;
             }
 
@@ -4093,36 +4136,38 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
     ============================================================ -->
     <header>
         <div class="wrap">
+            <!-- Logo + Wallet -->
             <div class="header-top">
                 <div class="brand" onclick="showTab('dashboard')">
-                    <img class="brand-logo" src="https://megahstaking.github.io/images/MEGAH.png" alt="Token Megah">
+                    <img class="brand-logo" src="https://megahstaking.github.io/images/MEGAH.png" alt="Megah Token">
                     <div>
                         <div class="brand-title">Megah Staking</div>
-                        <div class="brand-sub">Platform staking Web3 untuk token $MEGAH</div>
+                        <div class="brand-sub">Web3 staking platform for $MEGAH tokens</div>
                     </div>
                 </div>
                 <div class="header-wallet">
                     <button id="connectBtn" class="wallet red" type="button">
-                        <i class="fa-solid fa-plug"></i>&nbsp;Hubungkan Dompet
+                        <i class="fa-solid fa-plug"></i>&nbsp;Connect Wallet
                     </button>
                 </div>
             </div>
 
+            <!-- NAV Menu -->
             <nav class="nav-bar" id="navBar">
                 <button class="tab active" data-tab="dashboard">
-                    <i class="fa-solid fa-user-tie"></i> Dasbor
+                    <i class="fa-solid fa-user-tie"></i> Dashboard
                 </button>
                 <button class="tab" data-tab="stake">
-                    <i class="fa-solid fa-piggy-bank"></i> Staking
+                    <i class="fa-solid fa-piggy-bank"></i> Stake
                 </button>
                 <button class="tab" data-tab="network">
                     <i class="fa-solid fa-network-wired"></i> Referral
                 </button>
                 <button class="tab" data-tab="calculator">
-                    <i class="fa-solid fa-calculator"></i> Kalkulator
+                    <i class="fa-solid fa-calculator"></i> Calculator
                 </button>
                 <button id="ownerTabNav" class="tab owner-tab" data-tab="owner">
-                    <i class="fa-solid fa-crown"></i> Pemilik
+                    <i class="fa-solid fa-crown"></i> Owner
                 </button>
             </nav>
         </div>
@@ -4134,71 +4179,43 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
     <main class="wrap">
 
         <!-- HERO -->
-        <section class="hero">
-            <div class="slides" id="slides">
-                <article class="slide">
-                    <div class="slide-bg"
-                        style="background-image:url('https://megahstaking.github.io/images/megah-staking-banner.webp')">
-                    </div>
-                    <div class="slide-content">
-                        <span class="eyebrow"><i></i>BNB Smart Chain • $MEGAH</span>
-                        <h1>Staking MEGAH.</h1>
-                        <p>Mulai staking $MEGAH melalui smart contract di BNB Smart Chain. Pantau posisi staking
-                            on-chain Anda dan klaim ROI serta bonus referral yang memenuhi syarat langsung dari dompet
-                            Web3 Anda.</p>
-                        <div class="hero-actions">
-                            <button class="primary" data-tab="stake">Mulai Staking</button>
-                            <button data-tab="guide">Cara Kerja</button>
-                        </div>
-                    </div>
-                </article>
-                <article class="slide">
-                    <div class="slide-bg"
-                        style="background-image:url('https://megahstaking.github.io/images/the-future-of-crypto-with-megah.webp')">
-                    </div>
-                    <div class="slide-content">
-                        <span class="eyebrow"><i></i>Sistem Referral</span>
-                        <h1>Bangun Jaringan Anda.</h1>
-                        <p>Bagikan tautan referral Anda dengan pengguna lain dan dapatkan bonus referral serta bonus
-                            pemimpin sesuai dengan aturan yang diterapkan oleh smart contract.</p>
-                        <div class="hero-actions">
-                            <button class="primary" data-tab="network">Hubungi Referral</button>
-                        </div>
-                    </div>
-                </article>
-                <article class="slide">
-                    <div class="slide-bg"
-                        style="background-image:url('https://megahstaking.github.io/images/legit-crypto-staking-website.webp')">
-                    </div>
-                    <div class="slide-content">
-                        <span class="eyebrow"><i></i>Dompet Web3</span>
-                        <h1>Hubungkan. Staking. Klaim.</h1>
-                        <p>Hubungkan dompet Web3 Anda untuk berinteraksi dengan smart contract. Aplikasi ini tidak
-                            pernah meminta frase pemulihan atau kunci pribadi Anda.</p>
-                        <div class="hero-actions">
-                            <button class="primary" id="heroConnect">Hubungkan Dompet</button>
-                        </div>
-                    </div>
-                </article>
+        <section class="hero" aria-labelledby="heroTitle">
+            <div class="hero-content">
+                <span class="eyebrow"><i></i>BNB Smart Chain • $MEGAH • On-Chain</span>
+                <h1 id="heroTitle">Stake MEGAH.</h1>
+                <p>Put your $MEGAH to work through the smart contract on BNB Smart Chain. Track your staking position,
+                    ROI, referral rewards, and on-chain activity directly from your Web3 wallet.</p>
+                <div class="hero-actions">
+                    <button class="primary" data-tab="stake" type="button"><i class="fa-solid fa-lock"></i> Start
+                        Staking</button>
+                    <button class="hero-guide-btn" data-tab="guide" type="button"><i
+                            class="fa-solid fa-circle-info"></i> How It Works</button>
+                </div>
+                <div class="hero-points" aria-label="Platform features">
+                    <span><i class="fa-solid fa-link"></i> On-chain</span>
+                    <span><i class="fa-solid fa-wallet"></i> Web3 Wallet</span>
+                    <span><i class="fa-solid fa-gas-pump"></i> BNB Gas</span>
+                    <span><i class="fa-solid fa-shield-halved"></i> Non-custodial</span>
+                </div>
             </div>
         </section>
 
         <!-- STATS -->
         <div class="stats">
             <div class="stat">
-                <label>Saldo MEGAH</label>
+                <label>MEGAH Balance</label>
                 <strong id="balance">—</strong>
             </div>
             <div class="stat">
-                <label>Total Di-staking</label>
+                <label>Total Staked</label>
                 <strong id="staked">—</strong>
             </div>
             <div class="stat">
-                <label>ROI Tertunda</label>
+                <label>Pending ROI</label>
                 <strong id="pending">—</strong>
             </div>
             <div class="stat">
-                <label>Bonus Referral</label>
+                <label>Referral Bonus</label>
                 <strong id="referral">—</strong>
             </div>
         </div>
@@ -4210,53 +4227,52 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
             <div class="cols">
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Posisi Anda</h2>
-                        <span id="positionStatus" class="badge gray">Dompet belum terhubung</span>
+                        <h2>Your Position</h2>
+                        <span id="positionStatus" class="badge gray">Wallet not connected</span>
                     </div>
-                    <div class="kv"><span>Total Di-staking</span><span id="dStaked">—</span></div>
-                    <div class="kv"><span>Batas Maksimum</span><span id="dCap">—</span></div>
-                    <div class="kv"><span>Total Diklaim</span><span id="dClaimed">—</span></div>
-                    <div class="kv"><span>ROI Tertunda</span><span id="dPending">—</span></div>
-                    <div class="kv"><span>Bonus Referral Tertunda</span><span id="dReferral">—</span></div>
-                    <div class="kv"><span>Reward Tersimpan</span><span id="dSavedReward">—</span></div>
-                    <div class="kv"><span>Checkpoint Terakhir</span><span id="dLastClaim">—</span></div>
-                    <div class="kv"><span>Sisa Batas</span><span id="dCapRemaining">—</span></div>
-                    <div class="kv"><span>Pemberi Referral</span><span id="dReferrer">—</span></div>
-                    <div class="kv"><span>Status Pemimpin</span><span id="dLeader">—</span></div>
-                    <div class="kv"><span>Status Batas Maks</span><span id="dCapStatus">—</span></div>
+                    <div class="kv"><span>Total Staked</span><span id="dStaked">—</span></div>
+                    <div class="kv"><span>Maximum Cap</span><span id="dCap">—</span></div>
+                    <div class="kv"><span>Total Claimed</span><span id="dClaimed">—</span></div>
+                    <div class="kv"><span>Pending ROI</span><span id="dPending">—</span></div>
+                    <div class="kv"><span>Pending Referral Bonus</span><span id="dReferral">—</span></div>
+                    <div class="kv"><span>Saved Reward</span><span id="dSavedReward">—</span></div>
+                    <div class="kv"><span>Last Checkpoint</span><span id="dLastClaim">—</span></div>
+                    <div class="kv"><span>Remaining Cap</span><span id="dCapRemaining">—</span></div>
+                    <div class="kv"><span>Referrer</span><span id="dReferrer">—</span></div>
+                    <div class="kv"><span>Leader Status</span><span id="dLeader">—</span></div>
+                    <div class="kv"><span>Max Cap Status</span><span id="dCapStatus">—</span></div>
                     <div class="progress"><i id="capProgress"></i></div>
                     <div class="small muted" style="margin-top:5px" id="capText">—</div>
                     <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
                         <button id="refreshBtn" class="outline"
                             style="font-size:10px;padding:4px 12px;min-height:28px;">
-                            <i class="fa-solid fa-rotate"></i>&nbsp;Segarkan
+                            <i class="fa-solid fa-rotate"></i>&nbsp;Refresh
                         </button>
-                        <span class="small muted" id="lastRefreshTime" style="align-self:center;font-size:8px;">Segarkan
-                            terakhir: —</span>
+                        <span class="small muted" id="lastRefreshTime" style="align-self:center;font-size:8px;">Last
+                            refresh: —</span>
                     </div>
                 </div>
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Klaim</h2>
+                        <h2>Claim</h2>
                         <span class="badge blue">On-chain</span>
                     </div>
-                    <div class="notice info">Jumlah yang dapat diklaim ditentukan oleh smart contract yang diterapkan.
-                    </div>
+                    <div class="notice info">Claimable amounts are determined by the deployed smart contract.</div>
                     <div style="height:8px"></div>
                     <div class="actions">
                         <button class="success" id="claimRoiBtn" disabled
                             style="font-size:10px;padding:6px 12px;min-height:30px;"><i
-                                class="fa-solid fa-gift"></i>&nbsp;Klaim ROI</button>
+                                class="fa-solid fa-gift"></i>&nbsp;Claim ROI</button>
                         <button id="claimReferralBtn" disabled
                             style="font-size:10px;padding:6px 12px;min-height:30px;"><i
-                                class="fa-solid fa-award"></i>&nbsp;Klaim Referral</button>
+                                class="fa-solid fa-award"></i>&nbsp;Claim Referral</button>
                     </div>
                     <div style="height:10px"></div>
-                    <div class="kv"><span>ROI Harian</span><span id="dailyRoi">—</span></div>
-                    <div class="kv"><span>Bonus Pemimpin</span><span id="leaderBonus">—</span></div>
-                    <div class="kv"><span>Staking Minimum</span><span id="minStake">—</span></div>
-                    <div class="kv"><span>ROI Tersedia</span><span id="roiClaimAmount">—</span></div>
-                    <div class="kv"><span>Bonus Referral Tersedia</span><span id="referralClaimAmount">—</span></div>
+                    <div class="kv"><span>Daily ROI</span><span id="dailyRoi">—</span></div>
+                    <div class="kv"><span>Leader Bonus</span><span id="leaderBonus">—</span></div>
+                    <div class="kv"><span>Minimum Stake</span><span id="minStake">—</span></div>
+                    <div class="kv"><span>Available ROI</span><span id="roiClaimAmount">—</span></div>
+                    <div class="kv"><span>Available Referral Bonus</span><span id="referralClaimAmount">—</span></div>
                 </div>
             </div>
 
@@ -4264,10 +4280,10 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
             <div class="panel" style="margin-top:14px;">
                 <div class="panel-title-row">
                     <h2 style="font-size:14px;">
-                        <i class="fa-solid fa-chart-simple"></i> Total Staking Global (TVL)
+                        <i class="fa-solid fa-chart-simple"></i> Total Staked (TVL) — ROI Staking
                     </h2>
                     <span class="badge green" style="font-size:8px;padding:2px 8px;">
-                        <i class="fa-solid fa-circle" style="font-size:6px;"></i> Langsung
+                        <i class="fa-solid fa-circle" style="font-size:6px;"></i> Live
                     </span>
                 </div>
 
@@ -4281,36 +4297,42 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 <div
                     style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px;margin-top:10px;padding:8px 10px;background:rgba(15,18,32,0.4);border-radius:var(--radius);border:1px solid rgba(34,197,94,0.06);">
 
+                    <!-- TVL Current Value -->
                     <div style="text-align:center;padding:4px 0;">
                         <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">TVL
-                            BSC</div>
+                            BSC
+                        </div>
                         <div style="font-size:14px;font-weight:700;color:var(--green);" id="tvlCurrentValue">—</div>
-                        <div style="font-size:8px;color:var(--muted);" id="tvlCurrencyLabel">Memuat...</div>
+                        <div style="font-size:8px;color:var(--muted);" id="tvlCurrencyLabel">Loading...</div>
                     </div>
 
+                    <!-- MEGAH Price -->
                     <div style="text-align:center;padding:4px 0;">
                         <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">
-                            Harga MEGAH</div>
+                            MEGAH Price</div>
                         <div style="font-size:14px;font-weight:700;color:var(--gold);" id="tvlMegahPrice">—</div>
                         <div style="font-size:8px;color:var(--muted);">USD</div>
                     </div>
 
+                    <!-- Data Points -->
                     <div style="text-align:center;padding:4px 0;">
                         <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">
-                            Titik Data</div>
+                            Data Points</div>
                         <div style="font-size:14px;font-weight:700;color:var(--text);" id="tvlDataPoints">—</div>
-                        <div style="font-size:8px;color:var(--muted);">Total Riwayat</div>
+                        <div style="font-size:8px;color:var(--muted);">Total History</div>
                     </div>
 
+                    <!-- Min / Max -->
                     <div style="text-align:center;padding:4px 0;">
-                        <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">
-                            Sepanjang Masa</div>
+                        <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">All
+                            Time</div>
                         <div style="font-size:11px;font-weight:600;color:var(--text2);" id="tvlMinMax">—</div>
-                        <div style="font-size:8px;color:var(--muted);">Min / Maks</div>
+                        <div style="font-size:8px;color:var(--muted);">Min / Max</div>
                     </div>
 
                 </div>
 
+                <!-- FOOTER INFO -->
                 <div
                     style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;margin-top:6px;padding:0 2px;">
                     <span style="font-size:9px;color:var(--muted);">
@@ -4327,24 +4349,29 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
             <div style="height:4px"></div>
             <div class="panel">
                 <div class="panel-title-row">
-                    <h2>Informasi Kontrak</h2>
+                    <h2>Contract Information</h2>
                     <span class="badge green">Live On-chain</span>
                 </div>
                 <div class="contract-grid">
                     <div class="contract-item">
-                        <label><i class="fa-solid fa-coins"></i> Saldo Pool Reward</label>
+                        <label><i class="fa-solid fa-coins"></i> Reward Pool Balance</label>
                         <strong id="contractPoolBalance" style="color:var(--green);">—</strong>
-                        <span class="small muted" style="display:block;font-size:7px;margin-top:1px;">Token tersedia
-                            untuk reward</span>
+                        <span class="small muted" style="display:block;font-size:7px;margin-top:1px;">Tokens available
+                            for rewards</span>
                     </div>
-                    <div class="contract-item"><label>Jaringan</label><strong id="contractNetwork">BNB Smart
+                    <div class="contract-item"><label>Network</label><strong id="contractNetwork"><i
+                                class="fa-brands fa-ethereum"></i> BNB Smart
                             Chain</strong></div>
-                    <div class="contract-item"><label>Token Staking</label><strong id="contractToken">—</strong></div>
-                    <div class="contract-item"><label>Staking Minimum</label><strong id="contractMin">—</strong></div>
-                    <div class="contract-item"><label>ROI Harian</label><strong id="contractRoi">—</strong></div>
-                    <div class="contract-item"><label>Bonus Pemimpin</label><strong id="contractLeader">—</strong></div>
+                    <div class="contract-item"><label><i class="fa-solid fa-coins"></i> Staking Token</label><strong
+                            id="contractToken">—</strong></div>
+                    <div class="contract-item"><label><i class="fa-solid fa-cash-register"></i> Minimum
+                            Stake</label><strong id="contractMin">—</strong></div>
+                    <div class="contract-item"><label><i class="fa-solid fa-money-bill-trend-up"></i> Daily
+                            ROI</label><strong id="contractRoi">—</strong></div>
+                    <div class="contract-item"><label><i class="fa-solid fa-user-tie"></i> Leader Bonus</label><strong
+                            id="contractLeader">—</strong></div>
                     <div class="contract-item">
-                        <label><i class="fa-solid fa-wallet"></i> Sisa Admin</label>
+                        <label><i class="fa-solid fa-wallet"></i> Admin Leftover</label>
                         <strong id="contractLeftover"
                             style="font-size:10px;word-break:break-all;">0xCa7Bd31C8DF5b531Bb789664e03Aa49a06df6002</strong>
                     </div>
@@ -4359,59 +4386,59 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
             <div class="cols">
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Staking MEGAH</h2>
+                        <h2>Stake MEGAH</h2>
                         <span class="badge blue">On-chain</span>
                     </div>
                     <div id="stakeStatus" class="notice info" style="display:none;">
-                        <i class="fa-solid fa-circle-info"></i>&nbsp;<span id="stakeStatusText">Memproses...</span>
+                        <i class="fa-solid fa-circle-info"></i>&nbsp;<span id="stakeStatusText">Processing...</span>
                     </div>
                     <div class="notice danger"
                         style="margin-top:6px;border-color:#662638;background:#1a0d14;font-size:10px;">
                         <i class="fa-solid fa-lock" style="color:#ff8c9c;"></i>&nbsp;
-                        <strong style="color:#ff8c9c;">PENTING:</strong>
-                        <span style="color:#ffadb9;">Token MEGAH yang di-staking <strong>TIDAK DAPAT</strong> ditarik
-                            kembali. Hanya reward yang dapat diklaim.</span>
+                        <strong style="color:#ff8c9c;">IMPORTANT:</strong>
+                        <span style="color:#ffadb9;">Staked MEGAH tokens <strong>CANNOT</strong> be withdrawn. Only
+                            rewards can be claimed.</span>
                     </div>
-                    <div class="notice warn" style="margin-top:6px;font-size:10px;">BNB diperlukan untuk biaya gas di
-                        BNB Smart Chain.</div>
+                    <div class="notice warn" style="margin-top:6px;font-size:10px;">BNB is required for gas fees on BNB
+                        Smart Chain.</div>
                     <div style="height:10px"></div>
                     <div class="form">
                         <div>
-                            <label class="label">Jumlah MEGAH</label>
+                            <label class="label">MEGAH Amount</label>
                             <input id="stakeAmount" inputmode="decimal" placeholder="0.0" autocomplete="off">
                             <div id="stakeAmountError" class="small muted"
                                 style="color:#ff8c9c;display:none;margin-top:3px;"></div>
                             <div id="gasEstimate" class="small muted" style="margin-top:3px;display:none;"></div>
                         </div>
                         <div>
-                            <label class="label">Alamat Pemberi Referral</label>
-                            <input id="referrer" placeholder="0x... (opsional)">
+                            <label class="label">Referrer Address</label>
+                            <input id="referrer" placeholder="0x... (optional)">
                         </div>
                         <div class="actions">
                             <button id="approveBtn" disabled
-                                style="font-size:10px;padding:5px 12px;min-height:28px;">Setujui MEGAH</button>
+                                style="font-size:10px;padding:5px 12px;min-height:28px;">Approve MEGAH</button>
                             <button class="primary" id="stakeBtn" disabled
-                                style="font-size:10px;padding:5px 12px;min-height:28px;">Staking MEGAH</button>
+                                style="font-size:10px;padding:5px 12px;min-height:28px;">Stake MEGAH</button>
                             <button id="maxBtn" disabled
-                                style="font-size:10px;padding:5px 12px;min-height:28px;">Maks</button>
+                                style="font-size:10px;padding:5px 12px;min-height:28px;">Max</button>
                         </div>
-                        <div class="small muted" id="allowanceText">Persetujuan: —</div>
-                        <div class="small muted" id="bnbBalanceText">Saldo BNB: —</div>
-                        <div class="small muted" id="balanceStakeText">Saldo MEGAH: —</div>
+                        <div class="small muted" id="allowanceText">Allowance: —</div>
+                        <div class="small muted" id="bnbBalanceText">BNB Balance: —</div>
+                        <div class="small muted" id="balanceStakeText">MEGAH Balance: —</div>
                     </div>
                 </div>
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Aturan Staking</h2>
-                        <span class="badge blue">Data kontrak</span>
+                        <h2>Staking Rules</h2>
+                        <span class="badge blue">Contract data</span>
                     </div>
-                    <div class="kv"><span>Aset</span><span>MEGAH BEP-20</span></div>
-                    <div class="kv"><span>Gas Jaringan</span><span>BNB</span></div>
-                    <div class="kv"><span>Staking Minimum</span><span id="stakeMin">—</span></div>
-                    <div class="kv"><span>ROI Harian</span><span id="stakeRoi">—</span></div>
-                    <div class="kv"><span>Batas Maksimum Anda</span><span id="stakeMaxCap">—</span></div>
-                    <div class="notice info" style="margin-top:10px;font-size:10px;">Aturan kontrak mengatur akuntansi
-                        dan jumlah yang dapat diklaim.</div>
+                    <div class="kv"><span>Asset</span><span>MEGAH BEP-20</span></div>
+                    <div class="kv"><span>Network Gas</span><span>BNB</span></div>
+                    <div class="kv"><span>Minimum Stake</span><span id="stakeMin">—</span></div>
+                    <div class="kv"><span>Daily ROI</span><span id="stakeRoi">—</span></div>
+                    <div class="kv"><span>Your Maximum Cap</span><span id="stakeMaxCap">—</span></div>
+                    <div class="notice info" style="margin-top:10px;font-size:10px;">Contract rules govern actual
+                        accounting and claimable amounts.</div>
                 </div>
             </div>
         </section>
@@ -4423,25 +4450,25 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
             <div class="cols">
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Hubungi Referral</h2>
+                        <h2>Referral Hub</h2>
                         <span class="badge">On-chain</span>
                     </div>
-                    <div class="kv"><span>Alamat Anda</span><span id="myAddress">—</span></div>
-                    <div class="kv"><span>Pemberi Referral Anda</span><span id="nReferrer">—</span></div>
-                    <div class="kv"><span>Status Pemimpin</span><span id="nLeader">—</span></div>
+                    <div class="kv"><span>Your Address</span><span id="myAddress">—</span></div>
+                    <div class="kv"><span>Your Referrer</span><span id="nReferrer">—</span></div>
+                    <div class="kv"><span>Leader Status</span><span id="nLeader">—</span></div>
                     <button id="copyReferral" style="margin-top:8px;font-size:10px;padding:6px 14px;min-height:30px;"><i
-                            class="fa-regular fa-copy"></i>&nbsp;Salin Tautan Referral</button>
-                    <div class="small muted" style="margin-top:6px;font-size:9px;">Alamat dompet Anda ditambahkan ke URL
-                        referral.</div>
+                            class="fa-regular fa-copy"></i>&nbsp;Copy Referral Link</button>
+                    <div class="small muted" style="margin-top:6px;font-size:9px;">Your wallet address is added to the
+                        referral URL.</div>
                 </div>
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Tingkat Bonus Referral</h2>
-                        <span class="badge blue">Data kontrak</span>
+                        <h2>Referral Bonus Levels</h2>
+                        <span class="badge blue">Contract data</span>
                     </div>
-                    <div id="levels">Hubungkan dompet Anda untuk membaca level saat ini.</div>
+                    <div id="levels">Connect your wallet to read current levels.</div>
                     <div class="small muted" style="margin-top:6px;font-size:9px;color:var(--muted2);">
-                        <i class="fa-solid fa-info-circle"></i>&nbsp;Level 1 = downline langsung Anda.
+                        <i class="fa-solid fa-info-circle"></i>&nbsp;Level 1 = your direct downline.
                     </div>
                 </div>
             </div>
@@ -4453,26 +4480,26 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
         <section id="calculator" class="section">
             <div class="panel">
                 <div class="panel-title-row">
-                    <h2><i class="fa-solid fa-calculator"></i> Kalkulator Staking</h2>
-                    <span class="badge green">Perkiraan</span>
+                    <h2><i class="fa-solid fa-calculator"></i> Staking Calculator</h2>
+                    <span class="badge green">Estimate</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
-                    <span class="badge green" style="font-size:8px;"><i class="fa-solid fa-database"></i> Data dari
-                        Kontrak</span>
-                    <span class="small muted" style="font-size:9px;" id="contractDataTime">Diperbarui: --</span>
+                    <span class="badge green" style="font-size:8px;"><i class="fa-solid fa-database"></i> Data from
+                        Contract</span>
+                    <span class="small muted" style="font-size:9px;" id="contractDataTime">Updated: --</span>
                 </div>
                 <div class="notice info small" style="margin-bottom:10px;font-size:10px;">
-                    <i class="fa-solid fa-circle-info"></i>&nbsp;Kalkulator ini memberikan <strong>perkiraan</strong>
-                    berdasarkan parameter kontrak saat ini.
+                    <i class="fa-solid fa-circle-info"></i>&nbsp;This calculator provides an <strong>estimate</strong>
+                    based on current contract parameters.
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
                     <div
                         style="background:rgba(15,18,32,0.4);border-radius:var(--radius);padding:12px 14px;border:1px solid rgba(245,158,11,0.06);">
                         <h3 style="font-size:12px;margin-bottom:8px;color:var(--text);"><i
-                                class="fa-solid fa-sliders"></i> Parameter Staking</h3>
+                                class="fa-solid fa-sliders"></i> Staking Parameters</h3>
                         <div class="form">
                             <div>
-                                <label class="label">Jumlah Staking Anda (MEGAH)</label>
+                                <label class="label">Your Stake Amount (MEGAH)</label>
                                 <div class="calc-input-wrapper">
                                     <input id="calcAmount" type="number" inputmode="decimal" value="100" min="1"
                                         step="1">
@@ -4481,25 +4508,25 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                             </div>
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
                                 <div>
-                                    <label class="label">ROI Harian (%)</label>
+                                    <label class="label">Daily ROI (%)</label>
                                     <input id="calcRoi" type="number" inputmode="decimal" value="0.3" min="0.01"
                                         step="0.01" disabled
                                         style="opacity:0.7;cursor:not-allowed;font-size:12px;padding:6px 10px;">
                                 </div>
                                 <div>
-                                    <label class="label">Batas Maks (%)</label>
+                                    <label class="label">Max Cap (%)</label>
                                     <input id="calcMaxCapPct" type="number" inputmode="decimal" value="200" min="100"
                                         step="1" disabled
                                         style="opacity:0.7;cursor:not-allowed;font-size:12px;padding:6px 10px;">
                                     <span class="small muted" style="font-size:8px;display:block;margin-top:1px;">🔒
-                                        Tetap 200%</span>
+                                        Fixed 200%</span>
                                 </div>
                             </div>
                             <div style="border-top:1px solid rgba(245,158,11,0.06);padding-top:8px;margin-top:4px;">
                                 <label class="label" style="margin-bottom:4px;">
-                                    <i class="fa-solid fa-users"></i> Downline Aktif per Level
-                                    <span class="small muted" style="font-weight:400;font-size:8px;display:block;">(Isi
-                                        berapa banyak orang di setiap level yang mengklaim ROI setiap hari)</span>
+                                    <i class="fa-solid fa-users"></i> Active Downlines per Level
+                                    <span class="small muted" style="font-weight:400;font-size:8px;display:block;">(Fill
+                                        in how many people in each level claim ROI every day)</span>
                                 </label>
                                 <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:3px;">
                                     <div><label class="small muted" style="font-size:7px;">L1</label><input id="calcDl1"
@@ -4546,39 +4573,39 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                             </div>
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:3px;">
                                 <div>
-                                    <label class="label">Staking Downline (MEGAH)</label>
+                                    <label class="label">Downline Stake (MEGAH)</label>
                                     <input id="calcDownlineStake" type="number" inputmode="decimal" value="100" min="1"
                                         step="1" style="font-size:12px;padding:6px 10px;">
-                                    <span class="small muted" style="font-size:8px;">Rata-rata staking</span>
+                                    <span class="small muted" style="font-size:8px;">Avg stake</span>
                                 </div>
                                 <div>
-                                    <label class="label">Sertakan Referral?</label>
+                                    <label class="label">Include Referral?</label>
                                     <select id="calcIncludeReferral" style="font-size:12px;padding:6px 10px;">
-                                        <option value="true" selected>✅ Ya</option>
-                                        <option value="false">❌ Tidak</option>
+                                        <option value="true" selected>✅ Yes</option>
+                                        <option value="false">❌ No</option>
                                     </select>
                                 </div>
                             </div>
                             <button id="calcBtn" class="primary"
                                 style="width:100%;margin-top:3px;font-size:11px;padding:6px 12px;min-height:32px;"><i
-                                    class="fa-solid fa-calculator"></i> Hitung</button>
+                                    class="fa-solid fa-calculator"></i> Calculate</button>
                         </div>
                         <div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(245,158,11,0.06);">
                             <div class="small muted" style="font-size:10px;">
                                 <i class="fa-solid fa-info-circle"></i>&nbsp;
-                                <strong>Tingkat Referral:</strong><br>
-                                <span id="calculatorLevelsDisplay">Memuat...</span>
+                                <strong>Referral Levels:</strong><br>
+                                <span id="calculatorLevelsDisplay">Loading...</span>
                             </div>
                         </div>
                     </div>
                     <div id="calcResults"
                         style="background:rgba(15,18,32,0.4);border-radius:var(--radius);padding:12px 14px;border:1px solid rgba(245,158,11,0.06);min-height:240px;">
                         <h3 style="font-size:12px;margin-bottom:8px;color:var(--text);"><i
-                                class="fa-solid fa-chart-simple"></i> Hasil Perkiraan</h3>
+                                class="fa-solid fa-chart-simple"></i> Estimate Results</h3>
                         <div class="notice info" style="text-align:center;padding:16px;font-size:11px;">
                             <i class="fa-solid fa-calculator"
                                 style="font-size:20px;display:block;margin-bottom:6px;"></i>
-                            Masukkan parameter dan klik <strong>"Hitung"</strong>
+                            Enter parameters and click <strong>"Calculate"</strong>
                         </div>
                     </div>
                 </div>
@@ -4591,13 +4618,13 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
         <section id="about" class="section">
             <div class="panel">
                 <div class="panel-title-row">
-                    <h2><i class="fa-solid fa-info-circle"></i> Tentang MEGAH</h2>
+                    <h2><i class="fa-solid fa-info-circle"></i> About MEGAH</h2>
                     <span class="badge green">Live</span>
                 </div>
 
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0;">
                     <div class="contract-item">
-                        <label>Nama Token</label>
+                        <label>Token Name</label>
                         <strong>Megah Digital Asset</strong>
                     </div>
                     <div class="contract-item">
@@ -4605,83 +4632,82 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                         <strong style="color:var(--green);">$MEGAH</strong>
                     </div>
                     <div class="contract-item">
-                        <label>Total Pasokan</label>
-                        <strong>2.100.000 MEGAH</strong>
+                        <label>Total Supply</label>
+                        <strong>2,100,000 MEGAH</strong>
                     </div>
                     <div class="contract-item">
-                        <label>Jaringan</label>
+                        <label>Network</label>
                         <strong>BNB Smart Chain</strong>
                     </div>
                     <div class="contract-item">
-                        <label>Kontrak</label>
+                        <label>Contract</label>
                         <strong
                             style="font-size:10px;word-break:break-all;">0xc55d416476CFC6e879948eD5a5F4461c43Af45Aa</strong>
                     </div>
                     <div class="contract-item">
-                        <label>Desimal</label>
+                        <label>Decimals</label>
                         <strong>18</strong>
                     </div>
                 </div>
 
                 <div class="notice info" style="margin:6px 0;font-size:11px;">
                     <i class="fa-solid fa-star"></i>&nbsp;
-                    <strong>MEGAH</strong> adalah aset digital di BNB Smart Chain yang dibangun di sekitar satu prinsip
-                    inti:
-                    <strong>nilai yang diperoleh, tidak pernah diberikan</strong>.
+                    <strong>MEGAH</strong> is a digital asset on BNB Smart Chain engineered around one core principle:
+                    <strong>value that is earned, never gifted.</strong>.
                     <br><br>
-                    <strong>Fitur Staking Utama:</strong>
+                    <strong>Key Staking Features:</strong>
                     <ul style="margin:4px 0 0 16px;font-size:11px;color:var(--text2);">
-                        <li>💰 Staking — Staking MEGAH untuk mendapatkan reward harian</li>
-                        <li>🔗 Sistem Referral — Dapatkan reward dari 10 tingkat referral</li>
-                        <li>👑 Bonus Pemimpin — Buka reward tambahan sebagai pemimpin</li>
+                        <li>💰 Staking — Stake MEGAH to earn daily rewards</li>
+                        <li>🔗 Referral System — Earn rewards from 10 referral levels</li>
+                        <li>👑 Leader Bonus — Unlock additional rewards as a leader</li>
                     </ul>
                 </div>
 
                 <h3 style="font-size:13px;color:var(--text);margin:12px 0 6px;">
-                    <i class="fa-solid fa-chart-pie"></i> Tokenomika
+                    <i class="fa-solid fa-chart-pie"></i> Tokenomics
                 </h3>
                 <div class="tokenomics-section">
                     <div class="pie-chart-container">
                         <div class="pie-chart">
                             <div class="pie-center">
                                 <span class="pct">100%</span>
-                                <span class="label">Pasokan</span>
+                                <span class="label">Supply</span>
                             </div>
                         </div>
                     </div>
                     <div class="pie-legend">
                         <div class="legend-item">
                             <span class="color-dot" style="background:#00ff88;"></span>
-                            <span class="legend-text"><strong>Reward Staking</strong> — Reward untuk program
-                                staking</span>
+                            <span class="legend-text"><strong>Staking Rewards</strong> — Rewards for the staking
+                                program</span>
                             <span class="legend-pct" style="color:#00ff88;">10%</span>
                         </div>
 
                         <div class="legend-item">
                             <span class="color-dot" style="background:#a855f7;"></span>
-                            <span class="legend-text"><strong>Pengembangan &amp; Treasury</strong> — Pengembangan,
-                                pemeliharaan &amp; pertumbuhan ekosistem jangka panjang</span>
+                            <span class="legend-text"><strong>Development &amp; Treasury</strong> — Development,
+                                maintenance &amp; long-term ecosystem growth</span>
                             <span class="legend-pct" style="color:#a855f7;">50%</span>
                         </div>
 
                         <div class="legend-item">
                             <span class="color-dot" style="background:#60a5fa;"></span>
-                            <span class="legend-text"><strong>Investor &amp; Kemitraan</strong> — Kemitraan strategis
-                                &amp; pertumbuhan ekosistem</span>
+                            <span class="legend-text"><strong>Investors &amp; Partnerships</strong> — Strategic
+                                partnerships &amp; ecosystem growth</span>
                             <span class="legend-pct" style="color:#60a5fa;">15%</span>
                         </div>
 
                         <div class="legend-item">
                             <span class="color-dot" style="background:#f97316;"></span>
-                            <span class="legend-text"><strong>Ekosistem &amp; Kampanye</strong> — Layanan, reward
-                                komunitas &amp; kampanye promosi</span>
+                            <span class="legend-text"><strong>Ecosystem &amp; Campaigns</strong> — Services, community
+                                rewards &amp; promotional campaigns</span>
                             <span class="legend-pct" style="color:#f97316;">20%</span>
                         </div>
 
                         <div class="legend-item">
                             <span class="color-dot" style="background:#fbbf24;"></span>
-                            <span class="legend-text"><strong>Penjualan Publik &amp; Likuiditas</strong> — Distribusi
-                                publik &amp; likuiditas DEX</span>
+                            <span class="legend-text"><strong>Public Sale &amp; Liquidity</strong> — Public distribution
+                                &amp; DEX liquidity</span>
                             <span class="legend-pct" style="color:#fbbf24;">5%</span>
                         </div>
                     </div>
@@ -4689,16 +4715,16 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
 
                 <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(168,85,247,0.06);">
                     <h4 style="font-size:11px;color:var(--text);margin-bottom:6px;"><i class="fa-solid fa-link"></i>
-                        Tautan Resmi</h4>
+                        Official Links</h4>
                     <div class="social-links">
-                        <a href="https://megahstaking.github.io/" target="_blank"><i class="fa-solid fa-globe"></i>
-                            Situs Web</a>
+                        <a href="https://megahcrypto.github.io/" target="_blank"><i class="fa-solid fa-globe"></i>
+                            Website</a>
                         <a href="https://x.com/megahcrypto" target="_blank"><i class="fa-brands fa-twitter"></i>
                             Twitter</a>
                         <a href="https://t.me/megahcrypto" target="_blank"><i class="fa-brands fa-telegram"></i>
                             Telegram</a>
                         <a href="https://pancakeswap.finance/swap?outputCurrency=0xc55d416476CFC6e879948eD5a5F4461c43Af45Aa"
-                            target="_blank"><i class="fa-solid fa-chart-line"></i> Perdagangan</a>
+                            target="_blank"><i class="fa-solid fa-chart-line"></i> Trade</a>
                     </div>
                 </div>
             </div>
@@ -4710,126 +4736,124 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
         <section id="guide" class="section">
             <div class="panel">
                 <div class="panel-title-row">
-                    <h2><i class="fa-brands fa-readme"></i> Panduan Staking</h2>
-                    <span class="badge cyan">Langkah demi Langkah</span>
+                    <h2><i class="fa-brands fa-readme"></i> Staking Guide</h2>
+                    <span class="badge cyan">Step-by-Step</span>
                 </div>
 
                 <div class="notice info" style="margin-bottom:8px;font-size:10px;">
-                    <i class="fa-solid fa-circle-info"></i>&nbsp; Ikuti langkah-langkah ini untuk mulai mendapatkan
-                    reward dengan Megah Staking.
+                    <i class="fa-solid fa-circle-info"></i>&nbsp; Follow these steps to start earning rewards with Megah
+                    Staking.
                 </div>
 
                 <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
-                    <span class="badge green" style="font-size:8px;"><i class="fa-solid fa-check"></i> 5 Langkah</span>
-                    <span class="badge cyan" style="font-size:8px;"><i class="fa-solid fa-clock"></i> ~5-10 menit</span>
-                    <span class="badge gold" style="font-size:8px;"><i class="fa-solid fa-coins"></i> BNB untuk
-                        gas</span>
+                    <span class="badge green" style="font-size:8px;"><i class="fa-solid fa-check"></i> 5 Steps</span>
+                    <span class="badge cyan" style="font-size:8px;"><i class="fa-solid fa-clock"></i> ~5-10 min</span>
+                    <span class="badge gold" style="font-size:8px;"><i class="fa-solid fa-coins"></i> BNB for gas</span>
                 </div>
 
                 <!-- BENEFITS -->
-                <h4 style="font-size:12px;color:var(--text);margin:10px 0 6px;"><i class="fa-solid fa-star"></i> Manfaat
-                    Utama</h4>
+                <h4 style="font-size:12px;color:var(--text);margin:10px 0 6px;"><i class="fa-solid fa-star"></i> Key
+                    Benefits</h4>
                 <div class="guide-benefits">
                     <div class="guide-benefit">
                         <span class="benefit-icon">💰</span>
-                        <h5>ROI Harian</h5>
+                        <h5>Daily ROI</h5>
                         <p>~109.5% APY</p>
-                        <span class="benefit-value">0.3% harian</span>
+                        <span class="benefit-value">0.3% daily</span>
                     </div>
                     <div class="guide-benefit">
                         <span class="benefit-icon">👥</span>
-                        <h5>10 Tingkat Referral</h5>
-                        <p>Dapatkan dari jaringan</p>
-                        <span class="benefit-value">10 tingkat</span>
+                        <h5>10-Level Referral</h5>
+                        <p>Earn from network</p>
+                        <span class="benefit-value">10 levels</span>
                     </div>
                     <div class="guide-benefit">
                         <span class="benefit-icon">👑</span>
-                        <h5>Bonus Pemimpin</h5>
-                        <p>Reward ekstra</p>
+                        <h5>Leader Bonus</h5>
+                        <p>Extra rewards</p>
                         <span class="benefit-value">+10%</span>
                     </div>
                     <div class="guide-benefit">
                         <span class="benefit-icon">🛡️</span>
-                        <h5>Batas Maks 200%</h5>
-                        <p>2× staking Anda</p>
-                        <span class="benefit-value">Berkelanjutan</span>
+                        <h5>200% Max Cap</h5>
+                        <p>2× your stake</p>
+                        <span class="benefit-value">Sustainable</span>
                     </div>
                     <div class="guide-benefit">
                         <span class="benefit-icon">🔗</span>
                         <h5>On-Chain</h5>
-                        <p>Transparan</p>
-                        <span class="benefit-value">Tidak dapat diubah</span>
+                        <p>Transparent</p>
+                        <span class="benefit-value">Immutable</span>
                     </div>
                     <div class="guide-benefit">
                         <span class="benefit-icon">📈</span>
-                        <h5>Deflasi</h5>
-                        <p>Pasokan terkunci</p>
-                        <span class="benefit-value">Dukungan harga</span>
+                        <h5>Deflationary</h5>
+                        <p>Locked supply</p>
+                        <span class="benefit-value">Price support</span>
                     </div>
                 </div>
 
                 <!-- COMPARISON -->
                 <h4 style="font-size:12px;color:var(--text);margin:12px 0 6px;"><i class="fa-solid fa-table"></i>
-                    Pengguna Biasa vs Pemimpin</h4>
+                    Regular User vs Leader</h4>
                 <div class="guide-comparison">
                     <div class="comp-row header">
-                        <span>Fitur</span>
-                        <span>Biasa</span>
-                        <span>Pemimpin</span>
+                        <span>Feature</span>
+                        <span>Regular</span>
+                        <span>Leader</span>
                     </div>
                     <div class="comp-row">
-                        <span class="comp-label">ROI Harian</span>
-                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Ya</span>
-                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Ya</span>
+                        <span class="comp-label">Daily ROI</span>
+                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Yes</span>
+                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Yes</span>
                     </div>
                     <div class="comp-row">
-                        <span class="comp-label">Bonus Referral</span>
-                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Ya</span>
-                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Ya</span>
+                        <span class="comp-label">Referral Bonus</span>
+                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Yes</span>
+                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Yes</span>
                     </div>
                     <div class="comp-row">
-                        <span class="comp-label">Bonus Pemimpin</span>
-                        <span class="comp-no"><i class="fa-solid fa-xmark"></i> Tidak</span>
-                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Ya</span>
+                        <span class="comp-label">Leader Bonus</span>
+                        <span class="comp-no"><i class="fa-solid fa-xmark"></i> No</span>
+                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Yes</span>
                     </div>
                     <div class="comp-row">
-                        <span class="comp-label">Batas Maks</span>
-                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Berlaku</span>
-                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Berlaku</span>
+                        <span class="comp-label">Max Cap</span>
+                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Applies</span>
+                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Applies</span>
                     </div>
                     <div class="comp-row">
-                        <span class="comp-label">Bonus Pemimpin dibebaskan dari Batas</span>
+                        <span class="comp-label">Leader Bonus exempt from Cap</span>
                         <span class="comp-no"><i class="fa-solid fa-xmark"></i> N/A</span>
-                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Ya</span>
+                        <span class="comp-yes"><i class="fa-solid fa-check"></i> Yes</span>
                     </div>
                 </div>
 
                 <!-- STEPS -->
                 <h4 style="font-size:12px;color:var(--text);margin:12px 0 6px;"><i class="fa-solid fa-list-check"></i>
-                    Langkah demi Langkah</h4>
+                    Step-by-Step</h4>
                 <div class="guide-steps">
                     <div class="guide-step">
                         <span class="step-number">1</span>
                         <div class="step-content">
-                            <h4>Buka di Dompet Web3</h4>
-                            <p>Buka aplikasi dompet seluler Anda (TokenPocket, MetaMask, Trust Wallet) dan navigasikan
-                                ke
-                                <strong>megahstaking.github.io/staking</strong>.
+                            <h4>Open in Web3 Wallet</h4>
+                            <p>Open your mobile wallet app (TokenPocket, MetaMask, Trust Wallet) and navigate to
+                                <strong>megahcrypto.com/staking</strong>.
                             </p>
-                            <span class="step-badge"><i class="fa-solid fa-mobile-screen-button"></i> Seluler</span>
+                            <span class="step-badge"><i class="fa-solid fa-mobile-screen-button"></i> Mobile</span>
                         </div>
                     </div>
 
                     <div class="guide-step">
                         <span class="step-number">2</span>
                         <div class="step-content">
-                            <h4>Dapatkan Token MEGAH</h4>
-                            <p>Beli <strong>$MEGAH</strong> di <strong>PancakeSwap</strong> atau transfer dari dompet
-                                lain.</p>
+                            <h4>Get MEGAH Tokens</h4>
+                            <p>Buy <strong>$MEGAH</strong> on <strong>PancakeSwap</strong> or transfer from another
+                                wallet.</p>
                             <button class="step-action outline"
-                                onclick="window.open('https://megahcrypto.com/buy/','_blank')"
+                                onclick="window.open('https://megahcrypto.github.io/buy/','_blank')"
                                 style="font-size:9px;padding:3px 10px;min-height:22px;">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Beli MEGAH
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Buy MEGAH
                             </button>
                         </div>
                     </div>
@@ -4837,13 +4861,12 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     <div class="guide-step">
                         <span class="step-number">3</span>
                         <div class="step-content">
-                            <h4>Hubungkan Dompet</h4>
-                            <p>Ketuk <strong>"Hubungkan Dompet"</strong> di bagian atas. Pastikan Anda berada di
-                                <strong>BNB Smart Chain</strong>.
-                            </p>
+                            <h4>Connect Wallet</h4>
+                            <p>Tap <strong>"Connect Wallet"</strong> at the top. Ensure you're on <strong>BNB Smart
+                                    Chain</strong>.</p>
                             <button class="step-action" onclick="document.getElementById('connectBtn').click()"
                                 style="font-size:9px;padding:3px 10px;min-height:22px;">
-                                <i class="fa-solid fa-plug"></i> Hubungkan Sekarang
+                                <i class="fa-solid fa-plug"></i> Connect Now
                             </button>
                         </div>
                     </div>
@@ -4851,13 +4874,12 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     <div class="guide-step">
                         <span class="step-number">4</span>
                         <div class="step-content">
-                            <h4>Setujui &amp; Staking</h4>
-                            <p>Buka tab <strong>"Staking"</strong>, masukkan jumlah, klik <strong>"Setujui
-                                    MEGAH"</strong>
-                                lalu <strong>"Staking MEGAH"</strong>.</p>
+                            <h4>Approve &amp; Stake</h4>
+                            <p>Go to <strong>"Stake"</strong> tab, enter amount, click <strong>"Approve MEGAH"</strong>
+                                then <strong>"Stake MEGAH"</strong>.</p>
                             <button class="step-action" onclick="showTab('stake')"
                                 style="font-size:9px;padding:3px 10px;min-height:22px;">
-                                <i class="fa-solid fa-arrow-right"></i> Staking
+                                <i class="fa-solid fa-arrow-right"></i> Stake
                             </button>
                         </div>
                     </div>
@@ -4865,13 +4887,13 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     <div class="guide-step">
                         <span class="step-number">5</span>
                         <div class="step-content">
-                            <h4>Klaim Reward</h4>
-                            <p>Buka <strong>"Dasbor"</strong> dan klik <strong>"Klaim ROI"</strong> atau
-                                <strong>"Klaim Referral"</strong>.
+                            <h4>Claim Rewards</h4>
+                            <p>Go to <strong>"Dashboard"</strong> and click <strong>"Claim ROI"</strong> or
+                                <strong>"Claim Referral"</strong>.
                             </p>
                             <button class="step-action" onclick="showTab('dashboard')"
                                 style="font-size:9px;padding:3px 10px;min-height:22px;">
-                                <i class="fa-solid fa-arrow-right"></i> Dasbor
+                                <i class="fa-solid fa-arrow-right"></i> Dashboard
                             </button>
                         </div>
                     </div>
@@ -4881,62 +4903,57 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 <div
                     style="margin-top:10px;padding:10px 12px;background:rgba(0,212,255,0.04);border-radius:var(--radius);border:1px solid rgba(0,212,255,0.06);">
                     <h4 style="font-size:12px;color:var(--cyan);margin-bottom:4px;"><i
-                            class="fa-solid fa-lightbulb"></i> Tips Pro</h4>
+                            class="fa-solid fa-lightbulb"></i> Pro Tips</h4>
                     <ul style="font-size:10px;color:var(--text2);padding-left:16px;line-height:1.6;">
-                        <li><strong>Klaim secara teratur</strong> — ROI terakumulasi setiap detik</li>
-                        <li><strong>Bangun jaringan Anda</strong> — bagikan tautan referral untuk mendapatkan dari 10
-                            tingkat</li>
-                        <li><strong>Periksa kemajuan batas</strong> — setelah 200% tercapai, hanya Bonus Pemimpin yang
-                            berlanjut</li>
-                        <li><strong>Simpan BNB untuk gas</strong> — Anda memerlukan BNB untuk setiap transaksi</li>
+                        <li><strong>Claim regularly</strong> — ROI accumulates every second</li>
+                        <li><strong>Build your network</strong> — share referral link to earn from 10 levels</li>
+                        <li><strong>Check cap progress</strong> — once 200% reached, only Leader Bonus continues</li>
+                        <li><strong>Keep BNB for gas</strong> — you need BNB for every transaction</li>
                     </ul>
                 </div>
 
                 <!-- FAQ -->
                 <details class="faq" style="margin-top:10px;">
-                    <summary>📌 Apa itu Megah Staking?</summary>
+                    <summary>📌 What is Megah Staking?</summary>
                     <div>
-                        <p><strong>Megah Staking</strong> adalah program staking terdesentralisasi untuk token
-                            <strong>$MEGAH</strong> di <strong>BNB Smart Chain</strong>.
-                        </p>
+                        <p><strong>Megah Staking</strong> is a decentralized staking program for <strong>$MEGAH</strong>
+                            tokens on <strong>BNB Smart Chain</strong>.</p>
                         <ul>
-                            <li>💰 ROI Harian — dihitung per detik</li>
-                            <li>🔗 Sistem Referral 10 Tingkat</li>
-                            <li>👑 Bonus Pemimpin</li>
-                            <li>🛡️ Batas Maks 200%</li>
+                            <li>💰 Daily ROI — calculated per second</li>
+                            <li>🔗 10-Level Referral System</li>
+                            <li>👑 Leader Bonus</li>
+                            <li>🛡️ 200% Max Cap</li>
                         </ul>
                     </div>
                 </details>
 
                 <details class="faq">
-                    <summary>💰 Berapa Banyak yang Bisa Saya Dapatkan?</summary>
+                    <summary>💰 How Much Can I Earn?</summary>
                     <div>
-                        <p><strong>ROI Harian:</strong> (Jumlah Staking × DailyROI_BPS) / 10000</p>
-                        <p><strong>Bonus Referral:</strong> Dapatkan dari semua 10 tingkat ketika downline mengklaim ROI
-                        </p>
-                        <p><strong>Bonus Pemimpin:</strong> Bonus ekstra untuk pemimpin terdaftar (dibebaskan dari
-                            Batas)</p>
+                        <p><strong>Daily ROI:</strong> (Staked Amount × DailyROI_BPS) / 10000</p>
+                        <p><strong>Referral Bonus:</strong> Earn from all 10 levels when downlines claim ROI</p>
+                        <p><strong>Leader Bonus:</strong> Extra bonus for registered leaders (exempt from Cap)</p>
                     </div>
                 </details>
 
                 <details class="faq">
-                    <summary>🔗 Bagaimana Cara Kerja Referral?</summary>
+                    <summary>🔗 How Does Referral Work?</summary>
                     <div>
-                        <p>✅ <strong>SEMUA ORANG</strong> dengan staking aktif mendapatkan <strong>Bonus Referral 10
-                                Tingkat</strong> dari jaringan referral mereka!</p>
-                        <p>✅ <strong>TIDAK</strong> diperlukan status khusus — ini otomatis!</p>
-                        <p>Persyaratan: Staking aktif, belum mencapai Batas Maks, downline Anda mengklaim ROI.</p>
+                        <p>✅ <strong>EVERYONE</strong> with active staking earns <strong>10-Level Referral
+                                Bonuses</strong> from their referral network!</p>
+                        <p>✅ <strong>NO</strong> special status required — it's automatic!</p>
+                        <p>Requirements: Active staking, not reached Max Cap, your downline claims ROI.</p>
                     </div>
                 </details>
 
                 <details class="faq">
-                    <summary>🛡️ Apa itu Batas Maks 200%?</summary>
+                    <summary>🛡️ What is 200% Max Cap?</summary>
                     <div>
-                        <p><strong>Batas Maks = Jumlah Staking × 2</strong></p>
+                        <p><strong>Max Cap = Staked Amount × 2</strong></p>
                         <ul>
-                            <li>Contoh: Staking 100 $MEGAH → Batas Maks = 200 $MEGAH</li>
-                            <li>Setelah tercapai, tidak ada lagi ROI atau bonus referral</li>
-                            <li>Bonus Pemimpin berlanjut (dibebaskan dari Batas)</li>
+                            <li>Example: Stake 100 $MEGAH → Max Cap = 200 $MEGAH</li>
+                            <li>Once reached, no further ROI or referral bonuses</li>
+                            <li>Leader Bonus continues (exempt from Cap)</li>
                         </ul>
                     </div>
                 </details>
@@ -4944,14 +4961,11 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 <details class="faq">
                     <summary>❓ FAQ</summary>
                     <div>
-                        <p><strong>Bisakah saya mendapatkan bonus referral?</strong> ✅ Ya! Siapa pun dengan staking
-                            aktif mendapatkan Bonus Referral 10 Tingkat.</p>
-                        <p><strong>Apakah saya perlu menjadi Pemimpin?</strong> ❌ Tidak! Bonus referral untuk semua
-                            orang.</p>
-                        <p><strong>Bisakah saya menarik staking?</strong> ❌ TIDAK. MEGAH yang di-staking terkunci secara
-                            permanen.</p>
-                        <p><strong>Kapan saya bisa klaim?</strong> ⏰ Kapan saja! Selama Anda memiliki reward tertunda.
-                        </p>
+                        <p><strong>Can I earn referral bonuses?</strong> ✅ Yes! Anyone with active staking earns
+                            10-Level Referral Bonuses.</p>
+                        <p><strong>Do I need to be a Leader?</strong> ❌ No! Referral bonuses are for everyone.</p>
+                        <p><strong>Can I unstake?</strong> ❌ NO. Staked MEGAH is permanently locked.</p>
+                        <p><strong>When can I claim?</strong> ⏰ Anytime! As long as you have pending rewards.</p>
                     </div>
                 </details>
             </div>
@@ -4961,47 +4975,48 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
         SECTION: DISCLAIMER
         ============================================================ -->
         <section id="disclaimer" class="section">
+            <div class="notice danger"><i class="fa-solid fa-triangle-exclamation"></i> Staking involves smart-contract,
+                market, liquidity, network, and transaction risks. Never share your seed phrase or private key. Verify
+                the contract and transaction details in your wallet before signing.</div>
+
             <div class="panel">
                 <div class="panel-title-row">
-                    <h2><i class="fa-solid fa-triangle-exclamation"></i> Penafian</h2>
-                    <span class="badge red">Peringatan Risiko</span>
+                    <h2><i class="fa-solid fa-triangle-exclamation"></i> Disclaimer</h2>
+                    <span class="badge red">Risk Warning</span>
                 </div>
                 <div class="legal-content">
                     <div class="notice danger" style="margin-bottom:12px;font-size:11px;">
                         <i class="fa-solid fa-triangle-exclamation"></i>&nbsp;
-                        <strong style="color:#ff8c9c;">PENAFIAN RISIKO KRITIS</strong>
+                        <strong style="color:#ff8c9c;">CRITICAL RISK DISCLAIMER</strong>
                         <br><br>
-                        <span>Dengan menggunakan platform ini, Anda mengakui dan menerima risiko berikut.</span>
+                        <span>By using this platform, you acknowledge and accept the following risks.</span>
                     </div>
 
-                    <h2>1. Bukan Nasihat Keuangan</h2>
-                    <p>Semua informasi yang diberikan hanya untuk <strong>tujuan pendidikan dan informasi</strong>.</p>
+                    <h2>1. No Financial Advice</h2>
+                    <p>All information provided is for <strong>educational and informational purposes only</strong>.</p>
 
-                    <h2>2. Investasi Berisiko Tinggi</h2>
-                    <p>Staking dan investasi cryptocurrency adalah <strong>aktivitas berisiko tinggi</strong>.</p>
+                    <h2>2. High-Risk Investment</h2>
+                    <p>Staking and cryptocurrency investments are <strong>high-risk activities</strong>.</p>
 
-                    <h2>3. Penguncian Token Permanen</h2>
-                    <p><strong>Token MEGAH yang di-staking TIDAK DAPAT ditarik kembali</strong>. Hanya reward yang dapat
-                        diklaim.</p>
+                    <h2>3. Permanent Token Locking</h2>
+                    <p><strong>Staked MEGAH tokens CANNOT be withdrawn</strong>. Only rewards can be claimed.</p>
 
-                    <h2>4. Risiko Smart Contract</h2>
-                    <p>Meskipun telah diaudit, <strong>tidak ada smart contract yang sepenuhnya bebas risiko</strong>.
-                    </p>
+                    <h2>4. Smart Contract Risk</h2>
+                    <p>While audited, <strong>no smart contract is completely risk-free</strong>.</p>
 
-                    <h2>5. Biaya Jaringan &amp; Gas</h2>
-                    <p>Semua transaksi memerlukan <strong>BNB</strong> untuk biaya gas.</p>
+                    <h2>5. Network &amp; Gas Fees</h2>
+                    <p>All transactions require <strong>BNB</strong> for gas fees.</p>
 
-                    <h2>6. Tidak Ada Jaminan Pengembalian</h2>
-                    <p><strong>Kinerja masa lalu tidak menjamin hasil di masa depan</strong>.</p>
+                    <h2>6. No Guaranteed Returns</h2>
+                    <p><strong>Past performance does not guarantee future results</strong>.</p>
 
-                    <h2>7. Tanpa Tanggung Jawab</h2>
-                    <p>Pengembang dan afiliasi <strong>tidak bertanggung jawab</strong> atas kerugian apa pun.</p>
+                    <h2>7. No Liability</h2>
+                    <p>The developers and affiliates are <strong>not liable</strong> for any losses.</p>
 
                     <div class="highlight-box" style="margin-top:12px;">
                         <p style="margin:0;font-weight:700;color:var(--text);font-size:12px;">
                             <i class="fa-solid fa-circle-check" style="color:var(--green);"></i>
-                            Dengan menggunakan platform ini, Anda mengakui bahwa Anda telah membaca dan menerima semua
-                            risiko.
+                            By using this platform, you acknowledge that you have read and accepted all risks.
                         </p>
                     </div>
                 </div>
@@ -5014,50 +5029,50 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
         <section id="terms" class="section">
             <div class="panel">
                 <div class="panel-title-row">
-                    <h2><i class="fa-solid fa-scale-balanced"></i> Syarat &amp; Ketentuan</h2>
-                    <span class="badge">Hukum</span>
+                    <h2><i class="fa-solid fa-scale-balanced"></i> Terms &amp; Conditions</h2>
+                    <span class="badge">Legal</span>
                 </div>
                 <div class="legal-content">
                     <div class="notice info" style="margin-bottom:12px;font-size:11px;">
                         <i class="fa-solid fa-gavel"></i>&nbsp;
-                        <strong>Terakhir Diperbarui: Agustus 2026</strong>
+                        <strong>Last Updated: August 2026</strong>
                     </div>
 
-                    <h2>1. Penerimaan Syarat</h2>
-                    <p>Dengan menggunakan platform MEGAH Staking, Anda menyetujui Syarat &amp; Ketentuan ini.</p>
+                    <h2>1. Acceptance of Terms</h2>
+                    <p>By using the MEGAH Staking platform, you agree to these Terms &amp; Conditions.</p>
 
-                    <h2>2. Kelayakan</h2>
-                    <p>Anda harus berusia minimal 18 tahun dan memiliki kapasitas hukum untuk menyetujui syarat ini.</p>
+                    <h2>2. Eligibility</h2>
+                    <p>You must be at least 18 years old and have the legal capacity to enter into these terms.</p>
 
-                    <h2>3. Penggunaan Platform</h2>
+                    <h2>3. Platform Use</h2>
                     <ul>
-                        <li>Platform menyediakan antarmuka pengguna untuk berinteraksi dengan smart contract MEGAH
-                            Staking.</li>
-                        <li>Semua transaksi dieksekusi on-chain melalui dompet Web3 Anda.</li>
-                        <li>Platform tidak menyimpan kunci pribadi atau data pribadi Anda.</li>
+                        <li>The Platform provides a user interface for interacting with the MEGAH Staking smart
+                            contract.
+                        </li>
+                        <li>All transactions are executed on-chain via your Web3 wallet.</li>
+                        <li>The Platform does not store your private keys or personal data.</li>
                     </ul>
 
                     <h2>4. Smart Contract</h2>
                     <ul>
-                        <li>Smart contract Megah Staking diterapkan di BNB Smart Chain.</li>
-                        <li>Semua transaksi staking dan reward diatur oleh kode kontrak.</li>
+                        <li>The Megah Staking smart contract is deployed on BNB Smart Chain.</li>
+                        <li>All staking and reward transactions are governed by the contract code.</li>
                     </ul>
 
-                    <h2>5. Staking &amp; Reward</h2>
+                    <h2>5. Staking &amp; Rewards</h2>
                     <ul>
-                        <li>Token yang di-staking <strong>terkunci secara permanen</strong>.</li>
-                        <li>Reward didistribusikan sesuai dengan aturan kontrak.</li>
-                        <li>Pool reward terbatas dan dapat habis.</li>
+                        <li>Staked tokens are <strong>permanently locked</strong>.</li>
+                        <li>Rewards are distributed according to the contract rules.</li>
+                        <li>The reward pool is limited and may be exhausted.</li>
                     </ul>
 
-                    <h2>6. Batasan Tanggung Jawab</h2>
-                    <p><strong>Platform disediakan "apa adanya" tanpa jaminan apa pun.</strong></p>
+                    <h2>6. Limitation of Liability</h2>
+                    <p><strong>The Platform is provided "as is" without any warranties.</strong></p>
 
                     <div class="highlight-box" style="margin-top:12px;">
                         <p style="margin:0;font-weight:700;color:var(--text);font-size:12px;">
                             <i class="fa-solid fa-circle-check" style="color:var(--green);"></i>
-                            Dengan menggunakan Platform, Anda mengakui bahwa Anda telah membaca dan menyetujui Syarat
-                            ini.
+                            By using the Platform, you acknowledge that you have read and agree to these Terms.
                         </p>
                     </div>
                 </div>
@@ -5068,107 +5083,108 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
         SECTION: OWNER
         ============================================================ -->
         <section id="owner" class="section">
-            <div id="ownerWarning" class="notice danger" style="font-size:11px;">Panel pemilik terbatas untuk pemilik
-                kontrak.</div>
+            <div id="ownerWarning" class="notice danger" style="font-size:11px;">Owner panel is restricted to the
+                contract owner.</div>
             <div style="height:10px"></div>
             <div class="cols">
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Pengaturan Kontrak</h2><span class="badge red">Hanya Pemilik</span>
+                        <h2>Contract Settings</h2><span class="badge red">Owner only</span>
                     </div>
                     <div class="form">
-                        <div><label class="label">Staking Minimum ($MEGAH)</label><input id="oMinStake"
+                        <div><label class="label">Minimum Stake ($MEGAH)</label><input id="oMinStake"
                                 inputmode="decimal" style="font-size:12px;padding:6px 10px;"></div>
-                        <button id="setMinStake" style="font-size:10px;padding:5px 12px;min-height:28px;">Perbarui
-                            Staking Minimum</button>
-                        <div><label class="label">ROI Harian (BPS)</label><input id="oRoi" inputmode="numeric"
+                        <button id="setMinStake" style="font-size:10px;padding:5px 12px;min-height:28px;">Update Minimum
+                            Stake</button>
+                        <div><label class="label">Daily ROI (BPS)</label><input id="oRoi" inputmode="numeric"
                                 style="font-size:12px;padding:6px 10px;"></div>
-                        <button id="setRoi" style="font-size:10px;padding:5px 12px;min-height:28px;">Perbarui ROI
-                            Harian</button>
-                        <div><label class="label">Bonus Pemimpin (BPS)</label><input id="oLeaderBps" inputmode="numeric"
+                        <button id="setRoi" style="font-size:10px;padding:5px 12px;min-height:28px;">Update Daily
+                            ROI</button>
+                        <div><label class="label">Leader Bonus (BPS)</label><input id="oLeaderBps" inputmode="numeric"
                                 style="font-size:12px;padding:6px 10px;"></div>
-                        <button id="setLeaderBps" style="font-size:10px;padding:5px 12px;min-height:28px;">Perbarui
-                            Bonus Pemimpin</button>
+                        <button id="setLeaderBps" style="font-size:10px;padding:5px 12px;min-height:28px;">Update Leader
+                            Bonus</button>
                     </div>
                 </div>
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Referral 10 Tingkat</h2><span class="badge red">Hanya Pemilik</span>
+                        <h2>10-Level Referral</h2><span class="badge red">Owner only</span>
                     </div>
                     <div id="levelInputs" class="form"></div>
                     <button id="setLevels"
-                        style="margin-top:8px;font-size:10px;padding:5px 12px;min-height:28px;">Perbarui Semua 10
-                        Tingkat</button>
+                        style="margin-top:8px;font-size:10px;padding:5px 12px;min-height:28px;">Update All 10
+                        Levels</button>
                 </div>
             </div>
             <div class="cols" style="margin-top:12px">
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Manajemen Pemimpin</h2><span class="badge red">Hanya Pemilik</span>
+                        <h2>Leader Management</h2><span class="badge red">Owner only</span>
                     </div>
                     <div class="form">
-                        <input id="leaderAddress" placeholder="Alamat pemimpin 0x..."
+                        <input id="leaderAddress" placeholder="Leader wallet 0x..."
                             style="font-size:12px;padding:6px 10px;">
                         <select id="leaderStatus" style="font-size:12px;padding:6px 10px;">
-                            <option value="true">Daftar / Aktifkan</option>
-                            <option value="false">Cabut / Nonaktifkan</option>
+                            <option value="true">Register / Activate</option>
+                            <option value="false">Revoke / Deactivate</option>
                         </select>
                         <button id="setLeader" class="primary"
-                            style="font-size:10px;padding:5px 12px;min-height:28px;">Perbarui Pemimpin</button>
+                            style="font-size:10px;padding:5px 12px;min-height:28px;">Update Leader</button>
                     </div>
                 </div>
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Staking Admin</h2><span class="badge red">Hanya Pemilik</span>
+                        <h2>Admin Stake</h2><span class="badge red">Owner only</span>
                     </div>
                     <div class="form">
-                        <input id="adminUser" placeholder="Alamat pengguna 0x..."
+                        <input id="adminUser" placeholder="User wallet 0x..." style="font-size:12px;padding:6px 10px;">
+                        <input id="adminAmount" inputmode="decimal" placeholder="MEGAH amount"
                             style="font-size:12px;padding:6px 10px;">
-                        <input id="adminAmount" inputmode="decimal" placeholder="Jumlah MEGAH"
-                            style="font-size:12px;padding:6px 10px;">
-                        <input id="adminReferrer" placeholder="Pemberi referral opsional 0x..."
+                        <input id="adminReferrer" placeholder="Optional referrer 0x..."
                             style="font-size:12px;padding:6px 10px;">
                         <button id="adminStake" class="primary"
-                            style="font-size:10px;padding:5px 12px;min-height:28px;">Staking Admin</button>
-                        <div class="notice danger small" style="font-size:9px;">Ini memanggil fungsi adminStake().</div>
+                            style="font-size:10px;padding:5px 12px;min-height:28px;">Admin Stake</button>
+                        <div class="notice danger small" style="font-size:9px;">This calls the adminStake() function.
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="panel" style="margin-top:12px">
                 <div class="panel-title-row">
-                    <h2>Pulihkan ERC-20</h2><span class="badge red">Hanya Pemilik</span>
+                    <h2>Recover ERC-20</h2><span class="badge red">Owner only</span>
                 </div>
                 <div class="form">
                     <div class="row">
-                        <input id="recoverToken" placeholder="Alamat token ERC-20"
+                        <input id="recoverToken" placeholder="ERC-20 token address"
                             style="font-size:12px;padding:6px 10px;">
-                        <input id="recoverAmount" inputmode="decimal" placeholder="Jumlah token"
+                        <input id="recoverAmount" inputmode="decimal" placeholder="Token amount"
                             style="font-size:12px;padding:6px 10px;">
                     </div>
                     <button id="recoverBtn" class="danger"
-                        style="font-size:10px;padding:5px 12px;min-height:28px;">Pulihkan ERC-20 ke Pemilik</button>
-                    <div class="notice danger small" style="font-size:9px;">Ini memanggil fungsi recoverERC20().</div>
+                        style="font-size:10px;padding:5px 12px;min-height:28px;">Recover ERC-20 to Owner</button>
+                    <div class="notice danger small" style="font-size:9px;">This calls the recoverERC20() function.
+                    </div>
                 </div>
             </div>
             <div class="cols" style="margin-top:12px">
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Manajemen Kepemilikan</h2><span class="badge red">Hanya Pemilik</span>
+                        <h2>Ownership Management</h2><span class="badge red">Owner only</span>
                     </div>
                     <div class="form">
                         <div
                             style="border:1px solid rgba(255,83,107,0.2);border-radius:var(--radius);padding:8px 10px;background:rgba(255,83,107,0.05);">
-                            <label class="label" style="color:var(--red);font-size:10px;">⚠️ Perhatian! Tindakan ini
-                                tidak dapat dibatalkan.</label>
+                            <label class="label" style="color:var(--red);font-size:10px;">⚠️ Caution! This action cannot
+                                be undone.</label>
                         </div>
                         <button id="renounceOwnershipBtn"
                             style="background:#dc2626 !important;box-shadow:0 3px 0 #991b1b !important;border-bottom:2px solid #991b1b !important;font-size:10px;padding:5px 12px;min-height:28px;">
-                            <i class="fa-solid fa-skull"></i>&nbsp; Tinggalkan Kepemilikan
+                            <i class="fa-solid fa-skull"></i>&nbsp; Renounce Ownership
                         </button>
                         <div style="display:grid;grid-template-columns:1fr auto;gap:6px;align-items:end;">
                             <div>
-                                <label class="label">Alamat Pemilik Baru</label>
-                                <input id="transferOwnerAddress" placeholder="0x... (alamat baru)"
+                                <label class="label">New Owner Address</label>
+                                <input id="transferOwnerAddress" placeholder="0x... (new address)"
                                     style="font-size:12px;padding:6px 10px;">
                             </div>
                             <button id="transferOwnershipBtn"
@@ -5183,20 +5199,20 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
         <!-- FOOTER -->
         <footer class="footer">
             <div class="footer-links">
-                <a href="https://megahcrypto.com/buy/" target="_blank" rel="nofollow">
-                    <i class="fa-solid fa-cart-plus"></i> Beli MEGAH
+                <a href="https://megahcrypto.github.io/buy/" target="_blank" rel="nofollow">
+                    <i class="fa-solid fa-cart-plus"></i> Buy MEGAH
                 </a>
                 <a href="javascript:void(0)" onclick="showTab('about')">
-                    <i class="fa-brands fa-readme"></i> Tentang
+                    <i class="fa-brands fa-readme"></i> About
                 </a>
                 <a href="javascript:void(0)" onclick="showTab('guide')">
-                    <i class="fa-brands fa-readme"></i> Panduan
+                    <i class="fa-brands fa-readme"></i> Guide
                 </a>
                 <a href="javascript:void(0)" onclick="showTab('disclaimer')">
-                    <i class="fa-solid fa-triangle-exclamation"></i> Penafian
+                    <i class="fa-solid fa-triangle-exclamation"></i> Disclaimer
                 </a>
                 <a href="javascript:void(0)" onclick="showTab('terms')">
-                    <i class="fa-solid fa-scale-balanced"></i> Syarat
+                    <i class="fa-solid fa-scale-balanced"></i> Terms
                 </a>
             </div>
             <div class="footer-note">© 2026 Megah Crypto • BNB Smart Chain</div>
@@ -5211,13 +5227,13 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
         <div class="popup-box">
             <div class="popup-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
             <div class="popup-content">
-                <h3>PENAFIAN</h3>
-                <p>Staking adalah aktivitas berisiko tinggi. Nilai aset crypto dapat berfluktuasi secara signifikan.
-                    Pastikan Anda memahami risiko yang terlibat sebelum melakukan staking. Platform ini tidak menjamin
-                    keuntungan dan tidak bertanggung jawab atas potensi kerugian. Selalu lakukan riset sendiri
-                    (<strong>DYOR</strong>) dan gunakan <b>$MEGAH</b> yang Anda rela kehilangan.</p>
-                <button id="disclaimerAccept" class="popup-btn"><i class="fa-solid fa-check"></i> Klik Jika Anda
-                    Memahami</button>
+                <h3>DISCLAIMER</h3>
+                <p>Staking is a high-risk activity. The value of crypto assets can fluctuate significantly. Make sure
+                    you understand the risks involved before staking. This platform does not guarantee profits and is
+                    not responsible for any potential losses. Always do your own research (<strong>DYOR</strong>) and
+                    only use <b>$MEGAH</b> that you are willing to lose.</p>
+                <button id="disclaimerAccept" class="popup-btn"><i class="fa-solid fa-check"></i> Click If You
+                    Understand</button>
             </div>
         </div>
     </div>
@@ -5228,7 +5244,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
     <div id="notifyOverlay" class="notify-overlay">
         <div id="notifyBox" class="notify-box info">
             <div id="notifyIcon" class="notify-icon">ℹ</div>
-            <div id="notifyTitle" class="notify-title">Notifikasi</div>
+            <div id="notifyTitle" class="notify-title">Notification</div>
             <div id="notifyMessage" class="notify-message"></div>
             <button id="notifyClose" class="notify-action">OK</button>
         </div>
@@ -5380,7 +5396,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 try {
                     const n = Number(ts);
                     if (!n) return '—';
-                    return new Intl.DateTimeFormat('id-ID', {
+                    return new Intl.DateTimeFormat('en-US', {
                         dateStyle: 'medium',
                         timeStyle: 'medium'
                     }).format(new Date(n * 1000));
@@ -5415,37 +5431,37 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
             function validateAmountInput(value) {
                 const cleaned = value.replace(/,/g, '.');
                 if (!/^\d*\.?\d*$/.test(cleaned)) {
-                    return { valid: false, message: 'Hanya angka dan desimal yang diperbolehkan.' };
+                    return { valid: false, message: 'Only numbers and decimals are allowed.' };
                 }
                 const num = parseFloat(cleaned);
                 if (isNaN(num) || num <= 0) {
-                    return { valid: false, message: 'Harap masukkan jumlah yang valid (lebih dari 0).' };
+                    return { valid: false, message: 'Please enter a valid amount (greater than 0).' };
                 }
                 return { valid: true, value: cleaned, num };
             }
 
             function cleanError(e) {
-                if (!e) return 'Terjadi kesalahan yang tidak diketahui.';
+                if (!e) return 'An unknown error occurred.';
                 if (e?.code === 'ACTION_REJECTED' || e?.info?.error?.code === 4001) {
-                    return 'Transaksi ditolak di dompet Anda.';
+                    return 'Transaction was rejected in your wallet.';
                 }
                 if (/insufficient funds/i.test(e.message || '')) {
-                    return 'BNB untuk gas atau saldo MEGAH tidak mencukupi.';
+                    return 'Insufficient BNB for gas or MEGAH balance.';
                 }
                 if (/transfer amount exceeds balance|exceeds allowance|insufficient balance/i.test(e.message || '')) {
-                    return 'Saldo MEGAH tidak mencukupi untuk transaksi ini.';
+                    return 'Insufficient MEGAH balance for this transaction.';
                 }
                 if (/allowance insufficient|insufficient allowance/i.test(e.message || '')) {
-                    return 'Persetujuan MEGAH tidak mencukupi. Silakan setujui terlebih dahulu.';
+                    return 'Insufficient MEGAH allowance. Please approve first.';
                 }
                 if (/below minimum|min stake/i.test(e.message || '')) {
-                    return 'Jumlah staking di bawah minimum yang disyaratkan oleh kontrak.';
+                    return 'Stake amount is below the minimum required by the contract.';
                 }
                 if (/max cap|maximum cap|cap reached/i.test(e.message || '')) {
-                    return 'Anda telah mencapai Batas Maksimum. Tidak dapat melakukan staking atau klaim lebih lanjut.';
+                    return 'You have reached the Maximum Cap. Cannot stake or claim further.';
                 }
                 if (/network|timeout|ETIMEDOUT|connection|fetch/i.test(e.message || '')) {
-                    return 'Masalah koneksi jaringan. Silakan periksa internet Anda dan coba lagi.';
+                    return 'Network connection issue. Please check your internet and try again.';
                 }
                 const msg = e.shortMessage || e.reason || e.message || String(e);
                 return msg.replace(/^execution reverted:\s*/i, '').slice(0, 400);
@@ -5453,7 +5469,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
 
             let notifyTimer = null;
 
-            function notify(message, type = 'info', title = 'Notifikasi', duration = 4500) {
+            function notify(message, type = 'info', title = 'Notification', duration = 4500) {
                 const overlay = $('notifyOverlay');
                 const box = $('notifyBox');
                 const icon = $('notifyIcon');
@@ -5487,7 +5503,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 if (loading) {
                     btn._originalText = btn.innerHTML;
                     btn.disabled = true;
-                    btn.innerHTML = `<span class="spinner-small"></span>&nbsp;${text || 'Memproses...'}`;
+                    btn.innerHTML = `<span class="spinner-small"></span>&nbsp;${text || 'Processing...'}`;
                 } else {
                     btn.disabled = false;
                     if (btn._originalText) {
@@ -5515,7 +5531,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 if (!el) return;
                 if (show && amount) {
                     el.style.display = 'block';
-                    el.textContent = `⛽ Perkiraan gas: ~${amount} BNB`;
+                    el.textContent = `⛽ Estimated gas: ~${amount} BNB`;
                 } else {
                     el.style.display = 'none';
                 }
@@ -5542,7 +5558,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     await new Promise(r => setTimeout(r, CONFIG.retryDelay * (retries + 1)));
                     return getProviderWithFallback(retries + 1);
                 }
-                throw new Error('Semua RPC node gagal. Silakan coba lagi nanti.');
+                throw new Error('All RPC nodes failed. Please try again later.');
             }
 
             function setWalletState(state, text) {
@@ -5563,16 +5579,16 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 placeholders.forEach(id => {
                     const el = $(id);
                     if (el) {
-                        if (id === 'allowanceText') el.textContent = 'Persetujuan: —';
-                        else if (id === 'bnbBalanceText') el.textContent = 'Saldo BNB: —';
-                        else if (id === 'balanceStakeText') el.textContent = 'Saldo MEGAH: —';
+                        if (id === 'allowanceText') el.textContent = 'Allowance: —';
+                        else if (id === 'bnbBalanceText') el.textContent = 'BNB Balance: —';
+                        else if (id === 'balanceStakeText') el.textContent = 'MEGAH Balance: —';
                         else el.textContent = '—';
                     }
                 });
-                $('positionStatus').textContent = 'Dompet belum terhubung';
+                $('positionStatus').textContent = 'Wallet not connected';
                 $('positionStatus').className = 'badge gray';
                 $('capProgress').style.width = '0%';
-                $('capText').textContent = 'Hubungkan dompet Anda untuk melihat posisi Anda.';
+                $('capText').textContent = 'Connect your wallet to view your position.';
                 $('claimRoiBtn').disabled = true;
                 $('claimReferralBtn').disabled = true;
                 $('approveBtn').disabled = true;
@@ -5581,7 +5597,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 document.querySelectorAll('.owner-tab').forEach(el => {
                     if (el) el.style.display = 'none';
                 });
-                $('ownerWarning').textContent = 'Panel pemilik terbatas untuk pemilik kontrak.';
+                $('ownerWarning').textContent = 'Owner panel is restricted to the contract owner.';
                 setStakeStatus('', 'info', false);
                 setGasEstimate(null, false);
             }
@@ -5602,7 +5618,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 cached.minStake = 0n;
                 cached.levels = [];
                 clearUserUI();
-                setWalletState('red', '<i class="fa-solid fa-plug"></i>&nbsp;Hubungkan Dompet');
+                setWalletState('red', '<i class="fa-solid fa-plug"></i>&nbsp;Connect Wallet');
                 clearInterval(refreshTimer);
                 clearInterval(liveTimer);
                 clearInterval(heartbeatTimer);
@@ -5638,10 +5654,10 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                         gt = null;
                         token = null;
                         clearUserUI();
-                        setWalletState('yellow', '<i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ganti Jaringan');
+                        setWalletState('yellow', '<i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Switch Network');
                         if (notifyWrongNetwork) {
-                            notify(`Dompet Anda berada di jaringan yang salah. Silakan ganti ke ${CONFIG.chainName}.`, 'warn',
-                                'Jaringan Salah', 0);
+                            notify(`Your wallet is on the wrong network. Please switch to ${CONFIG.chainName}.`, 'warn',
+                                'Wrong Network', 0);
                         }
                         return false;
                     }
@@ -5658,7 +5674,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 } catch (e) {
                     console.error('wallet sync', e);
                     if (e?.message?.includes('provider') || e?.code?.includes('NETWORK')) {
-                        console.warn('Kesalahan sementara, mempertahankan mode baca-saja');
+                        console.warn('Temporary error, maintaining read-only mode');
                         return false;
                     }
                     disconnectUI();
@@ -5679,13 +5695,13 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     const contract = new ethers.Contract(CONFIG.stakingContract, GT_ABI, localSigner);
                     const taddr = await contract.stakingToken();
                     if (taddr.toLowerCase() !== CONFIG.expectedToken.toLowerCase()) {
-                        throw new Error('Kontrak staking dikonfigurasi untuk token selain MEGAH.');
+                        throw new Error('Staking contract is configured for a token other than MEGAH.');
                     }
                     const erc20 = new ethers.Contract(CONFIG.expectedToken, ERC20_ABI, localSigner);
                     const decimals = Number(await erc20.decimals());
                     const symbol = await erc20.symbol();
                     if (symbol.toUpperCase() !== CONFIG.expectedSymbol) {
-                        throw new Error(`Token mengembalikan ${symbol}, diharapkan ${CONFIG.expectedSymbol}.`);
+                        throw new Error(`Token returned ${symbol}, expected ${CONFIG.expectedSymbol}.`);
                     }
                     if (generation !== connectionGeneration) return false;
                     browserProvider = localProvider;
@@ -5704,8 +5720,8 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                         if (el) el.style.display = isOwner ? 'flex' : 'none';
                     });
                     $('ownerWarning').textContent = isOwner ?
-                        '✅ Dompet yang terhubung adalah pemilik kontrak. Fungsi pemilik diaktifkan.' :
-                        'Panel pemilik terbatas untuk pemilik kontrak.';
+                        '✅ Connected wallet is the contract owner. Owner functions are enabled.' :
+                        'Owner panel is restricted to the contract owner.';
                     $('approveBtn').disabled = false;
                     $('stakeBtn').disabled = false;
                     $('maxBtn').disabled = false;
@@ -5716,9 +5732,9 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     console.error('bindWallet', e);
                     if (!e?.message?.includes('provider') && !e?.code?.includes('NETWORK')) {
                         disconnectUI();
-                        notify(cleanError(e), 'error', 'Kesalahan Dompet / Kontrak', 0);
+                        notify(cleanError(e), 'error', 'Wallet / Contract Error', 0);
                     } else {
-                        console.warn('Kesalahan sementara, mempertahankan mode baca-saja');
+                        console.warn('Temporary error, maintaining read-only mode');
                     }
                     return false;
                 }
@@ -5727,12 +5743,12 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
             async function connect() {
                 if (!window.ethereum) {
                     notify(
-                        'Tidak ada dompet EVM yang terdeteksi. Buka aplikasi ini di dompet browser EVM atau instal dompet yang kompatibel dengan EVM.',
-                        'error', 'Dompet Tidak Ditemukan', 0);
+                        'No EVM wallet detected. Open this app in an EVM browser wallet or install an EVM-compatible wallet.',
+                        'error', 'Wallet Not Found', 0);
                     return;
                 }
                 try {
-                    setWalletState('blue', '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp;Menghubungkan...');
+                    setWalletState('blue', '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp;Connecting...');
                     browserProvider = new ethers.BrowserProvider(window.ethereum, 'any');
                     const net = await browserProvider.getNetwork();
                     if (Number(net.chainId) !== CONFIG.chainId) {
@@ -5742,18 +5758,18 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     await browserProvider.send('eth_requestAccounts', []);
                     await syncWalletState(false);
                     if (!account) {
-                        notify('Koneksi dompet gagal.', 'error', 'Koneksi Gagal', 0);
+                        notify('Wallet connection failed.', 'error', 'Connection Failed', 0);
                     }
                 } catch (e) {
                     console.error(e);
                     disconnectUI();
-                    notify(cleanError(e), 'error', 'Koneksi Dompet', 0);
+                    notify(cleanError(e), 'error', 'Wallet Connection', 0);
                 }
             }
 
             async function addNetwork() {
                 try {
-                    setWalletState('yellow', '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp;Mengganti...');
+                    setWalletState('yellow', '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp;Switching...');
                     await window.ethereum.request({
                         method: 'wallet_addEthereumChain',
                         params: [{
@@ -5767,20 +5783,20 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     await syncWalletState(false);
                 } catch (e) {
                     console.error(e);
-                    setWalletState('yellow', '<i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ganti Jaringan');
-                    notify(cleanError(e), 'warn', 'Ganti Jaringan', 0);
+                    setWalletState('yellow', '<i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Switch Network');
+                    notify(cleanError(e), 'warn', 'Switch Network', 0);
                 }
             }
 
             async function requireWallet() {
                 if (!window.ethereum) {
-                    notify('Tidak ada dompet EVM yang terdeteksi.', 'error', 'Dompet Diperlukan', 0);
+                    notify('No EVM wallet detected.', 'error', 'Wallet Required', 0);
                     return false;
                 }
                 const ok = await syncWalletState(true);
                 if (!ok) return false;
                 if (!gt || !token) {
-                    notify('Dompet terhubung tetapi kontrak staking tidak dapat diinisialisasi.', 'error', 'Kesalahan Kontrak', 0);
+                    notify('Wallet connected but staking contract could not be initialized.', 'error', 'Contract Error', 0);
                     return false;
                 }
                 return true;
@@ -5791,13 +5807,13 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 try {
                     const owner = await gt.owner();
                     if (owner.toLowerCase() !== account.toLowerCase()) {
-                        notify('Dompet yang terhubung bukan pemilik kontrak staking ini.', 'error', 'Akses Pemilik Ditolak',
+                        notify('Connected wallet is not the owner of this staking contract.', 'error', 'Owner Access Denied',
                             0);
                         return false;
                     }
                     return true;
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Verifikasi Pemilik Gagal', 0);
+                    notify(cleanError(e), 'error', 'Owner Verification Failed', 0);
                     return false;
                 }
             }
@@ -5806,18 +5822,18 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 readProvider = await getProviderWithFallback();
                 const code = await readProvider.getCode(CONFIG.stakingContract);
                 if (code === '0x') {
-                    throw new Error('Kontrak staking tidak ditemukan di BNB Smart Chain.');
+                    throw new Error('Staking contract not found on BNB Smart Chain.');
                 }
                 const reader = new ethers.Contract(CONFIG.stakingContract, GT_ABI, readProvider);
                 const taddr = await reader.stakingToken();
                 if (taddr.toLowerCase() !== CONFIG.expectedToken.toLowerCase()) {
-                    throw new Error('Kontrak staking dikonfigurasi untuk token yang berbeda.');
+                    throw new Error('Staking contract is configured for a different token.');
                 }
                 readToken = new ethers.Contract(CONFIG.expectedToken, ERC20_ABI, readProvider);
                 tokenDecimals = Number(await readToken.decimals());
                 tokenSymbol = await readToken.symbol();
                 if (tokenSymbol.toUpperCase() !== CONFIG.expectedSymbol) {
-                    throw new Error(`Diharapkan ${CONFIG.expectedSymbol}, tetapi token mengembalikan ${tokenSymbol}.`);
+                    throw new Error(`Expected ${CONFIG.expectedSymbol}, but token returned ${tokenSymbol}.`);
                 }
                 setupBlockListener();
                 await refresh();
@@ -5844,7 +5860,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                         const accounts = await window.ethereum?.request({ method: 'eth_accounts' });
                         if (!accounts?.length || accounts[0].toLowerCase() !== account.toLowerCase()) {
                             disconnectUI();
-                            notify('Dompet terputus.', 'warn', 'Terputus', 3000);
+                            notify('Wallet disconnected.', 'warn', 'Disconnected', 3000);
                         }
                     } catch { }
                 }, 10000);
@@ -5869,7 +5885,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 if (calcDisplay && levels.length > 0) {
                     calcDisplay.innerHTML = levels.map((b, i) => `L${i + 1}: ${fmtBps(BigInt(b))}`).join(' | ');
                 } else if (calcDisplay) {
-                    calcDisplay.textContent = 'Memuat data dari kontrak...';
+                    calcDisplay.textContent = 'Loading data from contract...';
                 }
                 levels.forEach((b, i) => {
                     const el = $(`lvl${i + 1}`);
@@ -5906,7 +5922,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     const contractDataTime = document.getElementById('contractDataTime');
                     if (contractDataTime) {
                         const now = new Date();
-                        contractDataTime.textContent = `Diperbarui: ${now.toLocaleTimeString('id-ID')}`;
+                        contractDataTime.textContent = `Updated: ${now.toLocaleTimeString('en-US')}`;
                     }
 
                     const calcRoiInput = document.getElementById('calcRoi');
@@ -5949,7 +5965,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                             }
                         }
                     } catch (poolError) {
-                        console.warn('Gagal membaca pool reward:', poolError);
+                        console.warn('Failed to read reward pool:', poolError);
                     }
                     $('minStake').textContent = `${fmt(min)} ${tokenSymbol}`;
                     $('dailyRoi').textContent = fmtBps(roi);
@@ -6023,7 +6039,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     cached.lastClaim = raw[4];
                     renderUser(info, up, leader, maxReached, balance, allowance, bnbBalance, raw);
                 } catch (e) {
-                    console.error('refresh pengguna on-chain', e);
+                    console.error('on-chain user refresh', e);
                 } finally {
                     isPolling = false;
                 }
@@ -6062,23 +6078,23 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 $('roiClaimAmount').textContent = `${fmt(roiPending)} ${tokenSymbol}`;
                 $('referralClaimAmount').textContent = `${fmt(referralPending)} ${tokenSymbol}`;
                 $('stakeMaxCap').textContent = `${fmt(info[1])} ${tokenSymbol}`;
-                const referrerDisplay = up && up !== ethers.ZeroAddress ? short(up) : 'Tidak ada';
+                const referrerDisplay = up && up !== ethers.ZeroAddress ? short(up) : 'None';
                 $('dReferrer').textContent = referrerDisplay;
                 $('dReferrer').title = up || '';
                 $('nReferrer').textContent = referrerDisplay;
                 $('nReferrer').title = up || '';
-                $('dLeader').textContent = leader ? 'Ya' : 'Tidak';
-                $('nLeader').textContent = leader ? 'Ya' : 'Tidak';
-                $('dCapStatus').textContent = maxReached ? 'Tercapai' : 'Belum Tercapai';
+                $('dLeader').textContent = leader ? 'Yes' : 'No';
+                $('nLeader').textContent = leader ? 'Yes' : 'No';
+                $('dCapStatus').textContent = maxReached ? 'Reached' : 'Not Reached';
                 $('dCapStatus').style.color = maxReached ? '#ff8c9c' : '#70dfbd';
-                $('positionStatus').textContent = 'Terhubung';
+                $('positionStatus').textContent = 'Connected';
                 $('positionStatus').className = 'badge green';
                 const pct = info[1] > 0n ? Number(info[2] * 10000n / info[1]) / 100 : 0;
                 $('capProgress').style.width = Math.min(100, pct) + '%';
-                $('capText').textContent = `${pct.toFixed(2)}% dari batas maksimum tercapai`;
-                $('allowanceText').textContent = `Persetujuan: ${fmt(allow)} ${tokenSymbol}`;
-                $('bnbBalanceText').textContent = `Saldo BNB: ${fmtNative(bnb)} BNB`;
-                $('balanceStakeText').textContent = `Saldo MEGAH: ${fmt(bal)} ${tokenSymbol}`;
+                $('capText').textContent = `${pct.toFixed(2)}% of maximum cap reached`;
+                $('allowanceText').textContent = `Allowance: ${fmt(allow)} ${tokenSymbol}`;
+                $('bnbBalanceText').textContent = `BNB Balance: ${fmtNative(bnb)} BNB`;
+                $('balanceStakeText').textContent = `MEGAH Balance: ${fmt(bal)} ${tokenSymbol}`;
             }
 
             function fillOwner(levels, min, roi, lb) {
@@ -6107,11 +6123,11 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
             async function sendTransaction(tx, label, buttonId = null, showGasEstimate = true) {
                 const myNonce = ++transactionNonce;
                 if (isProcessing) {
-                    notify('Transaksi sedang diproses.', 'warn', 'Memproses', 2000);
+                    notify('A transaction is already being processed.', 'warn', 'Processing', 2000);
                     return null;
                 }
                 isProcessing = true;
-                setStakeStatus(`⏳ ${label} dikirim. Menunggu konfirmasi blockchain...`, 'info', true);
+                setStakeStatus(`⏳ ${label} submitted. Waiting for blockchain confirmation...`, 'info', true);
                 if (buttonId) {
                     const btn = $(buttonId);
                     if (btn) {
@@ -6131,26 +6147,26 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                             const gasEl = $('gasEstimate');
                             if (gasEl) {
                                 gasEl.style.display = 'block';
-                                gasEl.textContent = `⛽ Perkiraan gas: ~${parseFloat(gasInBnb).toFixed(6)} BNB`;
+                                gasEl.textContent = `⛽ Estimated gas: ~${parseFloat(gasInBnb).toFixed(6)} BNB`;
                                 gasEl.className = 'small muted';
                                 gasEl.style.marginTop = '3px';
                             }
                         } catch (gasError) {
-                            console.warn('Perkiraan gas gagal:', gasError);
+                            console.warn('Gas estimation failed:', gasError);
                         }
                     }
                     const receipt = await tx.wait();
                     if (myNonce !== transactionNonce) {
                         return null;
                     }
-                    setStakeStatus(`✅ ${label} berhasil dikonfirmasi!`, 'ok', true);
+                    setStakeStatus(`✅ ${label} confirmed successfully!`, 'ok', true);
                     const gasEl = $('gasEstimate');
                     if (gasEl) {
                         setTimeout(() => {
                             gasEl.style.display = 'none';
                         }, 3000);
                     }
-                    notify(`${label} dikonfirmasi di BNB Smart Chain.\n${short(receipt.hash)}`, 'ok', 'Transaksi Berhasil',
+                    notify(`${label} confirmed on BNB Smart Chain.\n${short(receipt.hash)}`, 'ok', 'Transaction Successful',
                         5000);
                     clearCache();
                     await refresh();
@@ -6172,7 +6188,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     if (myNonce !== transactionNonce) {
                         return null;
                     }
-                    setStakeStatus(`❌ ${label} gagal: ${cleanError(e)}`, 'danger', true);
+                    setStakeStatus(`❌ ${label} failed: ${cleanError(e)}`, 'danger', true);
                     const gasEl = $('gasEstimate');
                     if (gasEl) gasEl.style.display = 'none';
                     if (buttonId) {
@@ -6197,14 +6213,14 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
             async function approve() {
                 if (!await requireWallet()) return;
                 if (isProcessing) {
-                    notify('Harap tunggu proses saat ini selesai.', 'warn', 'Memproses', 2000);
+                    notify('Please wait for the current process to finish.', 'warn', 'Processing', 2000);
                     return;
                 }
                 const amountInput = $('stakeAmount');
                 const amountRaw = amountInput.value.trim();
                 const validation = validateAmountInput(amountRaw);
                 if (!validation.valid) {
-                    notify(validation.message, 'warn', 'Kesalahan Input', 0);
+                    notify(validation.message, 'warn', 'Input Error', 0);
                     amountInput.classList.add('input-error');
                     setTimeout(() => amountInput.classList.remove('input-error'), 3000);
                     return;
@@ -6216,28 +6232,28 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     }
                     const currentAllowance = await token.allowance(account, CONFIG.stakingContract);
                     if (amount <= currentAllowance) {
-                        notify(`✅ Persetujuan sudah mencukupi (${fmt(currentAllowance)} MEGAH).`, 'info',
-                            'Persetujuan Cukup', 3000);
+                        notify(`✅ Allowance is already sufficient (${fmt(currentAllowance)} MEGAH).`, 'info',
+                            'Allowance Sufficient', 3000);
                         return;
                     }
                     const tx = await token.approve(CONFIG.stakingContract, amount);
-                    await sendTransaction(tx, 'Setujui MEGAH', 'approveBtn');
+                    await sendTransaction(tx, 'Approve MEGAH', 'approveBtn');
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Persetujuan Gagal', 0);
+                    notify(cleanError(e), 'error', 'Approval Failed', 0);
                 }
             }
 
             async function stake() {
                 if (!await requireWallet()) return;
                 if (isProcessing) {
-                    notify('Harap tunggu proses saat ini selesai.', 'warn', 'Memproses', 2000);
+                    notify('Please wait for the current process to finish.', 'warn', 'Processing', 2000);
                     return;
                 }
                 const amountInput = $('stakeAmount');
                 const amountRaw = amountInput.value.trim();
                 const validation = validateAmountInput(amountRaw);
                 if (!validation.valid) {
-                    notify(validation.message, 'warn', 'Kesalahan Input', 0);
+                    notify(validation.message, 'warn', 'Input Error', 0);
                     amountInput.classList.add('input-error');
                     setTimeout(() => amountInput.classList.remove('input-error'), 3000);
                     return;
@@ -6250,28 +6266,28 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     const allowance = await token.allowance(account, CONFIG.stakingContract);
                     if (allowance < amount) {
                         notify(
-                            `Persetujuan tidak mencukupi.\nPersetujuan: ${fmt(allowance)} MEGAH\nDiperlukan: ${fmt(amount)} MEGAH\n\nSilakan klik "Setujui MEGAH" terlebih dahulu.`,
-                            'warn', 'Persetujuan Tidak Cukup', 0);
+                            `Insufficient allowance.\nAllowance: ${fmt(allowance)} MEGAH\nRequired: ${fmt(amount)} MEGAH\n\nPlease click "Approve MEGAH" first.`,
+                            'warn', 'Insufficient Allowance', 0);
                         return;
                     }
                     let up = $('referrer').value.trim();
                     if (up) {
                         if (!validAddress(up)) {
-                            notify('Alamat pemberi referral tidak valid.', 'error', 'Kesalahan Input', 0);
+                            notify('Invalid referrer address.', 'error', 'Input Error', 0);
                             return;
                         }
                         if (up.toLowerCase() === account.toLowerCase()) {
-                            notify('Pemberi referral tidak boleh alamat Anda sendiri.', 'warn', 'Kesalahan Input', 0);
+                            notify('Referrer cannot be your own address.', 'warn', 'Input Error', 0);
                             return;
                         }
                     }
                     const tx = await gt.stake(amount, up || ethers.ZeroAddress);
-                    await sendTransaction(tx, 'Staking MEGAH', 'stakeBtn');
+                    await sendTransaction(tx, 'Stake MEGAH', 'stakeBtn');
                     amountInput.value = '';
                     clearCache();
                     await refresh();
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Staking Gagal', 0);
+                    notify(cleanError(e), 'error', 'Stake Failed', 0);
                 }
             }
 
@@ -6279,53 +6295,53 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 if (!await requireWallet()) return;
                 const tokenForRead = token || readToken;
                 if (!tokenForRead) {
-                    notify('Kontrak token tidak tersedia.', 'error', 'Kesalahan Token', 0);
+                    notify('Token contract not available.', 'error', 'Token Error', 0);
                     return;
                 }
                 try {
                     const balance = await tokenForRead.balanceOf(account);
                     $('stakeAmount').value = ethers.formatUnits(balance, tokenDecimals);
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Gagal Membaca Saldo', 0);
+                    notify(cleanError(e), 'error', 'Failed to Read Balance', 0);
                 }
             }
 
             async function validateStakeInput(amount) {
                 if (!account) {
-                    notify('Silakan hubungkan dompet Anda terlebih dahulu.', 'warn', 'Dompet Diperlukan', 0);
+                    notify('Please connect your wallet first.', 'warn', 'Wallet Required', 0);
                     return false;
                 }
                 if (amount <= 0n) {
-                    notify('Harap masukkan jumlah MEGAH yang valid (lebih dari 0).', 'warn', 'Kesalahan Input', 0);
+                    notify('Please enter a valid MEGAH amount (greater than 0).', 'warn', 'Input Error', 0);
                     return false;
                 }
                 const tokenForRead = token || readToken;
                 if (!tokenForRead) {
-                    notify('Kontrak token tidak tersedia. Silakan segarkan halaman.', 'error', 'Kesalahan Token', 0);
+                    notify('Token contract not available. Please refresh the page.', 'error', 'Token Error', 0);
                     return false;
                 }
                 try {
                     const balance = await tokenForRead.balanceOf(account);
                     if (amount > balance) {
                         notify(
-                            `❌ Saldo MEGAH Anda: ${fmt(balance)} MEGAH\nDiperlukan: ${fmt(amount)} MEGAH\n\nSilakan kurangi jumlah atau tambah MEGAH.`,
-                            'error', 'Saldo Tidak Cukup', 0);
+                            `❌ Your MEGAH balance: ${fmt(balance)} MEGAH\nRequired: ${fmt(amount)} MEGAH\n\nPlease reduce the amount or add more MEGAH.`,
+                            'error', 'Insufficient Balance', 0);
                         return false;
                     }
                 } catch (e) {
-                    notify('Gagal membaca saldo: ' + cleanError(e), 'error', 'Kesalahan Saldo', 0);
+                    notify('Failed to read balance: ' + cleanError(e), 'error', 'Balance Error', 0);
                     return false;
                 }
                 if (gt) {
                     try {
                         const min = await gt.minStake();
                         if (amount < min) {
-                            notify(`❌ Staking minimum: ${fmt(min)} MEGAH\nAnda memasukkan: ${fmt(amount)} MEGAH`, 'warn',
-                                'Di Bawah Minimum', 0);
+                            notify(`❌ Minimum stake: ${fmt(min)} MEGAH\nYou entered: ${fmt(amount)} MEGAH`, 'warn',
+                                'Below Minimum', 0);
                             return false;
                         }
                     } catch (e) {
-                        notify('Gagal membaca staking minimum: ' + cleanError(e), 'error', 'Kesalahan Kontrak', 0);
+                        notify('Failed to read minimum stake: ' + cleanError(e), 'error', 'Contract Error', 0);
                         return false;
                     }
                 }
@@ -6335,11 +6351,11 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
             async function claimRoi() {
                 if (!await requireWallet()) return;
                 if (isProcessing) {
-                    notify('Harap tunggu proses saat ini selesai.', 'warn', 'Memproses', 2000);
+                    notify('Please wait for the current process to finish.', 'warn', 'Processing', 2000);
                     return;
                 }
                 if (cached.pending <= 0n) {
-                    notify('Tidak ada ROI tertunda untuk diklaim.', 'info', 'Tidak Ada Reward', 3000);
+                    notify('No pending ROI to claim.', 'info', 'No Reward', 3000);
                     return;
                 }
                 const roiAmount = cached.pending;
@@ -6359,7 +6375,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                         setGasEstimate(ethers.formatEther(totalGas), true);
                     } catch { }
                     const tx = await gt.claimRoi();
-                    const receipt = await sendTransaction(tx, 'Klaim ROI', 'claimRoiBtn');
+                    const receipt = await sendTransaction(tx, 'Claim ROI', 'claimRoiBtn');
                     if (receipt) {
                         try {
                             const [newInfo, newReferral] = await Promise.all([
@@ -6372,7 +6388,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                             const referralDifference = newReferralPending - beforeReferral;
                             let bonusDetails = '';
                             if (referralDifference > 0n) {
-                                bonusDetails += `\n📤 Bonus Referral ditambahkan: +${fmt(referralDifference)} ${tokenSymbol}`;
+                                bonusDetails += `\n📤 Referral Bonus added: +${fmt(referralDifference)} ${tokenSymbol}`;
                             }
                             let referralTotal = 0n;
                             let leaderBonus = 0n;
@@ -6394,44 +6410,44 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                                     } catch { }
                                 }
                             }
-                            let detailMessage = `✅ ROI ${fmt(roiAmount)} ${tokenSymbol} berhasil diklaim.`;
+                            let detailMessage = `✅ ROI ${fmt(roiAmount)} ${tokenSymbol} successfully claimed.`;
                             if (referralTotal > 0n) {
                                 detailMessage +=
-                                    `\n📊 Bonus Referral didistribusikan ke 10 tingkat: ${fmt(referralTotal)} ${tokenSymbol}`;
+                                    `\n📊 Referral Bonus distributed to 10 levels: ${fmt(referralTotal)} ${tokenSymbol}`;
                             }
                             if (leaderBonus > 0n && leaderAddress) {
                                 detailMessage +=
-                                    `\n👑 Bonus Pemimpin dikirim ke ${short(leaderAddress)}: ${fmt(leaderBonus)} ${tokenSymbol}`;
+                                    `\n👑 Leader Bonus sent to ${short(leaderAddress)}: ${fmt(leaderBonus)} ${tokenSymbol}`;
                             }
                             if (referralDifference > 0n) {
                                 detailMessage +=
-                                    `\n💼 Bonus referral Anda bertambah: +${fmt(referralDifference)} ${tokenSymbol}`;
+                                    `\n💼 Your referral bonus increased: +${fmt(referralDifference)} ${tokenSymbol}`;
                             }
-                            detailMessage += `\n📈 Total diperoleh: ${fmt(newTotalEarned)} / ${fmt(newInfo[1])} ${tokenSymbol}`;
+                            detailMessage += `\n📈 Total earned: ${fmt(newTotalEarned)} / ${fmt(newInfo[1])} ${tokenSymbol}`;
                             const pct = newInfo[1] > 0n ? Number(newTotalEarned * 10000n / newInfo[1]) / 100 : 0;
-                            detailMessage += `\n📊 Kemajuan batas: ${pct.toFixed(2)}%`;
-                            notify(detailMessage, 'ok', '🎉 Klaim ROI Berhasil', 8000);
+                            detailMessage += `\n📊 Cap progress: ${pct.toFixed(2)}%`;
+                            notify(detailMessage, 'ok', '🎉 ROI Claim Successful', 8000);
                         } catch (detailError) {
                             notify(
-                                `✅ ROI ${fmt(roiAmount)} ${tokenSymbol} berhasil diklaim.\n📤 Bonus referral & pemimpin didistribusikan secara otomatis sesuai kontrak.`,
-                                'ok', 'Klaim ROI Berhasil', 6000);
+                                `✅ ROI ${fmt(roiAmount)} ${tokenSymbol} successfully claimed.\n📤 Referral & leader bonuses automatically distributed according to the contract.`,
+                                'ok', 'ROI Claim Successful', 6000);
                         }
                         clearCache();
                         await refresh();
                     }
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Klaim ROI Gagal', 0);
+                    notify(cleanError(e), 'error', 'ROI Claim Failed', 0);
                 }
             }
 
             async function claimReferral() {
                 if (!await requireWallet()) return;
                 if (isProcessing) {
-                    notify('Harap tunggu proses saat ini selesai.', 'warn', 'Memproses', 2000);
+                    notify('Please wait for the current process to finish.', 'warn', 'Processing', 2000);
                     return;
                 }
                 if (cached.referral <= 0n) {
-                    notify('Tidak ada bonus referral tertunda untuk diklaim.', 'info', 'Tidak Ada Bonus', 3000);
+                    notify('No pending referral bonus to claim.', 'info', 'No Bonus', 3000);
                     return;
                 }
                 try {
@@ -6448,23 +6464,23 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                         setGasEstimate(ethers.formatEther(totalGas), true);
                     } catch { }
                     const tx = await gt.claimReferralBonus();
-                    const receipt = await sendTransaction(tx, 'Klaim Bonus Referral', 'claimReferralBtn');
+                    const receipt = await sendTransaction(tx, 'Claim Referral Bonus', 'claimReferralBtn');
                     if (receipt) {
                         const referralAmount = cached.referral;
-                        notify(`✅ Bonus Referral ${fmt(referralAmount)} ${tokenSymbol} berhasil diklaim!`, 'ok',
-                            '🎉 Klaim Bonus Referral Berhasil', 5000);
+                        notify(`✅ Referral Bonus ${fmt(referralAmount)} ${tokenSymbol} successfully claimed!`, 'ok',
+                            '🎉 Referral Bonus Claim Successful', 5000);
                         clearCache();
                         await refresh();
                     }
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Klaim Bonus Referral Gagal', 0);
+                    notify(cleanError(e), 'error', 'Referral Bonus Claim Failed', 0);
                 }
             }
 
             async function copyReferral() {
                 if (!await requireWallet()) return;
                 if (!account) {
-                    notify('Silakan hubungkan dompet Anda terlebih dahulu.', 'warn', 'Dompet Diperlukan', 3000);
+                    notify('Please connect your wallet first.', 'warn', 'Wallet Required', 3000);
                     return;
                 }
                 try {
@@ -6472,7 +6488,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     url.searchParams.set('ref', account);
                     const cleanUrl = url.origin + url.pathname + '?ref=' + account;
                     await navigator.clipboard.writeText(cleanUrl);
-                    notify('✅ Tautan referral disalin!\n\n' + cleanUrl, 'ok', 'Tautan Referral Disalin', 5000);
+                    notify('✅ Referral link copied!\n\n' + cleanUrl, 'ok', 'Referral Link Copied', 5000);
                 } catch (e) {
                     try {
                         const url = new URL(window.location.href);
@@ -6486,12 +6502,12 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                         input.select();
                         document.execCommand('copy');
                         document.body.removeChild(input);
-                        notify('✅ Tautan referral disalin!\n\n' + text, 'ok', 'Tautan Referral Disalin', 5000);
+                        notify('✅ Referral link copied!\n\n' + text, 'ok', 'Referral Link Copied', 5000);
                     } catch (fallbackError) {
                         const manualUrl = new URL(window.location.href);
                         manualUrl.searchParams.set('ref', account);
-                        notify('Gagal menyalin tautan. Silakan salin secara manual:\n\n' + manualUrl.toString(), 'warn',
-                            'Salin Manual', 8000);
+                        notify('Failed to copy link. Please copy it manually:\n\n' + manualUrl.toString(), 'warn',
+                            'Copy Manually', 8000);
                     }
                 }
             }
@@ -6501,11 +6517,11 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 try {
                     const v = ethers.parseUnits($('oMinStake').value.trim(), tokenDecimals);
                     const tx = await gt.updateMinStake(v);
-                    await sendTransaction(tx, 'Perbarui Staking Minimum', 'setMinStake');
+                    await sendTransaction(tx, 'Update Minimum Stake', 'setMinStake');
                     clearCache();
                     await refresh();
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Pembaruan Gagal', 0);
+                    notify(cleanError(e), 'error', 'Update Failed', 0);
                 }
             }
 
@@ -6513,13 +6529,13 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 if (!await requireOwner()) return;
                 try {
                     const v = BigInt($('oRoi').value);
-                    if (v <= 0n) throw new Error('ROI harus lebih besar dari 0.');
+                    if (v <= 0n) throw new Error('ROI must be greater than 0.');
                     const tx = await gt.updateDailyRoiBps(v);
-                    await sendTransaction(tx, 'Perbarui ROI Harian', 'setRoi');
+                    await sendTransaction(tx, 'Update Daily ROI', 'setRoi');
                     clearCache();
                     await refresh();
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Pembaruan Gagal', 0);
+                    notify(cleanError(e), 'error', 'Update Failed', 0);
                 }
             }
 
@@ -6528,11 +6544,11 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 try {
                     const v = BigInt($('oLeaderBps').value);
                     const tx = await gt.updateLeaderBonusBps(v);
-                    await sendTransaction(tx, 'Perbarui Bonus Pemimpin', 'setLeaderBps');
+                    await sendTransaction(tx, 'Update Leader Bonus', 'setLeaderBps');
                     clearCache();
                     await refresh();
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Pembaruan Gagal', 0);
+                    notify(cleanError(e), 'error', 'Update Failed', 0);
                 }
             }
 
@@ -6542,15 +6558,15 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     const arr = [];
                     for (let i = 1; i <= 10; i++) {
                         const v = BigInt($(`lvl${i}`).value || '0');
-                        if (v < 0n) throw new Error('Nilai BPS tidak valid.');
+                        if (v < 0n) throw new Error('Invalid BPS value.');
                         arr.push(v);
                     }
                     const tx = await gt.updateReferralLevels(arr);
-                    await sendTransaction(tx, 'Perbarui Tingkat Referral', 'setLevels');
+                    await sendTransaction(tx, 'Update Referral Levels', 'setLevels');
                     clearCache();
                     await refresh();
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Pembaruan Gagal', 0);
+                    notify(cleanError(e), 'error', 'Update Failed', 0);
                 }
             }
 
@@ -6558,14 +6574,14 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 if (!await requireOwner()) return;
                 try {
                     const a = $('leaderAddress').value.trim();
-                    if (!validAddress(a)) throw new Error('Alamat pemimpin tidak valid.');
+                    if (!validAddress(a)) throw new Error('Invalid leader address.');
                     const status = $('leaderStatus').value === 'true';
                     const tx = await gt.setLeader(a, status);
-                    await sendTransaction(tx, 'Perbarui Status Pemimpin', 'setLeader');
+                    await sendTransaction(tx, 'Update Leader Status', 'setLeader');
                     clearCache();
                     await refresh();
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Pembaruan Gagal', 0);
+                    notify(cleanError(e), 'error', 'Update Failed', 0);
                 }
             }
 
@@ -6575,16 +6591,16 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     const user = $('adminUser').value.trim();
                     const up = $('adminReferrer').value.trim() || ethers.ZeroAddress;
                     if (!validAddress(user) || (up !== ethers.ZeroAddress && !validAddress(up))) {
-                        throw new Error('Alamat tidak valid.');
+                        throw new Error('Invalid address.');
                     }
                     const amount = ethers.parseUnits($('adminAmount').value.trim(), tokenDecimals);
-                    if (amount <= 0n) throw new Error('Jumlah harus lebih besar dari nol.');
+                    if (amount <= 0n) throw new Error('Amount must be greater than zero.');
                     const tx = await gt.adminStake(user, amount, up);
-                    await sendTransaction(tx, 'Staking Admin', 'adminStake');
+                    await sendTransaction(tx, 'Admin Stake', 'adminStake');
                     clearCache();
                     await refresh();
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Staking Admin Gagal', 0);
+                    notify(cleanError(e), 'error', 'Admin Stake Failed', 0);
                 }
             }
 
@@ -6592,35 +6608,35 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 if (!await requireOwner()) return;
                 try {
                     const address = $('recoverToken').value.trim();
-                    if (!validAddress(address)) throw new Error('Alamat token tidak valid.');
+                    if (!validAddress(address)) throw new Error('Invalid token address.');
                     const c = new ethers.Contract(address, ERC20_ABI, signer);
                     const decimals = Number(await c.decimals());
                     const amount = ethers.parseUnits($('recoverAmount').value.trim(), decimals);
                     const tx = await gt.recoverERC20(address, amount);
-                    await sendTransaction(tx, 'Pulihkan ERC-20', 'recoverBtn');
+                    await sendTransaction(tx, 'Recover ERC-20', 'recoverBtn');
                     clearCache();
                     await refresh();
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Pemulihan Gagal', 0);
+                    notify(cleanError(e), 'error', 'Recovery Failed', 0);
                 }
             }
 
             async function renounceOwnership() {
                 if (!await requireOwner()) return;
                 const confirmed = confirm(
-                    '⚠️ PERINGATAN!\n\n' +
-                    'Anda akan secara permanen melepaskan kepemilikan kontrak.\n' +
-                    'Setelah ini, TIDAK ADA seorang pun yang dapat menjalankan fungsi pemilik.\n\n' +
-                    'Apakah Anda yakin?'
+                    '⚠️ WARNING!\n\n' +
+                    'You are about to permanently renounce ownership of the contract.\n' +
+                    'After this, NO ONE will be able to run owner functions.\n\n' +
+                    'Are you sure?'
                 );
                 if (!confirmed) return;
                 try {
                     const tx = await gt.renounceOwnership();
-                    await sendTransaction(tx, 'Lepaskan Kepemilikan', 'renounceOwnershipBtn');
+                    await sendTransaction(tx, 'Renounce Ownership', 'renounceOwnershipBtn');
                     clearCache();
                     await refresh();
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Lepaskan Kepemilikan Gagal', 0);
+                    notify(cleanError(e), 'error', 'Renounce Ownership Failed', 0);
                 }
             }
 
@@ -6628,43 +6644,48 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 if (!await requireOwner()) return;
                 const newOwner = $('transferOwnerAddress').value.trim();
                 if (!validAddress(newOwner)) {
-                    notify('Alamat pemilik baru tidak valid.', 'error', 'Kesalahan Input', 0);
+                    notify('Invalid new owner address.', 'error', 'Input Error', 0);
                     return;
                 }
                 if (newOwner.toLowerCase() === account.toLowerCase()) {
-                    notify('Pemilik baru tidak boleh pemilik saat ini.', 'warn', 'Kesalahan Input', 0);
+                    notify('New owner cannot be the current owner.', 'warn', 'Input Error', 0);
                     return;
                 }
                 const confirmed = confirm(
-                    `⚠️ PERINGATAN!\n\n` +
-                    `Anda akan mentransfer kepemilikan kontrak ke:\n${newOwner}\n\n` +
-                    `Setelah ini, hanya alamat itu yang dapat menjalankan fungsi pemilik.\n\n` +
-                    `Apakah Anda yakin?`
+                    `⚠️ WARNING!\n\n` +
+                    `You are about to transfer contract ownership to:\n${newOwner}\n\n` +
+                    `After this, only that address will be able to run owner functions.\n\n` +
+                    `Are you sure?`
                 );
                 if (!confirmed) return;
                 try {
                     const tx = await gt.transferOwnership(newOwner);
-                    await sendTransaction(tx, 'Transfer Kepemilikan', 'transferOwnershipBtn');
+                    await sendTransaction(tx, 'Transfer Ownership', 'transferOwnershipBtn');
                     clearCache();
                     await refresh();
                 } catch (e) {
-                    notify(cleanError(e), 'error', 'Transfer Kepemilikan Gagal', 0);
+                    notify(cleanError(e), 'error', 'Transfer Ownership Failed', 0);
                 }
             }
 
+            // ============================================================
             // TAB NAVIGATION
+            // ============================================================
             function showTab(name) {
                 document.querySelectorAll('.section').forEach(section => {
                     section.classList.toggle('active', section.id === name);
                 });
+
                 document.querySelectorAll('#navBar .tab, #statsNav .tab').forEach(button => {
                     button.classList.toggle('active', button.dataset.tab === name);
                 });
+
                 const section = document.getElementById(name);
                 if (section) {
                     const header = document.querySelector('header');
                     const headerHeight = header ? header.offsetHeight : 0;
                     const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
+
                     requestAnimationFrame(() => {
                         window.scrollTo({
                             top: sectionTop - headerHeight - 15,
@@ -6673,22 +6694,12 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     });
                 }
             }
+
             window.showTab = showTab;
 
-            // HERO
-            function setupHero() {
-                let i = 0;
-                const slides = $('slides');
-                if (!slides) return;
-                const go = n => {
-                    i = (n + 3) % 3;
-                    slides.style.transform = `translateX(-${i * 100}%)`;
-                };
-                $('heroConnect').addEventListener('click', connect);
-                setInterval(() => go(i + 1), 7000);
-            }
-
+            // ============================================================
             // POLLING
+            // ============================================================
             function startPolling() {
                 clearInterval(refreshTimer);
                 clearInterval(liveTimer);
@@ -6705,14 +6716,16 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 startHeartbeat();
             }
 
+            // ============================================================
             // WALLET EVENTS
+            // ============================================================
             function setupWalletEvents() {
                 if (!window.ethereum) return;
                 window.ethereum.on?.('accountsChanged', async accounts => {
                     connectionGeneration++;
                     if (!accounts?.length) {
                         disconnectUI();
-                        notify('Dompet telah terputus dari aplikasi ini.', 'info', 'Dompet Terputus', 3500);
+                        notify('Wallet has been disconnected from this app.', 'info', 'Wallet Disconnected', 3500);
                         return;
                     }
                     await syncWalletState(false);
@@ -6726,15 +6739,17 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                         gt = null;
                         token = null;
                         clearUserUI();
-                        setWalletState('yellow', '<i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ganti Jaringan');
-                        notify(`Silakan ganti dompet Anda ke ${CONFIG.chainName}.`, 'warn', 'Jaringan Salah', 0);
+                        setWalletState('yellow', '<i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Switch Network');
+                        notify(`Please switch your wallet to ${CONFIG.chainName}.`, 'warn', 'Wrong Network', 0);
                         return;
                     }
                     await syncWalletState(false);
                 });
             }
 
+            // ============================================================
             // CALCULATOR
+            // ============================================================
             function calculateStaking() {
                 const amountInput = document.getElementById('calcAmount');
                 const roiInput = document.getElementById('calcRoi');
@@ -6756,7 +6771,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
 
                 if (amount <= 0) {
                     resultsDiv.innerHTML =
-                        `<div class="notice warn" style="text-align:center;padding:12px;font-size:10px;border-radius:var(--radius);"><i class="fa-solid fa-triangle-exclamation"></i> Masukkan jumlah staking yang valid (lebih dari 0).</div>`;
+                        `<div class="notice warn" style="text-align:center;padding:12px;font-size:10px;border-radius:var(--radius);"><i class="fa-solid fa-triangle-exclamation"></i> Enter a valid stake amount (greater than 0).</div>`;
                     return;
                 }
 
@@ -6832,9 +6847,9 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 if (includeReferral && totalDownlineCount > 0) {
                     referralHtml = `
                             <div class="calc-referral-dash">
-                                <div class="title"><i class="fa-solid fa-users"></i> Bonus Referral per Hari (${totalDownlineCount} downline aktif)</div>
+                                <div class="title"><i class="fa-solid fa-users"></i> Referral Bonus per Day (${totalDownlineCount} active downlines)</div>
                                 <div style="font-size:10px;color:var(--muted2);margin-bottom:4px;">
-                                    Setiap downline staking <strong>${fmtNum(downlineStake)} MEGAH</strong> → ROI Harian <strong>${fmtNum(downlineRoiDaily)} MEGAH</strong>
+                                    Each downline stakes <strong>${fmtNum(downlineStake)} MEGAH</strong> → Daily ROI <strong>${fmtNum(downlineRoiDaily)} MEGAH</strong>
                                 </div>
                                 <div class="levels" style="grid-template-columns:repeat(5,1fr);">
                                     ${levelDetails.map(l => `
@@ -6847,68 +6862,68 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                                         `).join('')}
                                 </div>
                                 <div class="total-referral" style="margin-top:4px;">
-                                    <span>Total Bonus Referral per Hari</span>
+                                    <span>Total Referral Bonus per Day</span>
                                     <span style="font-size:13px;">${fmtNum(totalReferralAllLevels)} MEGAH</span>
                                 </div>
                             </div>
                         `;
                 } else if (includeReferral && totalDownlineCount === 0) {
                     referralHtml =
-                        `<div class="notice warn small" style="margin-top:6px;font-size:9px;"><i class="fa-solid fa-info-circle"></i>&nbsp; Tidak ada downline aktif. Masukkan jumlah downline di setiap level untuk melihat efek referral.</div>`;
+                        `<div class="notice warn small" style="margin-top:6px;font-size:9px;"><i class="fa-solid fa-info-circle"></i>&nbsp; No active downlines. Enter the number of downlines in each level to see the referral effect.</div>`;
                 }
 
                 const resultsHtml = `
                         <div style="margin-bottom:6px;font-size:9px;color:var(--muted2);text-align:center;border-bottom:1px solid rgba(245,158,11,0.06);padding-bottom:4px;">
-                            📊 Tingkat Referral: ${levelDisplay}
+                            📊 Referral Levels: ${levelDisplay}
                         </div>
                         <div class="calc-result-grid">
                             <div class="calc-result-item highlight">
-                                <div class="label">⏱️ Batas Tercapai</div>
-                                <div class="value green">${daysToMaxCap} Hari</div>
-                                <div class="sub">${includeReferral ? 'Dengan Referral' : 'ROI Saja'}</div>
+                                <div class="label">⏱️ Cap Reached</div>
+                                <div class="value green">${daysToMaxCap} Days</div>
+                                <div class="sub">${includeReferral ? 'With Referral' : 'ROI Only'}</div>
                             </div>
                             <div class="calc-result-item highlight">
-                                <div class="label">🎯 Batas Maks</div>
+                                <div class="label">🎯 Max Cap</div>
                                 <div class="value green">${fmtNum(maxCap)}</div>
-                                <div class="sub">${maxCapPercent}% dari ${fmtNum(amount)}</div>
+                                <div class="sub">${maxCapPercent}% of ${fmtNum(amount)}</div>
                             </div>
                             <div class="calc-result-item">
-                                <div class="label">📅 ROI Harian</div>
+                                <div class="label">📅 Daily ROI</div>
                                 <div class="value gold">${fmtNum(roiDaily)}</div>
                                 <div class="sub">${roiDailyPercent}%</div>
                             </div>
                             <div class="calc-result-item">
-                                <div class="label">${includeReferral ? '📊 Total Harian' : '📊 Harian'}</div>
+                                <div class="label">${includeReferral ? '📊 Total Daily' : '📊 Daily'}</div>
                                 <div class="value blue">${fmtNum(dailyEarningWithReferral)}</div>
-                                <div class="sub">${includeReferral ? `+${fmtNum(totalReferralAllLevels)} ref` : 'ROI saja'}</div>
+                                <div class="sub">${includeReferral ? `+${fmtNum(totalReferralAllLevels)} ref` : 'ROI only'}</div>
                             </div>
                             <div class="calc-result-item">
-                                <div class="label">📆 1 Minggu</div>
+                                <div class="label">📆 1 Week</div>
                                 <div class="value">${fmtNum(earnings.weekly)}</div>
-                                <div class="sub">${includeReferral ? 'dengan referral' : 'ROI'}</div>
+                                <div class="sub">${includeReferral ? 'with referral' : 'ROI'}</div>
                             </div>
                             <div class="calc-result-item">
-                                <div class="label">📆 1 Bulan</div>
+                                <div class="label">📆 1 Month</div>
                                 <div class="value">${fmtNum(earnings.monthly)}</div>
-                                <div class="sub">${includeReferral ? 'dengan referral' : 'ROI'}</div>
+                                <div class="sub">${includeReferral ? 'with referral' : 'ROI'}</div>
                             </div>
                             <div class="calc-result-item">
-                                <div class="label">📆 1 Tahun</div>
+                                <div class="label">📆 1 Year</div>
                                 <div class="value">${fmtNum(earnings.yearly)}</div>
-                                <div class="sub">${includeReferral ? 'dengan referral' : 'ROI'}</div>
+                                <div class="sub">${includeReferral ? 'with referral' : 'ROI'}</div>
                             </div>
                             <div class="calc-result-item">
-                                <div class="label">ROI Saja</div>
+                                <div class="label">ROI Only</div>
                                 <div class="value" style="color:var(--muted2);">${fmtNum(roiOnly.daily)}</div>
-                                <div class="sub">harian</div>
+                                <div class="sub">daily</div>
                             </div>
                         </div>
                         <div class="calc-summary-dash">
-                            <p><strong>Staking Anda:</strong> ${fmtNum(amount)} MEGAH → ROI Harian <strong>${fmtNum(roiDaily)} MEGAH</strong></p>
+                            <p><strong>Your Stake:</strong> ${fmtNum(amount)} MEGAH → Daily ROI <strong>${fmtNum(roiDaily)} MEGAH</strong></p>
                             ${includeReferral && totalDownlineCount > 0 ? `
                                 <p style="margin-top:3px;">
-                                    <strong>${totalDownlineCount} downline</strong> → Referral Harian <strong>${fmtNum(totalReferralAllLevels)} MEGAH</strong>
-                                    <span style="font-size:9px;color:var(--muted);display:block;">Batas dalam <strong class="highlight-text">${daysToMaxCap} hari</strong></span>
+                                    <strong>${totalDownlineCount} downlines</strong> → Daily Referral <strong>${fmtNum(totalReferralAllLevels)} MEGAH</strong>
+                                    <span style="font-size:9px;color:var(--muted);display:block;">Cap in <strong class="highlight-text">${daysToMaxCap} days</strong></span>
                                 </p>
                             ` : ''}
                         </div>
@@ -6917,7 +6932,9 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 resultsDiv.innerHTML = resultsHtml;
             }
 
+            // ============================================================
             // DISCLAIMER POPUP
+            // ============================================================
             function setupDisclaimerPopup() {
                 const popup = document.getElementById('disclaimerPopup');
                 const acceptBtn = document.getElementById('disclaimerAccept');
@@ -6953,11 +6970,12 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 });
             }
 
+            // ============================================================
             // INIT
+            // ============================================================
             async function init() {
                 try {
                     buildLevelInputs();
-                    setupHero();
                     setupWalletEvents();
                     setupDisclaimerPopup();
 
@@ -6971,14 +6989,14 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
 
                     $('connectBtn').addEventListener('click', async () => {
                         if (isProcessing) {
-                            notify('Harap tunggu proses saat ini selesai.', 'warn', 'Memproses', 2000);
+                            notify('Please wait for the current process to finish.', 'warn', 'Processing', 2000);
                             return;
                         }
                         if (account) {
                             const ok = await syncWalletState(false);
                             if (ok) {
                                 disconnectUI();
-                                notify('Dompet terputus dari antarmuka aplikasi.', 'ok', 'Terputus', 3500);
+                                notify('Wallet disconnected from the app interface.', 'ok', 'Disconnected', 3500);
                                 return;
                             }
                         }
@@ -7025,29 +7043,29 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
 
                     $('refreshBtn').addEventListener('click', async function () {
                         if (!account) {
-                            notify('Silakan hubungkan dompet Anda terlebih dahulu.', 'warn', 'Dompet Diperlukan', 3000);
+                            notify('Please connect your wallet first.', 'warn', 'Wallet Required', 3000);
                             return;
                         }
                         const btn = $('refreshBtn');
                         const originalHtml = btn.innerHTML;
                         btn.disabled = true;
-                        btn.innerHTML = '<span class="spinner-small"></span>&nbsp;Memuat...';
+                        btn.innerHTML = '<span class="spinner-small"></span>&nbsp;Loading...';
                         try {
                             clearCache();
                             await refresh();
                             const now = new Date();
-                            const timeStr = now.toLocaleTimeString('id-ID', {
+                            const timeStr = now.toLocaleTimeString('en-US', {
                                 hour: '2-digit',
                                 minute: '2-digit',
                                 second: '2-digit'
                             });
                             const timeEl = $('lastRefreshTime');
                             if (timeEl) {
-                                timeEl.textContent = `Segarkan terakhir: ${timeStr}`;
+                                timeEl.textContent = `Last refresh: ${timeStr}`;
                             }
-                            notify('✅ Data on-chain berhasil diperbarui!', 'ok', 'Segarkan Berhasil', 2500);
+                            notify('✅ On-chain data successfully updated!', 'ok', 'Refresh Successful', 2500);
                         } catch (e) {
-                            notify('Gagal menyegarkan data: ' + cleanError(e), 'error', 'Segarkan Gagal', 3000);
+                            notify('Failed to refresh data: ' + cleanError(e), 'error', 'Refresh Failed', 3000);
                         } finally {
                             btn.disabled = false;
                             btn.innerHTML = originalHtml;
@@ -7072,9 +7090,9 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     if (accounts?.length && providerReady) {
                         await syncWalletState(false);
                     } else if (accounts?.length && !providerReady) {
-                        console.log('Provider belum siap, menunggu event accountsChanged');
+                        console.log('Provider not ready yet, waiting for accountsChanged event');
                     } else {
-                        setWalletState('red', '<i class="fa-solid fa-plug"></i>&nbsp;Hubungkan Dompet');
+                        setWalletState('red', '<i class="fa-solid fa-plug"></i>&nbsp;Connect Wallet');
                     }
 
                     const ref = new URLSearchParams(location.search).get('ref');
@@ -7083,12 +7101,14 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     }
 
                 } catch (e) {
-                    console.error('Inisialisasi aplikasi', e);
-                    console.warn('Kesalahan non-kritis init:', cleanError(e));
+                    console.error('App initialization', e);
+                    console.warn('Non-critical init error:', cleanError(e));
                 }
             }
 
+            // ============================================================
             // DOM READY
+            // ============================================================
             document.addEventListener('DOMContentLoaded', function () {
                 init();
 
@@ -7135,6 +7155,10 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
         })();
     </script>
 
+    <!-- ============================================================ -->
+    <!-- TVL CHART JAVASCRIPT      -->
+    <!-- ============================================================ -->
+
     <!-- Library Lightweight Charts -->
     <script
         src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js">
@@ -7142,7 +7166,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
 
     <script>
         // ============================================================
-        // TVL CHART
+        // TVL CHART - API
         // ============================================================
 
         (async () => {
@@ -7437,12 +7461,22 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 }
 
                 if (minMaxEl && data?.summary) {
-                    if (effectivePrice && effectivePrice > 0 && data.summary.min_tvl !== undefined) {
-                        var min = data.summary.min_tvl * effectivePrice;
-                        var max = data.summary.max_tvl * effectivePrice;
-                        minMaxEl.textContent = '$' + min.toFixed(0) + ' / $' + max.toFixed(0);
-                    } else if (data.summary.min_tvl !== undefined) {
-                        minMaxEl.textContent = data.summary.min_tvl.toFixed(2) + ' / ' + data.summary.max_tvl.toFixed(2) + ' MEGAH';
+                    var summary = data.summary;
+
+                    if (summary.min_tvl_usd !== undefined && summary.max_tvl_usd !== undefined &&
+                        summary.min_tvl_usd !== null && summary.max_tvl_usd !== null &&
+                        summary.min_tvl_usd > 0 && summary.max_tvl_usd > 0) {
+
+                        var min = summary.min_tvl_usd;
+                        var max = summary.max_tvl_usd;
+
+                        if (min < max) {
+                            minMaxEl.textContent = '$' + min.toFixed(2) + ' / $' + max.toFixed(2);
+                        } else if (min === max) {
+                            minMaxEl.textContent = '$' + min.toFixed(2) + ' (data terkumpul)';
+                        } else {
+                            minMaxEl.textContent = '—';
+                        }
                     } else {
                         minMaxEl.textContent = '—';
                     }
@@ -7549,7 +7583,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                     }
 
                 } catch (e) {
-                    // Silent fail
+
                 }
                 isUpdating = false;
             }
@@ -7934,7 +7968,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
     <script>
         (function () {
             'use strict';
-            // Only activate on mobile screens
+
             if (window.innerWidth <= 768) {
                 let lastTouchEnd = 0;
 
