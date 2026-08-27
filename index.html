@@ -5235,7 +5235,7 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
     </div>
 
     <!-- ============================================================
-    JAVASCRIPT - TIDAK DIUBAH (hanya konten notifikasi yang diubah di JS)
+    JAVASCRIPT
     ============================================================ -->
     <script>
         (() => {
@@ -5267,10 +5267,162 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 ]
             };
 
-            // ... (JS code tetap sama, hanya notifikasi message yang diubah ke bahasa Indonesia)
+            const ERC20_ABI = [
+                'function name() view returns (string)',
+                'function symbol() view returns (string)',
+                'function decimals() view returns (uint8)',
+                'function balanceOf(address) view returns (uint256)',
+                'function allowance(address,address) view returns (uint256)',
+                'function approve(address,uint256) returns (bool)'
+            ];
 
-            // Notifikasi sudah diubah di bagian notify() function di bawah
-            // dan di seluruh pemanggilan notify()
+            const GT_ABI = [
+                'function owner() view returns (address)',
+                'function stakingToken() view returns (address)',
+                'function minStake() view returns (uint256)',
+                'function leaderBonusBps() view returns (uint256)',
+                'function dailyRoiBps() view returns (uint256)',
+                'function referralBonusLevels(uint256) view returns (uint256)',
+                'function userStakes(address) view returns (uint256 stakedAmount, uint256 maxCap, uint256 totalEarned, uint256 savedReward, uint256 lastClaimTime, uint256 pendingReferralBonus)',
+                'function userReferrers(address) view returns (address)',
+                'function isLeader(address) view returns (bool)',
+                'function pendingReward(address) view returns (uint256)',
+                'function isMaxCapReached(address) view returns (bool)',
+                'function getStakeInfo(address) view returns (uint256 stakedAmount, uint256 maxCap, uint256 totalEarned, uint256 currentPendingReward, uint256 pendingReferralBonus)',
+                'function stake(uint256 _amount, address _referrer)',
+                'function claimRoi()',
+                'function claimReferralBonus()',
+                'function adminStake(address _user, uint256 _amount, address _referrer)',
+                'function setLeader(address _wallet, bool _status)',
+                'function updateLeaderBonusBps(uint256 _bps)',
+                'function updateDailyRoiBps(uint256 _bps)',
+                'function updateReferralLevels(uint256[] calldata _levels)',
+                'function updateMinStake(uint256 _minStake)',
+                'function recoverERC20(address _tokenAddress, uint256 _tokenAmount)',
+                'function renounceOwnership()',
+                'function transferOwnership(address newOwner)'
+            ];
+
+            let browserProvider = null;
+            let signer = null;
+            let readProvider = null;
+            let gt = null;
+            let token = null;
+            let readToken = null;
+            let account = null;
+            let tokenDecimals = 18;
+            let tokenSymbol = 'MEGAH';
+            let refreshTimer = null;
+            let liveTimer = null;
+            let heartbeatTimer = null;
+            let blockListener = null;
+            let connectionGeneration = 0;
+            let isPolling = false;
+            let isProcessing = false;
+            let transactionNonce = 0;
+            let currentRpcIndex = 0;
+
+            const cache = {};
+            const cached = {
+                total: 0n,
+                cap: 0n,
+                claimed: 0n,
+                pending: 0n,
+                referral: 0n,
+                lastClaim: 0n,
+                dailyBps: 0n,
+                leaderBps: 0n,
+                minStake: 0n,
+                levels: []
+            };
+
+            const $ = id => document.getElementById(id);
+
+            function validAddress(v) {
+                return /^0x[0-9a-fA-F]{40}$/.test(String(v || '').trim());
+            }
+
+            function short(a) {
+                return a ? `${a.slice(0, 6)}…${a.slice(-4)}` : '—';
+            }
+
+            function fmt(v, max = 8) {
+                try {
+                    const s = ethers.formatUnits(v, tokenDecimals);
+                    if (!s.includes('.')) return s;
+                    const parts = s.split('.');
+                    const decimal = parts[1].slice(0, max).replace(/0+$/, '');
+                    if (decimal === '' || decimal === '00000000') {
+                        return parts[0] + '.0000';
+                    }
+                    return decimal ? `${parts[0]}.${decimal}` : parts[0];
+                } catch {
+                    return '0';
+                }
+            }
+
+            function fmtBps(b) {
+                return `${Number(b) / 100}%`;
+            }
+
+            function fmtNative(v) {
+                try {
+                    const s = ethers.formatEther(v);
+                    if (!s.includes('.')) return s;
+                    const p = s.split('.');
+                    return p[0] + '.' + p[1].slice(0, 6).replace(/0+$/, '');
+                } catch {
+                    return '0';
+                }
+            }
+
+            function formatTimestamp(ts) {
+                try {
+                    const n = Number(ts);
+                    if (!n) return '—';
+                    return new Intl.DateTimeFormat('id-ID', {
+                        dateStyle: 'medium',
+                        timeStyle: 'medium'
+                    }).format(new Date(n * 1000));
+                } catch {
+                    return '—';
+                }
+            }
+
+            function configured() {
+                return validAddress(CONFIG.stakingContract);
+            }
+
+            function getCached(key) {
+                if (cache[key] && Date.now() - cache[key].timestamp < CONFIG.cacheTTL) {
+                    return cache[key].data;
+                }
+                return null;
+            }
+
+            function setCached(key, data) {
+                cache[key] = { data, timestamp: Date.now() };
+            }
+
+            function clearCache(key) {
+                if (key) {
+                    delete cache[key];
+                } else {
+                    Object.keys(cache).forEach(k => delete cache[k]);
+                }
+            }
+
+            function validateAmountInput(value) {
+                const cleaned = value.replace(/,/g, '.');
+                if (!/^\d*\.?\d*$/.test(cleaned)) {
+                    return { valid: false, message: 'Hanya angka dan desimal yang diperbolehkan.' };
+                }
+                const num = parseFloat(cleaned);
+                if (isNaN(num) || num <= 0) {
+                    return { valid: false, message: 'Harap masukkan jumlah yang valid (lebih dari 0).' };
+                }
+                return { valid: true, value: cleaned, num };
+            }
 
             function cleanError(e) {
                 if (!e) return 'Terjadi kesalahan yang tidak diketahui.';
@@ -5299,9 +5451,6 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 return msg.replace(/^execution reverted:\s*/i, '').slice(0, 400);
             }
 
-            // ============================================================
-            // NOTIFICATION - KONTEN DALAM BAHASA INDONESIA
-            // ============================================================
             let notifyTimer = null;
 
             function notify(message, type = 'info', title = 'Notifikasi', duration = 4500) {
@@ -5326,60 +5475,2481 @@ PREVENT PINCH ZOOM ON MOBILE - ADDED
                 document.body.classList.remove('modal-open');
             }
 
-            // ... (sisa JS tetap sama, hanya konten notifikasi yang diubah)
+            $('notifyClose').addEventListener('click', closeNotify);
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNotify(); });
+            $('notifyOverlay').addEventListener('click', e => {
+                if (e.target === $('notifyOverlay')) closeNotify();
+            });
 
-            // Fungsi utama yang menggunakan notifikasi sudah diubah di seluruh file
-            // Beberapa contoh perubahan:
-            // - "Connect Wallet" → "Hubungkan Dompet"
-            // - "Wallet not connected" → "Dompet belum terhubung"
-            // - "Stake MEGAH" → "Staking MEGAH"
-            // - "Claim ROI" → "Klaim ROI"
-            // - "Claim Referral" → "Klaim Referral"
-            // - "Pending ROI" → "ROI Tertunda"
-            // - "Pending Referral Bonus" → "Bonus Referral Tertunda"
-            // - "Total Staked" → "Total Di-staking"
-            // - "Reward Pool Balance" → "Saldo Pool Reward"
-            // - "Minimum Stake" → "Staking Minimum"
-            // - "Daily ROI" → "ROI Harian"
-            // - "Leader Bonus" → "Bonus Pemimpin"
-            // - "Owner panel" → "Panel pemilik"
-            // - "Contract owner" → "Pemilik kontrak"
+            function setLoading(buttonId, loading = true, text = null) {
+                const btn = $(buttonId);
+                if (!btn) return;
+                if (loading) {
+                    btn._originalText = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.innerHTML = `<span class="spinner-small"></span>&nbsp;${text || 'Memproses...'}`;
+                } else {
+                    btn.disabled = false;
+                    if (btn._originalText) {
+                        btn.innerHTML = btn._originalText;
+                        delete btn._originalText;
+                    }
+                }
+            }
 
-            // Semua perubahan konten notifikasi telah diterapkan di seluruh kode JS
+            function setStakeStatus(message, type = 'info', show = true) {
+                const el = $('stakeStatus');
+                const text = $('stakeStatusText');
+                if (!el || !text) return;
+                if (show && message) {
+                    el.style.display = 'block';
+                    el.className = `notice ${type}`;
+                    text.textContent = message;
+                } else {
+                    el.style.display = 'none';
+                }
+            }
+
+            function setGasEstimate(amount, show = false) {
+                const el = $('gasEstimate');
+                if (!el) return;
+                if (show && amount) {
+                    el.style.display = 'block';
+                    el.textContent = `⛽ Perkiraan gas: ~${amount} BNB`;
+                } else {
+                    el.style.display = 'none';
+                }
+            }
+
+            async function getProviderWithFallback(retries = 0) {
+                const startIndex = currentRpcIndex % CONFIG.rpcList.length;
+                for (let i = 0; i < CONFIG.rpcList.length; i++) {
+                    const idx = (startIndex + i) % CONFIG.rpcList.length;
+                    const rpc = CONFIG.rpcList[idx];
+                    try {
+                        const provider = new ethers.JsonRpcProvider(rpc, {
+                            name: CONFIG.chainName,
+                            chainId: CONFIG.chainId
+                        });
+                        await provider.getBlockNumber();
+                        currentRpcIndex = idx;
+                        return provider;
+                    } catch {
+                        continue;
+                    }
+                }
+                if (retries < CONFIG.maxRetries) {
+                    await new Promise(r => setTimeout(r, CONFIG.retryDelay * (retries + 1)));
+                    return getProviderWithFallback(retries + 1);
+                }
+                throw new Error('Semua RPC node gagal. Silakan coba lagi nanti.');
+            }
+
+            function setWalletState(state, text) {
+                const btn = $('connectBtn');
+                btn.className = `wallet ${state}`;
+                btn.innerHTML = text;
+            }
+
+            function clearUserUI() {
+                const placeholders = [
+                    'balance', 'staked', 'pending', 'referral',
+                    'dStaked', 'dCap', 'dClaimed', 'dPending', 'dReferral',
+                    'dSavedReward', 'dLastClaim', 'dCapRemaining', 'roiClaimAmount',
+                    'referralClaimAmount', 'stakeMaxCap', 'dReferrer', 'dLeader',
+                    'dCapStatus', 'myAddress', 'nReferrer', 'nLeader',
+                    'allowanceText', 'bnbBalanceText', 'balanceStakeText'
+                ];
+                placeholders.forEach(id => {
+                    const el = $(id);
+                    if (el) {
+                        if (id === 'allowanceText') el.textContent = 'Persetujuan: —';
+                        else if (id === 'bnbBalanceText') el.textContent = 'Saldo BNB: —';
+                        else if (id === 'balanceStakeText') el.textContent = 'Saldo MEGAH: —';
+                        else el.textContent = '—';
+                    }
+                });
+                $('positionStatus').textContent = 'Dompet belum terhubung';
+                $('positionStatus').className = 'badge gray';
+                $('capProgress').style.width = '0%';
+                $('capText').textContent = 'Hubungkan dompet Anda untuk melihat posisi Anda.';
+                $('claimRoiBtn').disabled = true;
+                $('claimReferralBtn').disabled = true;
+                $('approveBtn').disabled = true;
+                $('stakeBtn').disabled = true;
+                $('maxBtn').disabled = true;
+                document.querySelectorAll('.owner-tab').forEach(el => {
+                    if (el) el.style.display = 'none';
+                });
+                $('ownerWarning').textContent = 'Panel pemilik terbatas untuk pemilik kontrak.';
+                setStakeStatus('', 'info', false);
+                setGasEstimate(null, false);
+            }
+
+            function disconnectUI() {
+                account = null;
+                signer = null;
+                gt = null;
+                token = null;
+                cached.total = 0n;
+                cached.cap = 0n;
+                cached.claimed = 0n;
+                cached.pending = 0n;
+                cached.referral = 0n;
+                cached.lastClaim = 0n;
+                cached.dailyBps = 0n;
+                cached.leaderBps = 0n;
+                cached.minStake = 0n;
+                cached.levels = [];
+                clearUserUI();
+                setWalletState('red', '<i class="fa-solid fa-plug"></i>&nbsp;Hubungkan Dompet');
+                clearInterval(refreshTimer);
+                clearInterval(liveTimer);
+                clearInterval(heartbeatTimer);
+                if (blockListener) {
+                    readProvider?.off('block', blockListener);
+                    blockListener = null;
+                }
+                clearCache();
+                document.querySelectorAll('.owner-tab').forEach(el => {
+                    if (el) el.style.display = 'none';
+                });
+            }
+
+            async function syncWalletState(notifyWrongNetwork = false) {
+                const generation = ++connectionGeneration;
+                if (!window.ethereum) {
+                    disconnectUI();
+                    return false;
+                }
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                    const chain = await window.ethereum.request({ method: 'eth_chainId' });
+                    if (generation !== connectionGeneration) return false;
+                    const current = accounts?.[0] || null;
+                    if (!current) {
+                        disconnectUI();
+                        return false;
+                    }
+                    const currentChain = Number(BigInt(chain));
+                    if (currentChain !== CONFIG.chainId) {
+                        account = null;
+                        signer = null;
+                        gt = null;
+                        token = null;
+                        clearUserUI();
+                        setWalletState('yellow', '<i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ganti Jaringan');
+                        if (notifyWrongNetwork) {
+                            notify(`Dompet Anda berada di jaringan yang salah. Silakan ganti ke ${CONFIG.chainName}.`, 'warn',
+                                'Jaringan Salah', 0);
+                        }
+                        return false;
+                    }
+                    browserProvider = new ethers.BrowserProvider(window.ethereum, 'any');
+                    signer = await browserProvider.getSigner();
+                    const signerAddress = await signer.getAddress();
+                    if (signerAddress.toLowerCase() !== current.toLowerCase()) {
+                        disconnectUI();
+                        return false;
+                    }
+                    account = signerAddress;
+                    await bindWallet(generation);
+                    return true;
+                } catch (e) {
+                    console.error('wallet sync', e);
+                    if (e?.message?.includes('provider') || e?.code?.includes('NETWORK')) {
+                        console.warn('Kesalahan sementara, mempertahankan mode baca-saja');
+                        return false;
+                    }
+                    disconnectUI();
+                    return false;
+                }
+            }
+
+            async function bindWallet(generation = connectionGeneration) {
+                if (!account) return false;
+                const localAccount = account;
+                try {
+                    const localProvider = new ethers.BrowserProvider(window.ethereum, 'any');
+                    const localSigner = await localProvider.getSigner();
+                    const signerAddress = await localSigner.getAddress();
+                    if (signerAddress.toLowerCase() !== localAccount.toLowerCase()) {
+                        return false;
+                    }
+                    const contract = new ethers.Contract(CONFIG.stakingContract, GT_ABI, localSigner);
+                    const taddr = await contract.stakingToken();
+                    if (taddr.toLowerCase() !== CONFIG.expectedToken.toLowerCase()) {
+                        throw new Error('Kontrak staking dikonfigurasi untuk token selain MEGAH.');
+                    }
+                    const erc20 = new ethers.Contract(CONFIG.expectedToken, ERC20_ABI, localSigner);
+                    const decimals = Number(await erc20.decimals());
+                    const symbol = await erc20.symbol();
+                    if (symbol.toUpperCase() !== CONFIG.expectedSymbol) {
+                        throw new Error(`Token mengembalikan ${symbol}, diharapkan ${CONFIG.expectedSymbol}.`);
+                    }
+                    if (generation !== connectionGeneration) return false;
+                    browserProvider = localProvider;
+                    signer = localSigner;
+                    gt = contract;
+                    token = erc20;
+                    account = signerAddress;
+                    tokenDecimals = decimals;
+                    tokenSymbol = symbol;
+                    setWalletState('green', `<i class="fa-solid fa-circle-check"></i>&nbsp;${short(account)}`);
+                    $('myAddress').textContent = short(account);
+                    $('myAddress').title = account;
+                    const owner = await gt.owner();
+                    const isOwner = owner.toLowerCase() === account.toLowerCase();
+                    document.querySelectorAll('.owner-tab').forEach(el => {
+                        if (el) el.style.display = isOwner ? 'flex' : 'none';
+                    });
+                    $('ownerWarning').textContent = isOwner ?
+                        '✅ Dompet yang terhubung adalah pemilik kontrak. Fungsi pemilik diaktifkan.' :
+                        'Panel pemilik terbatas untuk pemilik kontrak.';
+                    $('approveBtn').disabled = false;
+                    $('stakeBtn').disabled = false;
+                    $('maxBtn').disabled = false;
+                    await refresh();
+                    startPolling();
+                    return true;
+                } catch (e) {
+                    console.error('bindWallet', e);
+                    if (!e?.message?.includes('provider') && !e?.code?.includes('NETWORK')) {
+                        disconnectUI();
+                        notify(cleanError(e), 'error', 'Kesalahan Dompet / Kontrak', 0);
+                    } else {
+                        console.warn('Kesalahan sementara, mempertahankan mode baca-saja');
+                    }
+                    return false;
+                }
+            }
+
+            async function connect() {
+                if (!window.ethereum) {
+                    notify(
+                        'Tidak ada dompet EVM yang terdeteksi. Buka aplikasi ini di dompet browser EVM atau instal dompet yang kompatibel dengan EVM.',
+                        'error', 'Dompet Tidak Ditemukan', 0);
+                    return;
+                }
+                try {
+                    setWalletState('blue', '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp;Menghubungkan...');
+                    browserProvider = new ethers.BrowserProvider(window.ethereum, 'any');
+                    const net = await browserProvider.getNetwork();
+                    if (Number(net.chainId) !== CONFIG.chainId) {
+                        await addNetwork();
+                        return;
+                    }
+                    await browserProvider.send('eth_requestAccounts', []);
+                    await syncWalletState(false);
+                    if (!account) {
+                        notify('Koneksi dompet gagal.', 'error', 'Koneksi Gagal', 0);
+                    }
+                } catch (e) {
+                    console.error(e);
+                    disconnectUI();
+                    notify(cleanError(e), 'error', 'Koneksi Dompet', 0);
+                }
+            }
+
+            async function addNetwork() {
+                try {
+                    setWalletState('yellow', '<i class="fa-solid fa-spinner fa-spin"></i>&nbsp;Mengganti...');
+                    await window.ethereum.request({
+                        method: 'wallet_addEthereumChain',
+                        params: [{
+                            chainId: CONFIG.chainHex,
+                            chainName: CONFIG.chainName,
+                            nativeCurrency: { name: 'BNB Smart Chain', symbol: 'BNB', decimals: 18 },
+                            rpcUrls: [CONFIG.rpcList[0]],
+                            blockExplorerUrls: [CONFIG.explorer]
+                        }]
+                    });
+                    await syncWalletState(false);
+                } catch (e) {
+                    console.error(e);
+                    setWalletState('yellow', '<i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ganti Jaringan');
+                    notify(cleanError(e), 'warn', 'Ganti Jaringan', 0);
+                }
+            }
+
+            async function requireWallet() {
+                if (!window.ethereum) {
+                    notify('Tidak ada dompet EVM yang terdeteksi.', 'error', 'Dompet Diperlukan', 0);
+                    return false;
+                }
+                const ok = await syncWalletState(true);
+                if (!ok) return false;
+                if (!gt || !token) {
+                    notify('Dompet terhubung tetapi kontrak staking tidak dapat diinisialisasi.', 'error', 'Kesalahan Kontrak', 0);
+                    return false;
+                }
+                return true;
+            }
+
+            async function requireOwner() {
+                if (!await requireWallet()) return false;
+                try {
+                    const owner = await gt.owner();
+                    if (owner.toLowerCase() !== account.toLowerCase()) {
+                        notify('Dompet yang terhubung bukan pemilik kontrak staking ini.', 'error', 'Akses Pemilik Ditolak',
+                            0);
+                        return false;
+                    }
+                    return true;
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Verifikasi Pemilik Gagal', 0);
+                    return false;
+                }
+            }
+
+            async function initReadProvider() {
+                readProvider = await getProviderWithFallback();
+                const code = await readProvider.getCode(CONFIG.stakingContract);
+                if (code === '0x') {
+                    throw new Error('Kontrak staking tidak ditemukan di BNB Smart Chain.');
+                }
+                const reader = new ethers.Contract(CONFIG.stakingContract, GT_ABI, readProvider);
+                const taddr = await reader.stakingToken();
+                if (taddr.toLowerCase() !== CONFIG.expectedToken.toLowerCase()) {
+                    throw new Error('Kontrak staking dikonfigurasi untuk token yang berbeda.');
+                }
+                readToken = new ethers.Contract(CONFIG.expectedToken, ERC20_ABI, readProvider);
+                tokenDecimals = Number(await readToken.decimals());
+                tokenSymbol = await readToken.symbol();
+                if (tokenSymbol.toUpperCase() !== CONFIG.expectedSymbol) {
+                    throw new Error(`Diharapkan ${CONFIG.expectedSymbol}, tetapi token mengembalikan ${tokenSymbol}.`);
+                }
+                setupBlockListener();
+                await refresh();
+            }
+
+            function setupBlockListener() {
+                if (blockListener) {
+                    readProvider?.off('block', blockListener);
+                    blockListener = null;
+                }
+                blockListener = async (blockNumber) => {
+                    if (account) {
+                        await refreshUserOnChain();
+                    }
+                };
+                readProvider?.on('block', blockListener);
+            }
+
+            function startHeartbeat() {
+                clearInterval(heartbeatTimer);
+                heartbeatTimer = setInterval(async () => {
+                    if (!account) return;
+                    try {
+                        const accounts = await window.ethereum?.request({ method: 'eth_accounts' });
+                        if (!accounts?.length || accounts[0].toLowerCase() !== account.toLowerCase()) {
+                            disconnectUI();
+                            notify('Dompet terputus.', 'warn', 'Terputus', 3000);
+                        }
+                    } catch { }
+                }, 10000);
+            }
+
+            async function readNativeBalance(address) {
+                try {
+                    return await readProvider.getBalance(address);
+                } catch {
+                    return 0n;
+                }
+            }
+
+            function updateLevelsDisplay(levels) {
+                const levelsContainer = $('levels');
+                if (levelsContainer) {
+                    levelsContainer.innerHTML = levels.map((b, i) =>
+                        `<div class="kv"><span>Level ${i + 1}</span><span>${fmtBps(BigInt(b))}</span></div>`
+                    ).join('');
+                }
+                const calcDisplay = document.getElementById('calculatorLevelsDisplay');
+                if (calcDisplay && levels.length > 0) {
+                    calcDisplay.innerHTML = levels.map((b, i) => `L${i + 1}: ${fmtBps(BigInt(b))}`).join(' | ');
+                } else if (calcDisplay) {
+                    calcDisplay.textContent = 'Memuat data dari kontrak...';
+                }
+                levels.forEach((b, i) => {
+                    const el = $(`lvl${i + 1}`);
+                    if (el && !el.matches(':focus')) {
+                        el.value = String(b);
+                    }
+                });
+            }
+
+            async function refresh() {
+                if (!configured()) return;
+                const cacheKey = 'contract_data';
+                const cachedData = getCached(cacheKey);
+                let reader;
+                if (cachedData) {
+                    reader = cachedData.reader;
+                } else {
+                    reader = gt || new ethers.Contract(CONFIG.stakingContract, GT_ABI, readProvider);
+                    setCached(cacheKey, { reader });
+                }
+                try {
+                    const [owner, stakingToken, min, roi, leaderBonus] = await Promise.all([
+                        reader.owner(),
+                        reader.stakingToken(),
+                        reader.minStake(),
+                        reader.dailyRoiBps(),
+                        reader.leaderBonusBps()
+                    ]);
+
+                    cached.minStake = min;
+                    cached.dailyBps = roi;
+                    cached.leaderBps = leaderBonus;
+
+                    const contractDataTime = document.getElementById('contractDataTime');
+                    if (contractDataTime) {
+                        const now = new Date();
+                        contractDataTime.textContent = `Diperbarui: ${now.toLocaleTimeString('id-ID')}`;
+                    }
+
+                    const calcRoiInput = document.getElementById('calcRoi');
+                    const calcMaxCapInput = document.getElementById('calcMaxCapPct');
+                    if (calcRoiInput) {
+                        const roiPercent = Number(roi) / 100;
+                        calcRoiInput.value = roiPercent.toFixed(2);
+                    }
+                    if (calcMaxCapInput) {
+                        calcMaxCapInput.value = 200;
+                    }
+
+                    const levels = await Promise.all([...Array(10)].map((_, i) => reader.referralBonusLevels(i).catch(
+                        () => 0n)));
+                    cached.levels = levels;
+                    updateLevelsDisplay(levels);
+
+                    if (typeof calculateStaking === 'function') {
+                        setTimeout(calculateStaking, 50);
+                    }
+
+                    $('contractToken').textContent = short(stakingToken);
+                    $('contractMin').textContent = `${fmt(min)} ${tokenSymbol}`;
+                    $('contractRoi').textContent = fmtBps(roi);
+                    $('contractLeader').textContent = fmtBps(leaderBonus);
+                    $('contractNetwork').textContent = CONFIG.chainName;
+
+                    const leftoverEl = $('contractLeftover');
+                    if (leftoverEl) {
+                        leftoverEl.textContent = '0xCa7Bd31C8DF5b531Bb789664e03Aa49a06df6002';
+                    }
+
+                    try {
+                        const tokenForRead = token || readToken;
+                        if (tokenForRead) {
+                            const poolBalance = await tokenForRead.balanceOf(CONFIG.stakingContract);
+                            const poolEl = $('contractPoolBalance');
+                            if (poolEl) {
+                                poolEl.textContent = `${fmt(poolBalance)} ${tokenSymbol}`;
+                            }
+                        }
+                    } catch (poolError) {
+                        console.warn('Gagal membaca pool reward:', poolError);
+                    }
+                    $('minStake').textContent = `${fmt(min)} ${tokenSymbol}`;
+                    $('dailyRoi').textContent = fmtBps(roi);
+                    $('leaderBonus').textContent = fmtBps(leaderBonus);
+                    $('stakeMin').textContent = `${fmt(min)} ${tokenSymbol}`;
+                    $('stakeRoi').textContent = fmtBps(roi);
+
+                    if (!account) {
+                        clearUserUI();
+                        return;
+                    }
+                    const tokenForRead = token || readToken;
+                    const [info, up, leader, maxReached, balance, allowance, bnbBalance] = await Promise.all([
+                        reader.getStakeInfo(account),
+                        reader.userReferrers(account),
+                        reader.isLeader(account),
+                        reader.isMaxCapReached(account),
+                        tokenForRead.balanceOf(account),
+                        tokenForRead.allowance(account, CONFIG.stakingContract),
+                        readNativeBalance(account)
+                    ]);
+                    cached.total = info[0];
+                    cached.cap = info[1];
+                    cached.claimed = info[2];
+                    cached.pending = info[3];
+                    cached.referral = info[4];
+                    const raw = await reader.userStakes(account);
+                    cached.lastClaim = raw[4];
+                    renderUser(info, up, leader, maxReached, balance, allowance, bnbBalance, raw);
+                    if (owner.toLowerCase() === account.toLowerCase()) {
+                        fillOwner(levels, min, roi, leaderBonus);
+                    }
+                } catch (e) {
+                    console.error('refresh', e);
+                    if (e.message?.includes('network') || e.message?.includes('timeout')) {
+                        try {
+                            readProvider = await getProviderWithFallback();
+                            await refresh();
+                        } catch { }
+                    }
+                }
+            }
+
+            async function refreshUserOnChain() {
+                if (isPolling) return;
+                if (!account || !gt) return;
+                const localAccount = account;
+                const generation = connectionGeneration;
+                const tokenForRead = token || readToken;
+                if (!tokenForRead) return;
+                isPolling = true;
+                try {
+                    const [info, up, leader, maxReached, balance, allowance, bnbBalance, raw] = await Promise.all([
+                        gt.getStakeInfo(localAccount),
+                        gt.userReferrers(localAccount),
+                        gt.isLeader(localAccount),
+                        gt.isMaxCapReached(localAccount),
+                        tokenForRead.balanceOf(localAccount),
+                        tokenForRead.allowance(localAccount, CONFIG.stakingContract),
+                        readNativeBalance(localAccount),
+                        gt.userStakes(localAccount)
+                    ]);
+                    if (generation !== connectionGeneration || account?.toLowerCase() !== localAccount.toLowerCase()) {
+                        return;
+                    }
+                    cached.total = info[0];
+                    cached.cap = info[1];
+                    cached.claimed = info[2];
+                    cached.pending = info[3];
+                    cached.referral = info[4];
+                    cached.lastClaim = raw[4];
+                    renderUser(info, up, leader, maxReached, balance, allowance, bnbBalance, raw);
+                } catch (e) {
+                    console.error('refresh pengguna on-chain', e);
+                } finally {
+                    isPolling = false;
+                }
+            }
+
+            function renderUser(info, up, leader, maxReached, bal, allow, bnb, raw) {
+                if (!account) {
+                    clearUserUI();
+                    return;
+                }
+                $('balance').textContent = `${fmt(bal)} ${tokenSymbol}`;
+                $('staked').textContent = `${fmt(info[0])} ${tokenSymbol}`;
+                $('pending').textContent = `${fmt(info[3])} ${tokenSymbol}`;
+                $('referral').textContent = `${fmt(info[4])} ${tokenSymbol}`;
+                $('dStaked').textContent = `${fmt(info[0])} ${tokenSymbol}`;
+                $('dCap').textContent = `${fmt(info[1])} ${tokenSymbol}`;
+                $('dClaimed').textContent = `${fmt(info[2])} ${tokenSymbol}`;
+                $('dPending').textContent = `${fmt(info[3])} ${tokenSymbol}`;
+                $('dReferral').textContent = `${fmt(info[4])} ${tokenSymbol}`;
+                if (raw && raw.length >= 5) {
+                    $('dSavedReward').textContent = `${fmt(raw[3])} ${tokenSymbol}`;
+                    $('dLastClaim').textContent = formatTimestamp(raw[4]);
+                }
+                const remaining = info[1] > info[2] ? info[1] - info[2] : 0n;
+                $('dCapRemaining').textContent = `${fmt(remaining)} ${tokenSymbol}`;
+                const roiPending = info[3] || 0n;
+                const referralPending = info[4] || 0n;
+                const claimRoiBtn = $('claimRoiBtn');
+                const claimReferralBtn = $('claimReferralBtn');
+                if (!claimRoiBtn._originalText) {
+                    claimRoiBtn.disabled = roiPending <= 0n;
+                }
+                if (!claimReferralBtn._originalText) {
+                    claimReferralBtn.disabled = referralPending <= 0n;
+                }
+                $('roiClaimAmount').textContent = `${fmt(roiPending)} ${tokenSymbol}`;
+                $('referralClaimAmount').textContent = `${fmt(referralPending)} ${tokenSymbol}`;
+                $('stakeMaxCap').textContent = `${fmt(info[1])} ${tokenSymbol}`;
+                const referrerDisplay = up && up !== ethers.ZeroAddress ? short(up) : 'Tidak ada';
+                $('dReferrer').textContent = referrerDisplay;
+                $('dReferrer').title = up || '';
+                $('nReferrer').textContent = referrerDisplay;
+                $('nReferrer').title = up || '';
+                $('dLeader').textContent = leader ? 'Ya' : 'Tidak';
+                $('nLeader').textContent = leader ? 'Ya' : 'Tidak';
+                $('dCapStatus').textContent = maxReached ? 'Tercapai' : 'Belum Tercapai';
+                $('dCapStatus').style.color = maxReached ? '#ff8c9c' : '#70dfbd';
+                $('positionStatus').textContent = 'Terhubung';
+                $('positionStatus').className = 'badge green';
+                const pct = info[1] > 0n ? Number(info[2] * 10000n / info[1]) / 100 : 0;
+                $('capProgress').style.width = Math.min(100, pct) + '%';
+                $('capText').textContent = `${pct.toFixed(2)}% dari batas maksimum tercapai`;
+                $('allowanceText').textContent = `Persetujuan: ${fmt(allow)} ${tokenSymbol}`;
+                $('bnbBalanceText').textContent = `Saldo BNB: ${fmtNative(bnb)} BNB`;
+                $('balanceStakeText').textContent = `Saldo MEGAH: ${fmt(bal)} ${tokenSymbol}`;
+            }
+
+            function fillOwner(levels, min, roi, lb) {
+                $('oMinStake').value = ethers.formatUnits(min, tokenDecimals);
+                $('oRoi').value = String(roi);
+                $('oLeaderBps').value = String(lb);
+                levels.forEach((b, i) => {
+                    const el = $(`lvl${i + 1}`);
+                    if (el && !el.matches(':focus')) {
+                        el.value = String(b);
+                    }
+                });
+            }
+
+            function buildLevelInputs() {
+                const box = $('levelInputs');
+                box.innerHTML = '';
+                for (let i = 1; i <= 10; i++) {
+                    const d = document.createElement('div');
+                    d.innerHTML =
+                        `<label class="label">Level ${i} — BPS</label><input id="lvl${i}" inputmode="numeric" placeholder="0" style="font-size:12px;padding:6px 10px;">`;
+                    box.appendChild(d);
+                }
+            }
+
+            async function sendTransaction(tx, label, buttonId = null, showGasEstimate = true) {
+                const myNonce = ++transactionNonce;
+                if (isProcessing) {
+                    notify('Transaksi sedang diproses.', 'warn', 'Memproses', 2000);
+                    return null;
+                }
+                isProcessing = true;
+                setStakeStatus(`⏳ ${label} dikirim. Menunggu konfirmasi blockchain...`, 'info', true);
+                if (buttonId) {
+                    const btn = $(buttonId);
+                    if (btn) {
+                        btn._originalText = btn.innerHTML;
+                        btn.disabled = true;
+                        btn.innerHTML = `<span class="spinner-small"></span>&nbsp;${label}...`;
+                    }
+                }
+                try {
+                    if (showGasEstimate) {
+                        try {
+                            const gasEstimate = await tx.estimateGas();
+                            const feeData = await readProvider.getFeeData();
+                            const gasPrice = feeData.gasPrice || feeData.maxFeePerGas || 0n;
+                            const totalGas = gasEstimate * gasPrice;
+                            const gasInBnb = ethers.formatEther(totalGas);
+                            const gasEl = $('gasEstimate');
+                            if (gasEl) {
+                                gasEl.style.display = 'block';
+                                gasEl.textContent = `⛽ Perkiraan gas: ~${parseFloat(gasInBnb).toFixed(6)} BNB`;
+                                gasEl.className = 'small muted';
+                                gasEl.style.marginTop = '3px';
+                            }
+                        } catch (gasError) {
+                            console.warn('Perkiraan gas gagal:', gasError);
+                        }
+                    }
+                    const receipt = await tx.wait();
+                    if (myNonce !== transactionNonce) {
+                        return null;
+                    }
+                    setStakeStatus(`✅ ${label} berhasil dikonfirmasi!`, 'ok', true);
+                    const gasEl = $('gasEstimate');
+                    if (gasEl) {
+                        setTimeout(() => {
+                            gasEl.style.display = 'none';
+                        }, 3000);
+                    }
+                    notify(`${label} dikonfirmasi di BNB Smart Chain.\n${short(receipt.hash)}`, 'ok', 'Transaksi Berhasil',
+                        5000);
+                    clearCache();
+                    await refresh();
+                    if (buttonId) {
+                        const btn = $(buttonId);
+                        if (btn && btn._originalText) {
+                            btn.disabled = false;
+                            btn.innerHTML = btn._originalText;
+                            delete btn._originalText;
+                        }
+                    }
+                    setTimeout(() => {
+                        setStakeStatus('', 'info', false);
+                        const gasEl2 = $('gasEstimate');
+                        if (gasEl2) gasEl2.style.display = 'none';
+                    }, 3000);
+                    return receipt;
+                } catch (e) {
+                    if (myNonce !== transactionNonce) {
+                        return null;
+                    }
+                    setStakeStatus(`❌ ${label} gagal: ${cleanError(e)}`, 'danger', true);
+                    const gasEl = $('gasEstimate');
+                    if (gasEl) gasEl.style.display = 'none';
+                    if (buttonId) {
+                        const btn = $(buttonId);
+                        if (btn && btn._originalText) {
+                            btn.disabled = false;
+                            btn.innerHTML = btn._originalText;
+                            delete btn._originalText;
+                        }
+                    }
+                    setTimeout(() => {
+                        setStakeStatus('', 'info', false);
+                    }, 5000);
+                    throw e;
+                } finally {
+                    if (myNonce === transactionNonce) {
+                        isProcessing = false;
+                    }
+                }
+            }
+
+            async function approve() {
+                if (!await requireWallet()) return;
+                if (isProcessing) {
+                    notify('Harap tunggu proses saat ini selesai.', 'warn', 'Memproses', 2000);
+                    return;
+                }
+                const amountInput = $('stakeAmount');
+                const amountRaw = amountInput.value.trim();
+                const validation = validateAmountInput(amountRaw);
+                if (!validation.valid) {
+                    notify(validation.message, 'warn', 'Kesalahan Input', 0);
+                    amountInput.classList.add('input-error');
+                    setTimeout(() => amountInput.classList.remove('input-error'), 3000);
+                    return;
+                }
+                try {
+                    const amount = ethers.parseUnits(validation.value, tokenDecimals);
+                    if (!await validateStakeInput(amount)) {
+                        return;
+                    }
+                    const currentAllowance = await token.allowance(account, CONFIG.stakingContract);
+                    if (amount <= currentAllowance) {
+                        notify(`✅ Persetujuan sudah mencukupi (${fmt(currentAllowance)} MEGAH).`, 'info',
+                            'Persetujuan Cukup', 3000);
+                        return;
+                    }
+                    const tx = await token.approve(CONFIG.stakingContract, amount);
+                    await sendTransaction(tx, 'Setujui MEGAH', 'approveBtn');
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Persetujuan Gagal', 0);
+                }
+            }
+
+            async function stake() {
+                if (!await requireWallet()) return;
+                if (isProcessing) {
+                    notify('Harap tunggu proses saat ini selesai.', 'warn', 'Memproses', 2000);
+                    return;
+                }
+                const amountInput = $('stakeAmount');
+                const amountRaw = amountInput.value.trim();
+                const validation = validateAmountInput(amountRaw);
+                if (!validation.valid) {
+                    notify(validation.message, 'warn', 'Kesalahan Input', 0);
+                    amountInput.classList.add('input-error');
+                    setTimeout(() => amountInput.classList.remove('input-error'), 3000);
+                    return;
+                }
+                try {
+                    const amount = ethers.parseUnits(validation.value, tokenDecimals);
+                    if (!await validateStakeInput(amount)) {
+                        return;
+                    }
+                    const allowance = await token.allowance(account, CONFIG.stakingContract);
+                    if (allowance < amount) {
+                        notify(
+                            `Persetujuan tidak mencukupi.\nPersetujuan: ${fmt(allowance)} MEGAH\nDiperlukan: ${fmt(amount)} MEGAH\n\nSilakan klik "Setujui MEGAH" terlebih dahulu.`,
+                            'warn', 'Persetujuan Tidak Cukup', 0);
+                        return;
+                    }
+                    let up = $('referrer').value.trim();
+                    if (up) {
+                        if (!validAddress(up)) {
+                            notify('Alamat pemberi referral tidak valid.', 'error', 'Kesalahan Input', 0);
+                            return;
+                        }
+                        if (up.toLowerCase() === account.toLowerCase()) {
+                            notify('Pemberi referral tidak boleh alamat Anda sendiri.', 'warn', 'Kesalahan Input', 0);
+                            return;
+                        }
+                    }
+                    const tx = await gt.stake(amount, up || ethers.ZeroAddress);
+                    await sendTransaction(tx, 'Staking MEGAH', 'stakeBtn');
+                    amountInput.value = '';
+                    clearCache();
+                    await refresh();
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Staking Gagal', 0);
+                }
+            }
+
+            async function maxAmount() {
+                if (!await requireWallet()) return;
+                const tokenForRead = token || readToken;
+                if (!tokenForRead) {
+                    notify('Kontrak token tidak tersedia.', 'error', 'Kesalahan Token', 0);
+                    return;
+                }
+                try {
+                    const balance = await tokenForRead.balanceOf(account);
+                    $('stakeAmount').value = ethers.formatUnits(balance, tokenDecimals);
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Gagal Membaca Saldo', 0);
+                }
+            }
+
+            async function validateStakeInput(amount) {
+                if (!account) {
+                    notify('Silakan hubungkan dompet Anda terlebih dahulu.', 'warn', 'Dompet Diperlukan', 0);
+                    return false;
+                }
+                if (amount <= 0n) {
+                    notify('Harap masukkan jumlah MEGAH yang valid (lebih dari 0).', 'warn', 'Kesalahan Input', 0);
+                    return false;
+                }
+                const tokenForRead = token || readToken;
+                if (!tokenForRead) {
+                    notify('Kontrak token tidak tersedia. Silakan segarkan halaman.', 'error', 'Kesalahan Token', 0);
+                    return false;
+                }
+                try {
+                    const balance = await tokenForRead.balanceOf(account);
+                    if (amount > balance) {
+                        notify(
+                            `❌ Saldo MEGAH Anda: ${fmt(balance)} MEGAH\nDiperlukan: ${fmt(amount)} MEGAH\n\nSilakan kurangi jumlah atau tambah MEGAH.`,
+                            'error', 'Saldo Tidak Cukup', 0);
+                        return false;
+                    }
+                } catch (e) {
+                    notify('Gagal membaca saldo: ' + cleanError(e), 'error', 'Kesalahan Saldo', 0);
+                    return false;
+                }
+                if (gt) {
+                    try {
+                        const min = await gt.minStake();
+                        if (amount < min) {
+                            notify(`❌ Staking minimum: ${fmt(min)} MEGAH\nAnda memasukkan: ${fmt(amount)} MEGAH`, 'warn',
+                                'Di Bawah Minimum', 0);
+                            return false;
+                        }
+                    } catch (e) {
+                        notify('Gagal membaca staking minimum: ' + cleanError(e), 'error', 'Kesalahan Kontrak', 0);
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            async function claimRoi() {
+                if (!await requireWallet()) return;
+                if (isProcessing) {
+                    notify('Harap tunggu proses saat ini selesai.', 'warn', 'Memproses', 2000);
+                    return;
+                }
+                if (cached.pending <= 0n) {
+                    notify('Tidak ada ROI tertunda untuk diklaim.', 'info', 'Tidak Ada Reward', 3000);
+                    return;
+                }
+                const roiAmount = cached.pending;
+                try {
+                    const beforeTotalEarned = cached.claimed;
+                    const beforeReferral = cached.referral;
+                    try {
+                        const txEstimate = await gt.claimRoi.populateTransaction();
+                        const gasEstimate = await readProvider.estimateGas({
+                            to: CONFIG.stakingContract,
+                            data: txEstimate.data,
+                            from: account
+                        });
+                        const feeData = await readProvider.getFeeData();
+                        const gasPrice = feeData.gasPrice || feeData.maxFeePerGas || 0n;
+                        const totalGas = gasEstimate * gasPrice;
+                        setGasEstimate(ethers.formatEther(totalGas), true);
+                    } catch { }
+                    const tx = await gt.claimRoi();
+                    const receipt = await sendTransaction(tx, 'Klaim ROI', 'claimRoiBtn');
+                    if (receipt) {
+                        try {
+                            const [newInfo, newReferral] = await Promise.all([
+                                gt.getStakeInfo(account),
+                                gt.userStakes(account)
+                            ]);
+                            const newTotalEarned = newInfo[2];
+                            const newReferralPending = newInfo[4];
+                            const earnedDifference = newTotalEarned - beforeTotalEarned;
+                            const referralDifference = newReferralPending - beforeReferral;
+                            let bonusDetails = '';
+                            if (referralDifference > 0n) {
+                                bonusDetails += `\n📤 Bonus Referral ditambahkan: +${fmt(referralDifference)} ${tokenSymbol}`;
+                            }
+                            let referralTotal = 0n;
+                            let leaderBonus = 0n;
+                            let leaderAddress = '';
+                            if (receipt.logs && receipt.logs.length > 0) {
+                                const iface = new ethers.Interface(GT_ABI);
+                                for (const log of receipt.logs) {
+                                    try {
+                                        const parsed = iface.parseLog(log);
+                                        if (parsed) {
+                                            if (parsed.name === 'ReferralBonusDistributed') {
+                                                referralTotal = parsed.args[2] || 0n;
+                                            }
+                                            if (parsed.name === 'LeaderBonusPaid') {
+                                                leaderBonus = parsed.args[2] || 0n;
+                                                leaderAddress = parsed.args[0] || '';
+                                            }
+                                        }
+                                    } catch { }
+                                }
+                            }
+                            let detailMessage = `✅ ROI ${fmt(roiAmount)} ${tokenSymbol} berhasil diklaim.`;
+                            if (referralTotal > 0n) {
+                                detailMessage +=
+                                    `\n📊 Bonus Referral didistribusikan ke 10 tingkat: ${fmt(referralTotal)} ${tokenSymbol}`;
+                            }
+                            if (leaderBonus > 0n && leaderAddress) {
+                                detailMessage +=
+                                    `\n👑 Bonus Pemimpin dikirim ke ${short(leaderAddress)}: ${fmt(leaderBonus)} ${tokenSymbol}`;
+                            }
+                            if (referralDifference > 0n) {
+                                detailMessage +=
+                                    `\n💼 Bonus referral Anda bertambah: +${fmt(referralDifference)} ${tokenSymbol}`;
+                            }
+                            detailMessage += `\n📈 Total diperoleh: ${fmt(newTotalEarned)} / ${fmt(newInfo[1])} ${tokenSymbol}`;
+                            const pct = newInfo[1] > 0n ? Number(newTotalEarned * 10000n / newInfo[1]) / 100 : 0;
+                            detailMessage += `\n📊 Kemajuan batas: ${pct.toFixed(2)}%`;
+                            notify(detailMessage, 'ok', '🎉 Klaim ROI Berhasil', 8000);
+                        } catch (detailError) {
+                            notify(
+                                `✅ ROI ${fmt(roiAmount)} ${tokenSymbol} berhasil diklaim.\n📤 Bonus referral & pemimpin didistribusikan secara otomatis sesuai kontrak.`,
+                                'ok', 'Klaim ROI Berhasil', 6000);
+                        }
+                        clearCache();
+                        await refresh();
+                    }
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Klaim ROI Gagal', 0);
+                }
+            }
+
+            async function claimReferral() {
+                if (!await requireWallet()) return;
+                if (isProcessing) {
+                    notify('Harap tunggu proses saat ini selesai.', 'warn', 'Memproses', 2000);
+                    return;
+                }
+                if (cached.referral <= 0n) {
+                    notify('Tidak ada bonus referral tertunda untuk diklaim.', 'info', 'Tidak Ada Bonus', 3000);
+                    return;
+                }
+                try {
+                    try {
+                        const txEstimate = await gt.claimReferralBonus.populateTransaction();
+                        const gasEstimate = await readProvider.estimateGas({
+                            to: CONFIG.stakingContract,
+                            data: txEstimate.data,
+                            from: account
+                        });
+                        const feeData = await readProvider.getFeeData();
+                        const gasPrice = feeData.gasPrice || feeData.maxFeePerGas || 0n;
+                        const totalGas = gasEstimate * gasPrice;
+                        setGasEstimate(ethers.formatEther(totalGas), true);
+                    } catch { }
+                    const tx = await gt.claimReferralBonus();
+                    const receipt = await sendTransaction(tx, 'Klaim Bonus Referral', 'claimReferralBtn');
+                    if (receipt) {
+                        const referralAmount = cached.referral;
+                        notify(`✅ Bonus Referral ${fmt(referralAmount)} ${tokenSymbol} berhasil diklaim!`, 'ok',
+                            '🎉 Klaim Bonus Referral Berhasil', 5000);
+                        clearCache();
+                        await refresh();
+                    }
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Klaim Bonus Referral Gagal', 0);
+                }
+            }
+
+            async function copyReferral() {
+                if (!await requireWallet()) return;
+                if (!account) {
+                    notify('Silakan hubungkan dompet Anda terlebih dahulu.', 'warn', 'Dompet Diperlukan', 3000);
+                    return;
+                }
+                try {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('ref', account);
+                    const cleanUrl = url.origin + url.pathname + '?ref=' + account;
+                    await navigator.clipboard.writeText(cleanUrl);
+                    notify('✅ Tautan referral disalin!\n\n' + cleanUrl, 'ok', 'Tautan Referral Disalin', 5000);
+                } catch (e) {
+                    try {
+                        const url = new URL(window.location.href);
+                        url.searchParams.set('ref', account);
+                        const text = url.toString();
+                        const input = document.createElement('input');
+                        input.value = text;
+                        input.style.position = 'fixed';
+                        input.style.opacity = '0';
+                        document.body.appendChild(input);
+                        input.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(input);
+                        notify('✅ Tautan referral disalin!\n\n' + text, 'ok', 'Tautan Referral Disalin', 5000);
+                    } catch (fallbackError) {
+                        const manualUrl = new URL(window.location.href);
+                        manualUrl.searchParams.set('ref', account);
+                        notify('Gagal menyalin tautan. Silakan salin secara manual:\n\n' + manualUrl.toString(), 'warn',
+                            'Salin Manual', 8000);
+                    }
+                }
+            }
+
+            async function updateMinStake() {
+                if (!await requireOwner()) return;
+                try {
+                    const v = ethers.parseUnits($('oMinStake').value.trim(), tokenDecimals);
+                    const tx = await gt.updateMinStake(v);
+                    await sendTransaction(tx, 'Perbarui Staking Minimum', 'setMinStake');
+                    clearCache();
+                    await refresh();
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Pembaruan Gagal', 0);
+                }
+            }
+
+            async function updateRoi() {
+                if (!await requireOwner()) return;
+                try {
+                    const v = BigInt($('oRoi').value);
+                    if (v <= 0n) throw new Error('ROI harus lebih besar dari 0.');
+                    const tx = await gt.updateDailyRoiBps(v);
+                    await sendTransaction(tx, 'Perbarui ROI Harian', 'setRoi');
+                    clearCache();
+                    await refresh();
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Pembaruan Gagal', 0);
+                }
+            }
+
+            async function updateLeaderBps() {
+                if (!await requireOwner()) return;
+                try {
+                    const v = BigInt($('oLeaderBps').value);
+                    const tx = await gt.updateLeaderBonusBps(v);
+                    await sendTransaction(tx, 'Perbarui Bonus Pemimpin', 'setLeaderBps');
+                    clearCache();
+                    await refresh();
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Pembaruan Gagal', 0);
+                }
+            }
+
+            async function setLevels() {
+                if (!await requireOwner()) return;
+                try {
+                    const arr = [];
+                    for (let i = 1; i <= 10; i++) {
+                        const v = BigInt($(`lvl${i}`).value || '0');
+                        if (v < 0n) throw new Error('Nilai BPS tidak valid.');
+                        arr.push(v);
+                    }
+                    const tx = await gt.updateReferralLevels(arr);
+                    await sendTransaction(tx, 'Perbarui Tingkat Referral', 'setLevels');
+                    clearCache();
+                    await refresh();
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Pembaruan Gagal', 0);
+                }
+            }
+
+            async function setLeader() {
+                if (!await requireOwner()) return;
+                try {
+                    const a = $('leaderAddress').value.trim();
+                    if (!validAddress(a)) throw new Error('Alamat pemimpin tidak valid.');
+                    const status = $('leaderStatus').value === 'true';
+                    const tx = await gt.setLeader(a, status);
+                    await sendTransaction(tx, 'Perbarui Status Pemimpin', 'setLeader');
+                    clearCache();
+                    await refresh();
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Pembaruan Gagal', 0);
+                }
+            }
+
+            async function adminStake() {
+                if (!await requireOwner()) return;
+                try {
+                    const user = $('adminUser').value.trim();
+                    const up = $('adminReferrer').value.trim() || ethers.ZeroAddress;
+                    if (!validAddress(user) || (up !== ethers.ZeroAddress && !validAddress(up))) {
+                        throw new Error('Alamat tidak valid.');
+                    }
+                    const amount = ethers.parseUnits($('adminAmount').value.trim(), tokenDecimals);
+                    if (amount <= 0n) throw new Error('Jumlah harus lebih besar dari nol.');
+                    const tx = await gt.adminStake(user, amount, up);
+                    await sendTransaction(tx, 'Staking Admin', 'adminStake');
+                    clearCache();
+                    await refresh();
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Staking Admin Gagal', 0);
+                }
+            }
+
+            async function recoverERC20() {
+                if (!await requireOwner()) return;
+                try {
+                    const address = $('recoverToken').value.trim();
+                    if (!validAddress(address)) throw new Error('Alamat token tidak valid.');
+                    const c = new ethers.Contract(address, ERC20_ABI, signer);
+                    const decimals = Number(await c.decimals());
+                    const amount = ethers.parseUnits($('recoverAmount').value.trim(), decimals);
+                    const tx = await gt.recoverERC20(address, amount);
+                    await sendTransaction(tx, 'Pulihkan ERC-20', 'recoverBtn');
+                    clearCache();
+                    await refresh();
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Pemulihan Gagal', 0);
+                }
+            }
+
+            async function renounceOwnership() {
+                if (!await requireOwner()) return;
+                const confirmed = confirm(
+                    '⚠️ PERINGATAN!\n\n' +
+                    'Anda akan secara permanen melepaskan kepemilikan kontrak.\n' +
+                    'Setelah ini, TIDAK ADA seorang pun yang dapat menjalankan fungsi pemilik.\n\n' +
+                    'Apakah Anda yakin?'
+                );
+                if (!confirmed) return;
+                try {
+                    const tx = await gt.renounceOwnership();
+                    await sendTransaction(tx, 'Lepaskan Kepemilikan', 'renounceOwnershipBtn');
+                    clearCache();
+                    await refresh();
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Lepaskan Kepemilikan Gagal', 0);
+                }
+            }
+
+            async function transferOwnership() {
+                if (!await requireOwner()) return;
+                const newOwner = $('transferOwnerAddress').value.trim();
+                if (!validAddress(newOwner)) {
+                    notify('Alamat pemilik baru tidak valid.', 'error', 'Kesalahan Input', 0);
+                    return;
+                }
+                if (newOwner.toLowerCase() === account.toLowerCase()) {
+                    notify('Pemilik baru tidak boleh pemilik saat ini.', 'warn', 'Kesalahan Input', 0);
+                    return;
+                }
+                const confirmed = confirm(
+                    `⚠️ PERINGATAN!\n\n` +
+                    `Anda akan mentransfer kepemilikan kontrak ke:\n${newOwner}\n\n` +
+                    `Setelah ini, hanya alamat itu yang dapat menjalankan fungsi pemilik.\n\n` +
+                    `Apakah Anda yakin?`
+                );
+                if (!confirmed) return;
+                try {
+                    const tx = await gt.transferOwnership(newOwner);
+                    await sendTransaction(tx, 'Transfer Kepemilikan', 'transferOwnershipBtn');
+                    clearCache();
+                    await refresh();
+                } catch (e) {
+                    notify(cleanError(e), 'error', 'Transfer Kepemilikan Gagal', 0);
+                }
+            }
+
+            // TAB NAVIGATION
+            function showTab(name) {
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.toggle('active', section.id === name);
+                });
+                document.querySelectorAll('#navBar .tab, #statsNav .tab').forEach(button => {
+                    button.classList.toggle('active', button.dataset.tab === name);
+                });
+                const section = document.getElementById(name);
+                if (section) {
+                    const header = document.querySelector('header');
+                    const headerHeight = header ? header.offsetHeight : 0;
+                    const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
+                    requestAnimationFrame(() => {
+                        window.scrollTo({
+                            top: sectionTop - headerHeight - 15,
+                            behavior: 'smooth'
+                        });
+                    });
+                }
+            }
+            window.showTab = showTab;
+
+            // HERO
+            function setupHero() {
+                let i = 0;
+                const slides = $('slides');
+                if (!slides) return;
+                const go = n => {
+                    i = (n + 3) % 3;
+                    slides.style.transform = `translateX(-${i * 100}%)`;
+                };
+                $('heroConnect').addEventListener('click', connect);
+                setInterval(() => go(i + 1), 7000);
+            }
+
+            // POLLING
+            function startPolling() {
+                clearInterval(refreshTimer);
+                clearInterval(liveTimer);
+                refreshTimer = setInterval(async () => {
+                    if (!account) return;
+                    const accounts = await window.ethereum?.request({ method: 'eth_accounts' }).catch(() => []);
+                    if (!accounts?.length || accounts[0].toLowerCase() !== account.toLowerCase()) {
+                        disconnectUI();
+                        return;
+                    }
+                    await refresh();
+                }, CONFIG.refreshInterval);
+                liveTimer = setInterval(refreshUserOnChain, CONFIG.pollingInterval);
+                startHeartbeat();
+            }
+
+            // WALLET EVENTS
+            function setupWalletEvents() {
+                if (!window.ethereum) return;
+                window.ethereum.on?.('accountsChanged', async accounts => {
+                    connectionGeneration++;
+                    if (!accounts?.length) {
+                        disconnectUI();
+                        notify('Dompet telah terputus dari aplikasi ini.', 'info', 'Dompet Terputus', 3500);
+                        return;
+                    }
+                    await syncWalletState(false);
+                });
+                window.ethereum.on?.('chainChanged', async chainId => {
+                    connectionGeneration++;
+                    const id = Number(BigInt(chainId));
+                    if (id !== CONFIG.chainId) {
+                        account = null;
+                        signer = null;
+                        gt = null;
+                        token = null;
+                        clearUserUI();
+                        setWalletState('yellow', '<i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ganti Jaringan');
+                        notify(`Silakan ganti dompet Anda ke ${CONFIG.chainName}.`, 'warn', 'Jaringan Salah', 0);
+                        return;
+                    }
+                    await syncWalletState(false);
+                });
+            }
+
+            // CALCULATOR
+            function calculateStaking() {
+                const amountInput = document.getElementById('calcAmount');
+                const roiInput = document.getElementById('calcRoi');
+                const maxCapInput = document.getElementById('calcMaxCapPct');
+                const downlineStakeInput = document.getElementById('calcDownlineStake');
+                const includeReferral = document.getElementById('calcIncludeReferral').value === 'true';
+                const resultsDiv = document.getElementById('calcResults');
+
+                const downlineCounts = [];
+                for (let i = 1; i <= 10; i++) {
+                    const el = document.getElementById('calcDl' + i);
+                    downlineCounts.push(parseInt(el.value) || 0);
+                }
+
+                const amount = parseFloat(amountInput.value) || 0;
+                const roiDailyPercent = parseFloat(roiInput.value) || 0.3;
+                const maxCapPercent = parseFloat(maxCapInput.value) || 200;
+                const downlineStake = parseFloat(downlineStakeInput.value) || 0;
+
+                if (amount <= 0) {
+                    resultsDiv.innerHTML =
+                        `<div class="notice warn" style="text-align:center;padding:12px;font-size:10px;border-radius:var(--radius);"><i class="fa-solid fa-triangle-exclamation"></i> Masukkan jumlah staking yang valid (lebih dari 0).</div>`;
+                    return;
+                }
+
+                const roiDaily = amount * (roiDailyPercent / 100);
+                const maxCap = amount * (maxCapPercent / 100);
+
+                const referralLevels = cached.levels.length > 0 ?
+                    cached.levels.map((bps, index) => ({
+                        level: index + 1,
+                        bps: Number(bps),
+                        pct: Number(bps) / 100
+                    })) :
+                    [
+                        { level: 1, bps: 500, pct: 5 },
+                        { level: 2, bps: 350, pct: 3.5 },
+                        { level: 3, bps: 250, pct: 2.5 },
+                        { level: 4, bps: 200, pct: 2 },
+                        { level: 5, bps: 150, pct: 1.5 },
+                        { level: 6, bps: 100, pct: 1 },
+                        { level: 7, bps: 75, pct: 0.75 },
+                        { level: 8, bps: 50, pct: 0.5 },
+                        { level: 9, bps: 35, pct: 0.35 },
+                        { level: 10, bps: 25, pct: 0.25 }
+                    ];
+
+                const downlineRoiDaily = downlineStake * (roiDailyPercent / 100);
+
+                let totalReferralAllLevels = 0;
+                let totalDownlineCount = 0;
+                let levelDetails = [];
+
+                referralLevels.forEach((level, index) => {
+                    const count = downlineCounts[index] || 0;
+                    totalDownlineCount += count;
+                    const referralPerDownline = (downlineRoiDaily * level.bps) / 10000;
+                    const totalReferral = referralPerDownline * count;
+                    totalReferralAllLevels += totalReferral;
+                    levelDetails.push({
+                        level: level.level,
+                        pct: level.pct,
+                        bps: level.bps,
+                        count: count,
+                        referralPerDownline: referralPerDownline,
+                        totalReferral: totalReferral
+                    });
+                });
+
+                const dailyEarningWithReferral = includeReferral ? roiDaily + totalReferralAllLevels : roiDaily;
+                const daysToMaxCap = Math.ceil(maxCap / dailyEarningWithReferral);
+
+                const earnings = {
+                    daily: dailyEarningWithReferral,
+                    weekly: dailyEarningWithReferral * 7,
+                    monthly: dailyEarningWithReferral * 30,
+                    yearly: dailyEarningWithReferral * 365
+                };
+
+                const roiOnly = {
+                    daily: roiDaily,
+                    weekly: roiDaily * 7,
+                    monthly: roiDaily * 30,
+                    yearly: roiDaily * 365
+                };
+
+                const fmtNum = (num) => {
+                    if (num >= 1000) return num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                    return num.toFixed(4);
+                };
+
+                const levelDisplay = referralLevels.map(l => `L${l.level}: ${l.pct}%`).join(' | ');
+
+                let referralHtml = '';
+                if (includeReferral && totalDownlineCount > 0) {
+                    referralHtml = `
+                            <div class="calc-referral-dash">
+                                <div class="title"><i class="fa-solid fa-users"></i> Bonus Referral per Hari (${totalDownlineCount} downline aktif)</div>
+                                <div style="font-size:10px;color:var(--muted2);margin-bottom:4px;">
+                                    Setiap downline staking <strong>${fmtNum(downlineStake)} MEGAH</strong> → ROI Harian <strong>${fmtNum(downlineRoiDaily)} MEGAH</strong>
+                                </div>
+                                <div class="levels" style="grid-template-columns:repeat(5,1fr);">
+                                    ${levelDetails.map(l => `
+                                            <div class="lvl" style="${l.count === 0 ? 'opacity:0.4;' : ''}">
+                                                <span>L${l.level}</span>
+                                                <span style="color:var(--green);">${l.pct}%</span>
+                                                <span style="font-size:7px;color:var(--muted2);">${l.count}</span>
+                                                <span style="font-size:7px;color:var(--text2);">+${fmtNum(l.totalReferral)}</span>
+                                            </div>
+                                        `).join('')}
+                                </div>
+                                <div class="total-referral" style="margin-top:4px;">
+                                    <span>Total Bonus Referral per Hari</span>
+                                    <span style="font-size:13px;">${fmtNum(totalReferralAllLevels)} MEGAH</span>
+                                </div>
+                            </div>
+                        `;
+                } else if (includeReferral && totalDownlineCount === 0) {
+                    referralHtml =
+                        `<div class="notice warn small" style="margin-top:6px;font-size:9px;"><i class="fa-solid fa-info-circle"></i>&nbsp; Tidak ada downline aktif. Masukkan jumlah downline di setiap level untuk melihat efek referral.</div>`;
+                }
+
+                const resultsHtml = `
+                        <div style="margin-bottom:6px;font-size:9px;color:var(--muted2);text-align:center;border-bottom:1px solid rgba(245,158,11,0.06);padding-bottom:4px;">
+                            📊 Tingkat Referral: ${levelDisplay}
+                        </div>
+                        <div class="calc-result-grid">
+                            <div class="calc-result-item highlight">
+                                <div class="label">⏱️ Batas Tercapai</div>
+                                <div class="value green">${daysToMaxCap} Hari</div>
+                                <div class="sub">${includeReferral ? 'Dengan Referral' : 'ROI Saja'}</div>
+                            </div>
+                            <div class="calc-result-item highlight">
+                                <div class="label">🎯 Batas Maks</div>
+                                <div class="value green">${fmtNum(maxCap)}</div>
+                                <div class="sub">${maxCapPercent}% dari ${fmtNum(amount)}</div>
+                            </div>
+                            <div class="calc-result-item">
+                                <div class="label">📅 ROI Harian</div>
+                                <div class="value gold">${fmtNum(roiDaily)}</div>
+                                <div class="sub">${roiDailyPercent}%</div>
+                            </div>
+                            <div class="calc-result-item">
+                                <div class="label">${includeReferral ? '📊 Total Harian' : '📊 Harian'}</div>
+                                <div class="value blue">${fmtNum(dailyEarningWithReferral)}</div>
+                                <div class="sub">${includeReferral ? `+${fmtNum(totalReferralAllLevels)} ref` : 'ROI saja'}</div>
+                            </div>
+                            <div class="calc-result-item">
+                                <div class="label">📆 1 Minggu</div>
+                                <div class="value">${fmtNum(earnings.weekly)}</div>
+                                <div class="sub">${includeReferral ? 'dengan referral' : 'ROI'}</div>
+                            </div>
+                            <div class="calc-result-item">
+                                <div class="label">📆 1 Bulan</div>
+                                <div class="value">${fmtNum(earnings.monthly)}</div>
+                                <div class="sub">${includeReferral ? 'dengan referral' : 'ROI'}</div>
+                            </div>
+                            <div class="calc-result-item">
+                                <div class="label">📆 1 Tahun</div>
+                                <div class="value">${fmtNum(earnings.yearly)}</div>
+                                <div class="sub">${includeReferral ? 'dengan referral' : 'ROI'}</div>
+                            </div>
+                            <div class="calc-result-item">
+                                <div class="label">ROI Saja</div>
+                                <div class="value" style="color:var(--muted2);">${fmtNum(roiOnly.daily)}</div>
+                                <div class="sub">harian</div>
+                            </div>
+                        </div>
+                        <div class="calc-summary-dash">
+                            <p><strong>Staking Anda:</strong> ${fmtNum(amount)} MEGAH → ROI Harian <strong>${fmtNum(roiDaily)} MEGAH</strong></p>
+                            ${includeReferral && totalDownlineCount > 0 ? `
+                                <p style="margin-top:3px;">
+                                    <strong>${totalDownlineCount} downline</strong> → Referral Harian <strong>${fmtNum(totalReferralAllLevels)} MEGAH</strong>
+                                    <span style="font-size:9px;color:var(--muted);display:block;">Batas dalam <strong class="highlight-text">${daysToMaxCap} hari</strong></span>
+                                </p>
+                            ` : ''}
+                        </div>
+                        ${referralHtml}
+                    `;
+                resultsDiv.innerHTML = resultsHtml;
+            }
+
+            // DISCLAIMER POPUP
+            function setupDisclaimerPopup() {
+                const popup = document.getElementById('disclaimerPopup');
+                const acceptBtn = document.getElementById('disclaimerAccept');
+                const hasSeenPopup = sessionStorage.getItem('megah_disclaimer_seen');
+
+                if (!hasSeenPopup) {
+                    setTimeout(function () {
+                        popup.classList.add('show');
+                        document.body.classList.add('modal-open');
+                    }, 15000);
+                }
+
+                acceptBtn.addEventListener('click', function () {
+                    popup.classList.remove('show');
+                    document.body.classList.remove('modal-open');
+                    sessionStorage.setItem('megah_disclaimer_seen', 'true');
+                });
+
+                popup.addEventListener('click', function (e) {
+                    if (e.target === popup) {
+                        popup.classList.remove('show');
+                        document.body.classList.remove('modal-open');
+                        sessionStorage.setItem('megah_disclaimer_seen', 'true');
+                    }
+                });
+
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape' && popup.classList.contains('show')) {
+                        popup.classList.remove('show');
+                        document.body.classList.remove('modal-open');
+                        sessionStorage.setItem('megah_disclaimer_seen', 'true');
+                    }
+                });
+            }
+
+            // INIT
+            async function init() {
+                try {
+                    buildLevelInputs();
+                    setupHero();
+                    setupWalletEvents();
+                    setupDisclaimerPopup();
+
+                    document.querySelectorAll('#navBar .tab').forEach(button => {
+                        button.addEventListener('click', () => showTab(button.dataset.tab));
+                    });
+
+                    document.querySelectorAll('.hero-actions button[data-tab]').forEach(btn => {
+                        btn.addEventListener('click', () => showTab(btn.dataset.tab));
+                    });
+
+                    $('connectBtn').addEventListener('click', async () => {
+                        if (isProcessing) {
+                            notify('Harap tunggu proses saat ini selesai.', 'warn', 'Memproses', 2000);
+                            return;
+                        }
+                        if (account) {
+                            const ok = await syncWalletState(false);
+                            if (ok) {
+                                disconnectUI();
+                                notify('Dompet terputus dari antarmuka aplikasi.', 'ok', 'Terputus', 3500);
+                                return;
+                            }
+                        }
+                        await connect();
+                    });
+
+                    $('approveBtn').addEventListener('click', approve);
+                    $('stakeBtn').addEventListener('click', stake);
+                    $('maxBtn').addEventListener('click', maxAmount);
+                    $('claimRoiBtn').addEventListener('click', claimRoi);
+                    $('claimReferralBtn').addEventListener('click', claimReferral);
+                    $('copyReferral').addEventListener('click', copyReferral);
+
+                    $('setMinStake').addEventListener('click', updateMinStake);
+                    $('setRoi').addEventListener('click', updateRoi);
+                    $('setLeaderBps').addEventListener('click', updateLeaderBps);
+                    $('setLeader').addEventListener('click', setLeader);
+                    $('setLevels').addEventListener('click', setLevels);
+                    $('adminStake').addEventListener('click', adminStake);
+                    $('recoverBtn').addEventListener('click', recoverERC20);
+                    $('renounceOwnershipBtn').addEventListener('click', renounceOwnership);
+                    $('transferOwnershipBtn').addEventListener('click', transferOwnership);
+
+                    $('stakeAmount').addEventListener('input', function () {
+                        this.classList.remove('input-error');
+                        const val = this.value.trim();
+                        const validation = validateAmountInput(val);
+                        if (validation.valid) {
+                            $('approveBtn').disabled = false;
+                            $('stakeBtn').disabled = false;
+                            $('maxBtn').disabled = false;
+                            $('stakeAmountError').style.display = 'none';
+                        } else {
+                            $('approveBtn').disabled = true;
+                            $('stakeBtn').disabled = true;
+                            if (val) {
+                                $('stakeAmountError').textContent = validation.message;
+                                $('stakeAmountError').style.display = 'block';
+                            } else {
+                                $('stakeAmountError').style.display = 'none';
+                            }
+                        }
+                    });
+
+                    $('refreshBtn').addEventListener('click', async function () {
+                        if (!account) {
+                            notify('Silakan hubungkan dompet Anda terlebih dahulu.', 'warn', 'Dompet Diperlukan', 3000);
+                            return;
+                        }
+                        const btn = $('refreshBtn');
+                        const originalHtml = btn.innerHTML;
+                        btn.disabled = true;
+                        btn.innerHTML = '<span class="spinner-small"></span>&nbsp;Memuat...';
+                        try {
+                            clearCache();
+                            await refresh();
+                            const now = new Date();
+                            const timeStr = now.toLocaleTimeString('id-ID', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit'
+                            });
+                            const timeEl = $('lastRefreshTime');
+                            if (timeEl) {
+                                timeEl.textContent = `Segarkan terakhir: ${timeStr}`;
+                            }
+                            notify('✅ Data on-chain berhasil diperbarui!', 'ok', 'Segarkan Berhasil', 2500);
+                        } catch (e) {
+                            notify('Gagal menyegarkan data: ' + cleanError(e), 'error', 'Segarkan Gagal', 3000);
+                        } finally {
+                            btn.disabled = false;
+                            btn.innerHTML = originalHtml;
+                        }
+                    });
+
+                    await initReadProvider();
+
+                    let providerReady = false;
+                    for (let i = 0; i < 20; i++) {
+                        if (window.ethereum) {
+                            try {
+                                await window.ethereum.request({ method: 'eth_chainId' });
+                                providerReady = true;
+                                break;
+                            } catch { }
+                        }
+                        await new Promise(r => setTimeout(r, 100));
+                    }
+
+                    const accounts = await window.ethereum?.request({ method: 'eth_accounts' }).catch(() => []);
+                    if (accounts?.length && providerReady) {
+                        await syncWalletState(false);
+                    } else if (accounts?.length && !providerReady) {
+                        console.log('Provider belum siap, menunggu event accountsChanged');
+                    } else {
+                        setWalletState('red', '<i class="fa-solid fa-plug"></i>&nbsp;Hubungkan Dompet');
+                    }
+
+                    const ref = new URLSearchParams(location.search).get('ref');
+                    if (ref && validAddress(ref)) {
+                        $('referrer').value = ref;
+                    }
+
+                } catch (e) {
+                    console.error('Inisialisasi aplikasi', e);
+                    console.warn('Kesalahan non-kritis init:', cleanError(e));
+                }
+            }
+
+            // DOM READY
+            document.addEventListener('DOMContentLoaded', function () {
+                init();
+
+                setTimeout(() => {
+                    if (typeof calculateStaking === 'function') {
+                        calculateStaking();
+                    }
+                }, 500);
+
+                const calcBtn = document.getElementById('calcBtn');
+                const calcAmount = document.getElementById('calcAmount');
+                const calcInclude = document.getElementById('calcIncludeReferral');
+                const calcDownlineStake = document.getElementById('calcDownlineStake');
+
+                if (calcBtn) {
+                    calcBtn.addEventListener('click', calculateStaking);
+                }
+
+                let calcTimeout;
+                const inputs = [
+                    'calcAmount', 'calcDownlineStake',
+                    'calcDl1', 'calcDl2', 'calcDl3', 'calcDl4', 'calcDl5',
+                    'calcDl6', 'calcDl7', 'calcDl8', 'calcDl9', 'calcDl10'
+                ];
+
+                inputs.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.addEventListener('input', () => {
+                            clearTimeout(calcTimeout);
+                            calcTimeout = setTimeout(calculateStaking, 500);
+                        });
+                        el.addEventListener('keydown', (e) => {
+                            if (e.key === 'Enter') calculateStaking();
+                        });
+                    }
+                });
+
+                if (calcInclude) {
+                    calcInclude.addEventListener('change', calculateStaking);
+                }
+            });
 
         })();
     </script>
 
-    <!-- ============================================================
-    TVL CHART JAVASCRIPT - TIDAK DIUBAH
-    ============================================================ -->
+    <!-- Library Lightweight Charts -->
     <script
         src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js">
         </script>
 
     <script>
-        // TVL Chart code tetap sama - tidak diubah
-        // (hanya konten display yang diubah di HTML)
+        // ============================================================
+        // TVL CHART
+        // ============================================================
+
+        (async () => {
+            'use strict';
+
+            var API_BASE = 'https://megahcrypto.com/staking/roi/api/';
+            var API_HISTORY = API_BASE + 'tvl_api.php?_=' + Date.now();
+            var API_LATEST = API_BASE + 'tvl_latest.php?_=' + Date.now();
+            var API_SAVE = API_BASE + 'save_tvl.php?force=1&_=' + Date.now();
+            var API_PRICE = API_BASE + 'get_megah_price.php?_=' + Date.now();
+
+            var chart = null;
+            var candlestickSeries = null;
+            var volumeSeries = null;
+            var chartData = [];
+            var isChartReady = false;
+            var updateInterval = null;
+            var isUpdating = false;
+            var resizeTimer = null;
+            var visibilityObserver = null;
+            var isChartInitialized = false;
+            var currentPrice = null;
+
+            function isMobile() {
+                return window.innerWidth < 768;
+            }
+
+            function isModalOpen() {
+                return document.body.classList.contains('modal-open');
+            }
+
+            function fillMissingData(data) {
+                if (data.length === 0) return data;
+
+                var sorted = [...data].sort(function (a, b) { return a.time - b.time; });
+                var filled = [];
+                var lastValue = sorted[0].value;
+                var lastUsdValue = sorted[0].valueUsd || null;
+                var lastTime = sorted[0].time;
+                var INTERVAL = 300;
+
+                for (var i = 0; i < sorted.length; i++) {
+                    var current = sorted[i];
+
+                    if (i > 0 && (current.time - lastTime) > INTERVAL) {
+                        var gap = current.time - lastTime;
+                        var steps = Math.ceil(gap / INTERVAL);
+                        for (var j = 1; j < steps; j++) {
+                            filled.push({
+                                time: lastTime + (j * INTERVAL),
+                                value: lastValue,
+                                valueUsd: lastUsdValue,
+                                isFilled: true
+                            });
+                        }
+                    }
+
+                    filled.push({
+                        time: current.time,
+                        value: current.value,
+                        valueUsd: current.valueUsd || null,
+                        isFilled: false
+                    });
+
+                    lastValue = current.value;
+                    lastUsdValue = current.valueUsd || null;
+                    lastTime = current.time;
+                }
+
+                return filled;
+            }
+
+            function buildCandleDataUsd(data) {
+                return data.map(function (p, index, arr) {
+                    var value = p.valueUsd;
+
+                    if (!value || value === 0) {
+                        value = p.value * (currentPrice || 0);
+                    }
+
+                    if (index === 0 || value === 0) {
+                        return {
+                            time: p.time,
+                            open: value,
+                            high: value,
+                            low: value,
+                            close: value,
+                        };
+                    }
+
+                    var prevValue = arr[index - 1].valueUsd;
+                    if (!prevValue || prevValue === 0) {
+                        prevValue = arr[index - 1].value * (currentPrice || 0);
+                    }
+
+                    var open = prevValue;
+                    var close = value;
+                    var high = Math.max(open, close);
+                    var low = Math.min(open, close);
+
+                    return {
+                        time: p.time,
+                        open: open,
+                        high: high,
+                        low: low,
+                        close: close,
+                    };
+                });
+            }
+
+            function buildUrl(base, params) {
+                var url = base;
+                var first = true;
+                for (var key in params) {
+                    if (params.hasOwnProperty(key)) {
+                        url += (first ? '?' : '&') + key + '=' + encodeURIComponent(params[key]);
+                        first = false;
+                    }
+                }
+                return url;
+            }
+
+            async function fetchCurrentPrice() {
+                try {
+                    var url = buildUrl(API_PRICE, { _: Date.now() });
+                    var response = await fetch(url);
+                    var data = await response.json();
+                    if (data.success && data.price && data.price > 0) {
+                        currentPrice = data.price;
+                        var priceEl = document.getElementById('tvlMegahPrice');
+                        if (priceEl) {
+                            priceEl.textContent = '$' + data.price.toFixed(6);
+                            priceEl.style.color = 'var(--gold)';
+                        }
+                        return data.price;
+                    }
+                    return null;
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            async function fetchOnChainData() {
+                try {
+                    var url = buildUrl(API_SAVE, { force: 1, _: Date.now() });
+                    var response = await fetch(url);
+                    var result = await response.json();
+                    if (result.success) {
+                        var tvlEl = document.getElementById('tvlCurrentValue');
+                        if (tvlEl && result.tvl !== undefined) {
+                            var price = await fetchCurrentPrice();
+                            var tvlUsd = price ? result.tvl * price : null;
+                            if (price && tvlUsd) {
+                                tvlEl.textContent = '$' + (isMobile() ? tvlUsd.toFixed(0) : tvlUsd.toFixed(2));
+                            } else {
+                                tvlEl.textContent = result.tvl.toFixed(4) + ' MEGAH';
+                            }
+                        }
+                        return result;
+                    }
+                    return null;
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            async function fetchTVLHistory() {
+                try {
+                    var maxPoints = isMobile() ? 300 : 500;
+                    var url = buildUrl(API_HISTORY, { _: Date.now() });
+                    var response = await fetch(url);
+                    var result = await response.json();
+
+                    if (result.success && result.data.length > 0) {
+                        var price = await fetchCurrentPrice();
+
+                        var data = result.data.map(function (item) {
+                            var tvl = parseFloat(item.tvl);
+                            var tvlUsd = item.tvl_usd ? parseFloat(item.tvl_usd) : null;
+
+                            if (!tvlUsd && price && tvl) {
+                                tvlUsd = tvl * price;
+                            }
+
+                            return {
+                                time: Math.floor(new Date(item.timestamp).getTime() / 1000),
+                                value: tvl,
+                                valueUsd: tvlUsd,
+                            };
+                        });
+
+                        data = fillMissingData(data);
+
+                        if (data.length > maxPoints) {
+                            var step = Math.ceil(data.length / maxPoints);
+                            data = data.filter(function (_, i) { return i % step === 0; });
+                        }
+                        return data;
+                    }
+                    return [];
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            async function fetchLatestTVL() {
+                try {
+                    var url = buildUrl(API_LATEST, { _: Date.now() });
+                    var response = await fetch(url);
+                    var result = await response.json();
+                    if (result.success) {
+                        if (!result.current.price || result.current.price <= 0) {
+                            var price = await fetchCurrentPrice();
+                            result.current.price = price;
+                            if (price && result.current.tvl) {
+                                result.current.tvl_usd = result.current.tvl * price;
+                            }
+                        }
+                        return {
+                            tvl: result.current.tvl,
+                            tvl_usd: result.current.tvl_usd,
+                            price: result.current.price,
+                            summary: result.summary
+                        };
+                    }
+                    return null;
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            function getChartDimensions() {
+                var container = document.getElementById('tvlChart');
+                if (!container) return { width: 600, height: 220 };
+
+                if (container.offsetParent === null) {
+                    return { width: 600, height: 220 };
+                }
+
+                var rect = container.getBoundingClientRect();
+                var parentWidth = container.parentElement?.clientWidth || window.innerWidth || 600;
+
+                var width = Math.min(rect.width || parentWidth, parentWidth);
+                width = Math.max(width, 100);
+
+                var height = isMobile() ? 180 : 220;
+                if (rect.height > 0) {
+                    height = Math.min(Math.max(rect.height, 100), 400);
+                }
+
+                return { width: width, height: height };
+            }
+
+            function updateDisplay(data, price) {
+                var effectivePrice = price || data?.price || currentPrice || null;
+
+                var el = document.getElementById('tvlCurrentValue');
+                var labelEl = document.getElementById('tvlCurrencyLabel');
+                var priceEl = document.getElementById('tvlMegahPrice');
+                var minMaxEl = document.getElementById('tvlMinMax');
+                var pointsEl = document.getElementById('tvlDataPoints');
+
+                if (el && data?.tvl !== undefined && data?.tvl !== null) {
+                    if (effectivePrice && effectivePrice > 0) {
+                        var tvlUsd = data.tvl * effectivePrice;
+                        el.textContent = '$' + (isMobile() ? tvlUsd.toFixed(0) : tvlUsd.toFixed(2));
+                        el.style.color = 'var(--green)';
+
+                        if (labelEl) {
+                            labelEl.textContent = 'TVL (USD) @ $' + effectivePrice.toFixed(6);
+                            labelEl.style.color = 'var(--green)';
+                        }
+                    } else {
+                        el.textContent = data.tvl.toFixed(4) + ' MEGAH';
+                        el.style.color = 'var(--text)';
+
+                        if (labelEl) {
+                            labelEl.textContent = 'TVL (MEGAH) - Price unavailable';
+                            labelEl.style.color = 'var(--muted)';
+                        }
+                    }
+                }
+
+                if (priceEl) {
+                    if (effectivePrice && effectivePrice > 0) {
+                        priceEl.textContent = '$' + effectivePrice.toFixed(6);
+                        priceEl.style.color = 'var(--gold)';
+                    } else {
+                        priceEl.textContent = '—';
+                        priceEl.style.color = 'var(--muted)';
+                    }
+                }
+
+                if (minMaxEl && data?.summary) {
+                    if (effectivePrice && effectivePrice > 0 && data.summary.min_tvl !== undefined) {
+                        var min = data.summary.min_tvl * effectivePrice;
+                        var max = data.summary.max_tvl * effectivePrice;
+                        minMaxEl.textContent = '$' + min.toFixed(0) + ' / $' + max.toFixed(0);
+                    } else if (data.summary.min_tvl !== undefined) {
+                        minMaxEl.textContent = data.summary.min_tvl.toFixed(2) + ' / ' + data.summary.max_tvl.toFixed(2) + ' MEGAH';
+                    } else {
+                        minMaxEl.textContent = '—';
+                    }
+                }
+
+                if (pointsEl && data?.summary) {
+                    pointsEl.textContent = data.summary.total_points || '—';
+                }
+
+                var timeEl = document.getElementById('tvlLastUpdate');
+                if (timeEl) {
+                    var now = new Date();
+                    var timeStr = now.toLocaleTimeString('id-ID', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: isMobile() ? undefined : '2-digit'
+                    });
+                    timeEl.innerHTML = '<i class="fa-regular fa-clock"></i> ' + timeStr;
+                }
+            }
+
+            function handleResize() {
+                if (!chart || !isChartReady) return;
+                if (isModalOpen()) return;
+
+                var container = document.getElementById('tvlChart');
+                if (!container || container.offsetParent === null) return;
+
+                var dims = getChartDimensions();
+
+                try {
+                    if (chart && typeof chart.applyOptions === 'function') {
+                        chart.applyOptions({ width: dims.width, height: dims.height });
+
+                        setTimeout(function () {
+                            if (chart && typeof chart.timeScale === 'function' && !isModalOpen()) {
+                                chart.timeScale().fitContent();
+                            }
+                        }, 100);
+                    }
+                } catch (e) {
+
+                }
+            }
+
+            async function autoUpdate() {
+                if (!isChartReady || isUpdating) return;
+                if (isModalOpen()) return;
+
+                isUpdating = true;
+                try {
+                    var price = await fetchCurrentPrice();
+                    var latest = await fetchLatestTVL();
+                    if (!latest || (!latest.tvl && latest.tvl !== 0)) {
+                        isUpdating = false;
+                        return;
+                    }
+
+                    updateDisplay(latest, price);
+
+                    var now = Math.floor(Date.now() / 1000);
+                    var lastPoint = chartData[chartData.length - 1];
+
+                    var effectivePrice = price || latest.price || currentPrice || 0;
+                    var tvlUsd = latest.tvl * effectivePrice;
+
+                    if (!lastPoint || (now - lastPoint.time) > 300 || Math.abs(latest.tvl - lastPoint.value) > 0.0001) {
+                        chartData.push({
+                            time: now,
+                            value: latest.tvl,
+                            valueUsd: tvlUsd,
+                            isFilled: false
+                        });
+
+                        var maxPoints = isMobile() ? 300 : 500;
+                        if (chartData.length > maxPoints) {
+                            var step = Math.ceil(chartData.length / maxPoints);
+                            chartData = chartData.filter(function (_, i) { return i % step === 0; });
+                        }
+
+                        var candleData = buildCandleDataUsd(chartData);
+                        candlestickSeries.setData(candleData);
+
+                        candlestickSeries.applyOptions({
+                            priceFormat: {
+                                type: 'price',
+                                precision: isMobile() ? 0 : 2,
+                                minMove: isMobile() ? 1 : 0.01,
+                            }
+                        });
+
+                        var volumeData = chartData.map(function (p) {
+                            return {
+                                time: p.time,
+                                value: 1,
+                                color: 'rgba(34,197,94,0.15)'
+                            };
+                        });
+                        volumeSeries.setData(volumeData);
+
+                        if (chart && !isModalOpen()) {
+                            chart.timeScale().fitContent();
+                        }
+                    }
+
+                } catch (e) {
+                    // Silent fail
+                }
+                isUpdating = false;
+            }
+
+            function setupVisibilityObserver() {
+                var container = document.getElementById('tvlChart');
+                if (!container || visibilityObserver) return;
+
+                visibilityObserver = new ResizeObserver(function () {
+                    if (isModalOpen()) return;
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(handleResize, 200);
+                });
+
+                visibilityObserver.observe(container);
+            }
+
+            function cleanupVisibilityObserver() {
+                if (visibilityObserver) {
+                    visibilityObserver.disconnect();
+                    visibilityObserver = null;
+                }
+            }
+
+            async function initTVLChart() {
+                if (isChartInitialized) return;
+
+                var container = document.getElementById('tvlChart');
+                if (!container) {
+                    setTimeout(initTVLChart, 300);
+                    return;
+                }
+
+                if (container.offsetParent === null) {
+                    setTimeout(initTVLChart, 500);
+                    return;
+                }
+
+                if (typeof LightweightCharts === 'undefined') {
+                    setTimeout(initTVLChart, 1000);
+                    return;
+                }
+
+                container.style.width = '100%';
+                container.style.maxWidth = '100%';
+                container.style.overflow = 'hidden';
+                container.style.position = 'relative';
+
+                var parent = container.parentElement;
+                if (parent) {
+                    parent.style.width = '100%';
+                    parent.style.maxWidth = '100%';
+                    parent.style.overflow = 'hidden';
+                }
+
+                await fetchOnChainData();
+
+                var price = await fetchCurrentPrice();
+                var history = await fetchTVLHistory();
+
+                if (history.length > 0) {
+                    chartData = history.map(function (item) {
+                        return {
+                            time: item.time,
+                            value: item.value,
+                            valueUsd: item.valueUsd || (item.value * (price || 0)),
+                            isFilled: item.isFilled || false
+                        };
+                    });
+                } else {
+                    var latest = await fetchLatestTVL();
+                    if (latest && latest.tvl > 0) {
+                        var now = Math.floor(Date.now() / 1000);
+                        var count = isMobile() ? 5 : 10;
+                        var INTERVAL = 300;
+                        var tvlUsd = latest.tvl * (price || 0);
+
+                        for (var i = 0; i < count; i++) {
+                            var time = now - (count - i) * INTERVAL;
+                            chartData.push({
+                                time: time,
+                                value: latest.tvl,
+                                valueUsd: tvlUsd,
+                                isFilled: false
+                            });
+                        }
+                        chartData.push({
+                            time: now,
+                            value: latest.tvl,
+                            valueUsd: tvlUsd,
+                            isFilled: false
+                        });
+                        chartData = fillMissingData(chartData);
+                    }
+                }
+
+                var dims = getChartDimensions();
+
+                chart = LightweightCharts.createChart(container, {
+                    width: dims.width,
+                    height: dims.height,
+                    layout: {
+                        background: { color: '#0f1220' },
+                        textColor: '#8892b0',
+                    },
+                    grid: {
+                        vertLines: { color: 'rgba(34,197,94,0.05)' },
+                        horzLines: { color: 'rgba(34,197,94,0.05)' },
+                    },
+                    crosshair: {
+                        mode: LightweightCharts.CrosshairMode.Normal,
+                        vertLine: {
+                            color: 'rgba(34,197,94,0.2)',
+                            style: LightweightCharts.LineStyle.Dashed,
+                        },
+                        horzLine: {
+                            color: 'rgba(34,197,94,0.2)',
+                            style: LightweightCharts.LineStyle.Dashed,
+                        },
+                    },
+                    rightPriceScale: {
+                        borderColor: 'rgba(34,197,94,0.1)',
+                        scaleMargins: {
+                            top: 0.1,
+                            bottom: 0.1,
+                        },
+                    },
+                    timeScale: {
+                        borderColor: 'rgba(34,197,94,0.1)',
+                        timeVisible: true,
+                        secondsVisible: false,
+                        fixLeftEdge: true,
+                        fixRightEdge: true,
+                        tickMarkFormatter: function (time) {
+                            var date = new Date(time * 1000);
+                            if (isMobile()) {
+                                return date.getHours() + ':' + String(date.getMinutes()).padStart(2, '0');
+                            }
+                            return date.toLocaleString('id-ID', {
+                                day: '2-digit',
+                                month: 'short',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            });
+                        },
+                    },
+                    handleScroll: !isMobile(),
+                    handleScale: !isMobile(),
+                });
+
+                candlestickSeries = chart.addCandlestickSeries({
+                    upColor: '#22c55e',
+                    downColor: '#ff536b',
+                    borderVisible: false,
+                    wickUpColor: '#22c55e',
+                    wickDownColor: '#ff536b',
+                    priceScaleId: 'right',
+                    priceFormat: {
+                        type: 'price',
+                        precision: isMobile() ? 0 : 2,
+                        minMove: isMobile() ? 1 : 0.01,
+                    },
+                });
+
+                volumeSeries = chart.addHistogramSeries({
+                    color: 'rgba(34,197,94,0.2)',
+                    priceFormat: {
+                        type: 'volume',
+                    },
+                    priceScaleId: '',
+                    scaleMargins: {
+                        top: isMobile() ? 0.90 : 0.85,
+                        bottom: 0,
+                    },
+                });
+
+                var candleData = buildCandleDataUsd(chartData);
+                candlestickSeries.setData(candleData);
+
+                var volumeData = chartData.map(function (p) {
+                    return {
+                        time: p.time,
+                        value: 1,
+                        color: 'rgba(34,197,94,0.15)'
+                    };
+                });
+                volumeSeries.setData(volumeData);
+
+                setTimeout(function () {
+                    if (chart && !isModalOpen()) {
+                        chart.timeScale().fitContent();
+                    }
+                }, 200);
+
+                isChartReady = true;
+                isChartInitialized = true;
+
+                var latestData = await fetchLatestTVL();
+                if (latestData) {
+                    updateDisplay(latestData, price);
+                }
+
+                setupVisibilityObserver();
+
+                if (updateInterval) clearInterval(updateInterval);
+                updateInterval = setInterval(autoUpdate, 10000);
+
+                window.addEventListener('resize', function () {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(function () {
+                        if (!isModalOpen()) {
+                            handleResize();
+                        }
+                    }, 250);
+                });
+
+                var modalObserver = new MutationObserver(function () {
+                    if (!isModalOpen()) {
+                        setTimeout(handleResize, 150);
+                        setTimeout(autoUpdate, 500);
+                    }
+                });
+                modalObserver.observe(document.body, {
+                    attributes: true,
+                    attributeFilter: ['class']
+                });
+            }
+
+            function destroyChart() {
+                if (updateInterval) {
+                    clearInterval(updateInterval);
+                    updateInterval = null;
+                }
+                cleanupVisibilityObserver();
+                if (chart) {
+                    try {
+                        chart.remove();
+                    } catch (e) {
+
+                    }
+                    chart = null;
+                }
+                candlestickSeries = null;
+                volumeSeries = null;
+                isChartReady = false;
+                isChartInitialized = false;
+                chartData = [];
+            }
+
+            function reinitChart() {
+                destroyChart();
+                setTimeout(initTVLChart, 500);
+            }
+
+            window.TVLChart = {
+                init: initTVLChart,
+                destroy: destroyChart,
+                reinit: reinitChart,
+                resize: handleResize,
+                update: autoUpdate,
+                isReady: function () { return isChartReady; },
+                forceUpdate: async function () {
+                    await fetchOnChainData();
+                    await autoUpdate();
+                    return 'Updated';
+                },
+                getPrice: function () { return currentPrice; },
+                refreshPrice: fetchCurrentPrice
+            };
+
+            var TVLUpdateManager = {
+                intervalId: null,
+                isUpdating: false,
+
+                forceUpdate: async function () {
+                    if (this.isUpdating) return;
+
+                    this.isUpdating = true;
+                    var el = document.getElementById('tvlCurrentValue');
+
+                    try {
+                        if (el) {
+                            el.style.transition = 'opacity 0.3s';
+                            el.style.opacity = '0.3';
+                            el.textContent = '⟳ Updating...';
+                        }
+
+                        await TVLChart.forceUpdate();
+
+                        var statusEl = document.getElementById('tvlRefreshStatus');
+                        if (statusEl) {
+                            var now = new Date();
+                            statusEl.textContent = '✅ Updated: ' + now.toLocaleTimeString();
+                            statusEl.style.color = 'var(--green)';
+                        }
+
+                    } catch (e) {
+                        if (el) {
+                            el.textContent = '⚠️ Update failed';
+                            el.style.color = 'var(--red)';
+                        }
+                    } finally {
+                        if (el) {
+                            el.style.opacity = '1';
+                        }
+                        this.isUpdating = false;
+                    }
+                },
+
+                startAutoUpdate: function (interval) {
+                    interval = interval || 30000;
+                    this.stopAutoUpdate();
+                    this.intervalId = setInterval(function () {
+                        TVLUpdateManager.forceUpdate();
+                    }, interval);
+                },
+
+                stopAutoUpdate: function () {
+                    if (this.intervalId) {
+                        clearInterval(this.intervalId);
+                        this.intervalId = null;
+                    }
+                },
+
+                toggleAutoUpdate: function () {
+                    if (this.intervalId) {
+                        this.stopAutoUpdate();
+                        return false;
+                    } else {
+                        this.startAutoUpdate();
+                        return true;
+                    }
+                }
+            };
+
+            window.TVLUpdateManager = TVLUpdateManager;
+
+            function startChart() {
+                if (typeof LightweightCharts !== 'undefined') {
+                    initTVLChart();
+                    setTimeout(function () {
+                        TVLUpdateManager.startAutoUpdate(30000);
+                    }, 2000);
+                } else {
+                    setTimeout(startChart, 500);
+                }
+            }
+
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                setTimeout(startChart, 800);
+            } else {
+                document.addEventListener('DOMContentLoaded', function () {
+                    setTimeout(startChart, 800);
+                });
+            }
+
+            window.handleChartAfterModalClose = function () {
+                setTimeout(function () {
+                    if (!isModalOpen() && isChartReady) {
+                        handleResize();
+                        setTimeout(autoUpdate, 500);
+                    }
+                }, 200);
+            };
+
+            var originalCloseNotify = window.closeNotify || function () { };
+            window.closeNotify = function () {
+                originalCloseNotify();
+                setTimeout(function () {
+                    if (!isModalOpen() && isChartReady) {
+                        handleResize();
+                    }
+                }, 150);
+            };
+
+        })();
     </script>
 
-    <!-- ============================================================
-    PREVENT PINCH ZOOM ON MOBILE - TETAP SAMA
-    ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- PREVENT PINCH ZOOM ON MOBILE - ADDED -->
+    <!-- ============================================================ -->
     <script>
         (function () {
             'use strict';
+            // Only activate on mobile screens
             if (window.innerWidth <= 768) {
                 let lastTouchEnd = 0;
+
                 document.addEventListener('touchstart', function (e) {
                     if (e.touches.length > 1) {
                         e.preventDefault();
                     }
                 }, { passive: false });
+
                 document.addEventListener('touchmove', function (e) {
                     if (e.touches.length > 1) {
                         e.preventDefault();
                     }
                 }, { passive: false });
+
                 document.addEventListener('touchend', function (e) {
                     const now = Date.now();
                     if (now - lastTouchEnd <= 300) {
