@@ -1,7 +1,7 @@
 (async () => {
   "use strict";
 
-  var API_BASE = window.location.origin + "/api/";
+  var API_BASE = window.location.origin + "/staking/roi/api/";
   var API_HISTORY = API_BASE + "tvl_api.php?_=" + Date.now();
   var API_LATEST = API_BASE + "tvl_latest.php?_=" + Date.now();
   var API_SAVE = API_BASE + "save_tvl.php?force=1&_=" + Date.now();
