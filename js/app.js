@@ -7,8 +7,8 @@
     chainName: "BNB Smart Chain",
     nativeSymbol: "BNB",
     explorer: "https://bscscan.com/",
-    stakingContractAddress: "0x8867ad6621b790ebf555f79743c91cb6eb7c129c",
-    stakingContract: "0x8867ad6621b790ebf555f79743c91cb6eb7c129c",
+    stakingContractAddress: "0x553cb00408fb127b30df5edac684f52e1a77f71f",
+    stakingContract: "0x553cb00408fb127b30df5edac684f52e1a77f71f",
     expectedToken: "0xc55d416476CFC6e879948eD5a5F4461c43Af45Aa",
     expectedSymbol: "MEGAH",
     pollingInterval: 15000,
@@ -43,12 +43,26 @@
     "function leaderBonusBps() view returns (uint256)",
     "function dailyRoiBps() view returns (uint256)",
     "function referralBonusLevels(uint256) view returns (uint256)",
-    "function userStakes(address) view returns (uint256 stakedAmount, uint256 maxCap, uint256 totalEarned, uint256 savedReward, uint256 lastClaimTime, uint256 pendingReferralBonus)",
+    "function getReferralLevels() view returns (uint256[])",
+    "function MAX_REFERRAL_LEVELS() view returns (uint256)",
+    "function MAX_DIRECT_DOWNLINES() view returns (uint256)",
+    "function MAX_BPS() view returns (uint256)",
+    "function ADMIN_LEFTOVER_WALLET() view returns (address)",
+    "function referralDepth(address) view returns (uint256)",
+    "function userStakes(address) view returns (uint256 stakedAmount, uint256 maxCap, uint256 totalEarned, uint256 savedReward, uint256 lastClaimTime, uint256 pendingReferralBonus, uint256 totalRoiClaimed, uint256 referralClaimCount)",
     "function userReferrers(address) view returns (address)",
     "function isLeader(address) view returns (bool)",
     "function pendingReward(address) view returns (uint256)",
     "function isMaxCapReached(address) view returns (bool)",
     "function getStakeInfo(address) view returns (uint256 stakedAmount, uint256 maxCap, uint256 totalEarned, uint256 currentPendingReward, uint256 pendingReferralBonus)",
+    "function getStakeInfoExtended(address) view returns (uint256 stakedAmount, uint256 maxCap, uint256 totalEarned, uint256 currentPendingReward, uint256 pendingReferralBonus, uint256 totalRoiClaimed, uint256 lastClaimTime, address referrer, uint256 networkDepth, uint256 referralClaimCount)",
+    "function getDirectDownlineCount(address) view returns (uint256)",
+    "function getDirectDownlines(address) view returns (address[])",
+    "function getDirectDownlinesPaginated(address,uint256,uint256) view returns (address[] result,uint256 total)",
+    "function getDirectDownlineInfo(address,uint256,uint256) view returns (tuple(address wallet,uint256 stakedAmount,uint256 maxCap,uint256 totalEarned,uint256 pendingRoi,uint256 pendingReferralBonus,uint256 totalRoiClaimed,uint256 referralEarned,uint256 referralRewardCount,bool maxCapReached)[] result,uint256 total)",
+    "function getReferralStats(address,address) view returns (uint256 totalEarned,uint256 rewardCount)",
+    "function getReferralEarnedByLevel(address,address) view returns (uint256[10])",
+    "function getNetworkSummary(address) view returns (uint256 directCount,uint256 stakedAmount,uint256 totalEarned,uint256 totalRoiClaimed,uint256 pendingRoi,uint256 pendingReferralBonus,uint256 networkDepth,bool maxCapReached)",
     "function stake(uint256 _amount, address _referrer)",
     "function claimRoi()",
     "function claimReferralBonus()",
@@ -74,6 +88,17 @@
   let tokenSymbol = "MEGAH";
   let refreshTimer = null;
   let liveTimer = null;
+  let downlineOffset = 0;
+  const DOWNLINE_PAGE_SIZE = 10;
+  const NETWORK_PAGE_SIZE = 15;
+  const MAX_NETWORK_NODES = 500;
+  let referralNetwork = [];
+  let referralLevelEarnings = Array.from({ length: 10 }, () => 0n);
+  let referralNetworkTotals = Array.from({ length: 10 }, () => 0);
+  let referralNetworkTruncated = false;
+  let networkRefreshInFlight = false;
+  let networkLoadedAccount = "";
+  let networkLoadedGeneration = 0;
   let heartbeatTimer = null;
   let blockListener = null;
   let connectionGeneration = 0;
@@ -224,48 +249,171 @@
   }
 
   let notifyTimer = null;
+  let notifyActionHandler = null;
+  let notifyLocked = false;
+  let notifyPreviousFocus = null;
 
   function notify(
     message,
     type = "info",
     title = "Notification",
     duration = 4500,
+    actionText = null,
+    actionHandler = null,
+    locked = false,
+    details = null,
   ) {
     const overlay = $("notifyOverlay");
     const box = $("notifyBox");
     const icon = $("notifyIcon");
+    const action = $("notifyAction");
+    const close = $("notifyClose");
+    const detailsEl = $("notifyDetails");
+    if (!overlay || !box) return;
+
+    if (!overlay.classList.contains("show")) {
+      const active = document.activeElement;
+      notifyPreviousFocus = active && active !== document.body ? active : null;
+    }
+
+    notifyActionHandler =
+      typeof actionHandler === "function" ? actionHandler : null;
+    notifyLocked = !!locked;
     $("notifyTitle").textContent = title;
-    $("notifyMessage").textContent = message;
-    box.className = `notify-box ${type}`;
-    icon.textContent =
-      type === "ok"
-        ? "✓"
-        : type === "error"
-          ? "✕"
-          : type === "warn"
-            ? "⚠"
-            : "ℹ";
+    $("notifyMessage").textContent = message || "";
+    box.className = `notify-box ${type}${locked ? " processing" : ""}`;
+
+    if (locked) {
+      icon.innerHTML =
+        '<span class="notify-spinner" aria-hidden="true"></span>';
+    } else {
+      icon.textContent =
+        type === "ok"
+          ? "✓"
+          : type === "error"
+            ? "✕"
+            : type === "warn"
+              ? "⚠"
+              : "ℹ";
+    }
+
+    if (details) {
+      detailsEl.innerHTML = details;
+      detailsEl.style.display = "block";
+    } else {
+      detailsEl.innerHTML = "";
+      detailsEl.style.display = "none";
+    }
+
+    if (actionText) {
+      action.textContent = actionText;
+      action.hidden = false;
+      action.disabled = false;
+    } else {
+      action.textContent = "";
+      action.hidden = true;
+    }
+
+    close.hidden = !!locked;
+    close.disabled = locked;
     overlay.classList.add("show");
+    overlay.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
     clearTimeout(notifyTimer);
-    if (duration > 0) {
+    if (duration > 0 && !locked)
       notifyTimer = setTimeout(closeNotify, duration);
+  }
+
+  function setNotifyProcessing(title, message, details = null) {
+    notify(message, "info", title, 0, null, null, true, details);
+  }
+
+  function closeNotify(force = false) {
+    if (notifyLocked && !force) return;
+    const overlay = $("notifyOverlay");
+    const active = document.activeElement;
+    const focusInsideNotify = overlay && active && overlay.contains(active);
+
+    // Move focus out of the dialog BEFORE aria-hidden is applied.
+    // This prevents the browser accessibility warning about a focused
+    // descendant being hidden from assistive technology.
+    if (focusInsideNotify) {
+      if (notifyPreviousFocus && document.contains(notifyPreviousFocus)) {
+        notifyPreviousFocus.focus({ preventScroll: true });
+      } else {
+        active.blur();
+      }
+    }
+
+    if (overlay) {
+      overlay.classList.remove("show");
+      overlay.setAttribute("aria-hidden", "true");
+    }
+    document.body.classList.remove("modal-open");
+    clearTimeout(notifyTimer);
+    notifyTimer = null;
+    notifyActionHandler = null;
+    notifyLocked = false;
+    notifyPreviousFocus = null;
+    const action = $("notifyAction");
+    if (action) {
+      action.hidden = true;
+      action.textContent = "";
     }
   }
 
-  function closeNotify() {
-    const overlay = $("notifyOverlay");
-    if (overlay) overlay.classList.remove("show");
-    document.body.classList.remove("modal-open");
-  }
-
-  $("notifyClose").addEventListener("click", closeNotify);
+  $("notifyAction").addEventListener("click", async () => {
+    const handler = notifyActionHandler;
+    if (typeof handler !== "function") return;
+    const action = $("notifyAction");
+    action.disabled = true;
+    try {
+      await handler();
+    } finally {
+      action.disabled = false;
+    }
+  });
+  $("notifyClose").addEventListener("click", () => closeNotify());
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeNotify();
+    if (e.key === "Escape" && !notifyLocked) closeNotify();
   });
   $("notifyOverlay").addEventListener("click", (e) => {
-    if (e.target === $("notifyOverlay")) closeNotify();
+    if (e.target === $("notifyOverlay") && !notifyLocked) closeNotify();
   });
+
+  function notifyConfirm(
+    message,
+    title = "Please Confirm",
+    confirmText = "CONFIRM",
+  ) {
+    return new Promise((resolve) => {
+      notify(
+        message,
+        "warn",
+        title,
+        0,
+        confirmText,
+        () => {
+          closeNotify(true);
+          resolve(true);
+        },
+        false,
+        "You can cancel this action by closing this popup.",
+      );
+      const close = $("notifyClose");
+      if (close) {
+        close.hidden = false;
+        close.textContent = "CANCEL";
+        const previous = close.onclick;
+        close.onclick = () => {
+          close.onclick = previous;
+          close.textContent = "OK";
+          closeNotify(true);
+          resolve(false);
+        };
+      }
+    });
+  }
 
   function setLoading(buttonId, loading = true, text = null) {
     const btn = $(buttonId);
@@ -285,26 +433,12 @@
 
   function setStakeStatus(message, type = "info", show = true) {
     const el = $("stakeStatus");
-    const text = $("stakeStatusText");
-    if (!el || !text) return;
-    if (show && message) {
-      el.style.display = "block";
-      el.className = `notice ${type}`;
-      text.textContent = message;
-    } else {
-      el.style.display = "none";
-    }
+    if (el) el.style.display = "none";
   }
 
   function setGasEstimate(amount, show = false) {
     const el = $("gasEstimate");
-    if (!el) return;
-    if (show && amount) {
-      el.style.display = "block";
-      el.textContent = `⛽ Estimated gas: ~${amount} BNB`;
-    } else {
-      el.style.display = "none";
-    }
+    if (el) el.style.display = "none";
   }
 
   async function getProviderWithFallback(retries = 0) {
@@ -340,6 +474,36 @@
   }
 
   function clearUserUI() {
+    [
+      "nStakedAmount",
+      "nMaxCap",
+      "nTotalEarned",
+      "nPendingRoi",
+      "nPendingReferral",
+      "nTotalRoiClaimed",
+      "nSavedReward",
+      "nReferralClaimCount",
+      "nLastClaimTime",
+      "nNetworkDepth",
+      "nDirectCount",
+      "nMaxCapReached",
+    ].forEach((id) => setNetworkText(id, "—"));
+    const body = $("downlineTableBody");
+    if (body)
+      body.innerHTML =
+        '<tr><td colspan="7" class="network-empty">Connect wallet to load referral network.</td></tr>';
+    setNetworkText("downlineCountBadge", "0");
+    setNetworkText("downlinePageInfo", "—");
+    setNetworkText("networkLevelsUpdated", "—");
+    setNetworkText("networkLevelTotals", "");
+    referralNetwork = [];
+    referralLevelEarnings = Array.from({ length: 10 }, () => 0n);
+    referralNetworkTotals = Array.from({ length: 10 }, () => 0);
+    referralNetworkTruncated = false;
+    networkLoadedAccount = "";
+    networkLoadedGeneration = 0;
+    renderNetworkLevels(referralLevelEarnings, referralNetworkTotals);
+
     const placeholders = [
       "balance",
       "staked",
@@ -391,6 +555,7 @@
       "Owner panel is restricted to the contract owner.";
     setStakeStatus("", "info", false);
     setGasEstimate(null, false);
+    toggleStakeButtons(false);
   }
 
   function disconnectUI() {
@@ -424,6 +589,7 @@
     document.querySelectorAll(".owner-tab").forEach((el) => {
       if (el) el.style.display = "none";
     });
+    toggleStakeButtons(false);
   }
 
   async function syncWalletState(notifyWrongNetwork = false) {
@@ -543,7 +709,9 @@
       $("approveBtn").disabled = false;
       $("stakeBtn").disabled = false;
       $("maxBtn").disabled = false;
+      toggleStakeButtons(false);
       await refresh();
+      await refreshNetworkIfVisible(false);
       startPolling();
       return true;
     } catch (e) {
@@ -773,12 +941,26 @@
       setCached(cacheKey, { reader });
     }
     try {
-      const [owner, stakingToken, min, roi, leaderBonus] = await Promise.all([
+      const [
+        owner,
+        stakingToken,
+        min,
+        roi,
+        leaderBonus,
+        maxReferralLevels,
+        maxDirectDownlines,
+        maxBps,
+        leftoverWallet,
+      ] = await Promise.all([
         reader.owner(),
         reader.stakingToken(),
         reader.minStake(),
         reader.dailyRoiBps(),
         reader.leaderBonusBps(),
+        reader.MAX_REFERRAL_LEVELS(),
+        reader.MAX_DIRECT_DOWNLINES(),
+        reader.MAX_BPS(),
+        reader.ADMIN_LEFTOVER_WALLET(),
       ]);
 
       cached.minStake = min;
@@ -821,8 +1003,12 @@
 
       const leftoverEl = $("contractLeftover");
       if (leftoverEl) {
-        leftoverEl.textContent = "0xCa7Bd31C8DF5b531Bb789664e03Aa49a06df6002";
+        leftoverEl.textContent = leftoverWallet;
+        leftoverEl.title = leftoverWallet;
       }
+      setNetworkText("contractMaxReferralLevels", String(maxReferralLevels));
+      setNetworkText("contractMaxDirectDownlines", String(maxDirectDownlines));
+      setNetworkText("contractMaxBps", String(maxBps));
 
       try {
         const tokenForRead = token || readToken;
@@ -964,6 +1150,15 @@
     if (raw && raw.length >= 5) {
       $("dSavedReward").textContent = `${fmt(raw[3])} ${tokenSymbol}`;
       $("dLastClaim").textContent = formatTimestamp(raw[4]);
+      if (raw.length >= 8) {
+        const totalRoiClaimed = raw[6] || 0n;
+        const referralClaimCount = raw[7] || 0n;
+        const nTotalRoi = $("nTotalRoiClaimed");
+        const nRefClaims = $("nReferralClaimCount");
+        if (nTotalRoi)
+          nTotalRoi.textContent = `${fmt(totalRoiClaimed)} ${tokenSymbol}`;
+        if (nRefClaims) nRefClaims.textContent = String(referralClaimCount);
+      }
     }
     const remaining = info[1] > info[2] ? info[1] - info[2] : 0n;
     $("dCapRemaining").textContent = `${fmt(remaining)} ${tokenSymbol}`;
@@ -994,12 +1189,270 @@
     $("positionStatus").textContent = "Connected";
     $("positionStatus").className = "badge green";
     const pct = info[1] > 0n ? Number((info[2] * 10000n) / info[1]) / 100 : 0;
+    const calcCap = $("calcMaxCapPct");
+    if (calcCap && info[0] > 0n)
+      calcCap.value = (Number((info[1] * 10000n) / info[0]) / 100).toFixed(2);
     $("capProgress").style.width = Math.min(100, pct) + "%";
     $("capText").textContent = `${pct.toFixed(2)}% of maximum cap reached`;
     $("allowanceText").textContent = `Allowance: ${fmt(allow)} ${tokenSymbol}`;
     $("bnbBalanceText").textContent = `BNB Balance: ${fmtNative(bnb)} BNB`;
     $("balanceStakeText").textContent =
       `MEGAH Balance: ${fmt(bal)} ${tokenSymbol}`;
+  }
+
+  function setNetworkText(id, value) {
+    const el = $(id);
+    if (el) el.textContent = value;
+  }
+
+  function renderNetworkLevels(earnings = [], counts = []) {
+    const box = $("networkLevelEarnings");
+    if (!box) return;
+    box.innerHTML = "";
+    let total = 0n;
+    for (let i = 0; i < 10; i++) {
+      const amount = BigInt(earnings?.[i] || 0n);
+      const count = Number(counts?.[i] || 0);
+      total += amount;
+      const d = document.createElement("div");
+      d.className = "level-earn";
+      d.innerHTML = `<b>LEVEL ${i + 1}</b><span>${fmt(amount)} ${tokenSymbol}<small style="display:block;opacity:.7;font-size:8px;">${count} member${count === 1 ? "" : "s"}</small></span>`;
+      box.appendChild(d);
+    }
+    const totalEl = $("networkLevelTotals");
+    if (totalEl)
+      totalEl.textContent = `Total referral earned from network: ${fmt(total)} ${tokenSymbol}${referralNetworkTruncated ? " • Network display limited for performance." : ""}`;
+  }
+
+  async function buildReferralNetwork() {
+    if (!gt || !account) return;
+    const nodes = [];
+    const seen = new Set([account.toLowerCase()]);
+    let frontier = [account];
+    let level = 0;
+    referralNetworkTruncated = false;
+    while (frontier.length && level < 10 && nodes.length < MAX_NETWORK_NODES) {
+      const children = await Promise.all(
+        frontier.map(async (parent) => {
+          try {
+            return await gt.getDirectDownlines(parent);
+          } catch (e) {
+            console.warn("getDirectDownlines", parent, e);
+            return [];
+          }
+        }),
+      );
+      const next = [];
+      for (const list of children) {
+        for (const wallet of list) {
+          const key = wallet.toLowerCase();
+          if (seen.has(key)) continue;
+          seen.add(key);
+          nodes.push({ wallet, level: level + 1 });
+          next.push(wallet);
+          if (nodes.length >= MAX_NETWORK_NODES) {
+            referralNetworkTruncated = true;
+            break;
+          }
+        }
+        if (nodes.length >= MAX_NETWORK_NODES) break;
+      }
+      frontier = next;
+      level++;
+    }
+    if (frontier.length && level >= 10) {
+      // Level 10 is the contract's maximum referral depth.
+    }
+    referralNetwork = nodes;
+    referralNetworkTotals = Array.from({ length: 10 }, () => 0);
+    for (const n of nodes) referralNetworkTotals[n.level - 1]++;
+
+    const results = Array.from({ length: 10 }, () => 0n);
+    const batchSize = 20;
+    for (let i = 0; i < nodes.length; i += batchSize) {
+      const batch = nodes.slice(i, i + batchSize);
+      const values = await Promise.all(
+        batch.map(async (n) => {
+          try {
+            return await gt.getReferralEarnedByLevel(account, n.wallet);
+          } catch (e) {
+            console.warn("getReferralEarnedByLevel", n.wallet, e);
+            return null;
+          }
+        }),
+      );
+      values.forEach((v) => {
+        if (!v) return;
+        for (let i = 0; i < 10; i++) results[i] += BigInt(v[i] || 0n);
+      });
+    }
+    referralLevelEarnings = results;
+    renderNetworkLevels(results, referralNetworkTotals);
+  }
+
+  function renderDownlines(items, total) {
+    const body = $("downlineTableBody");
+    const badge = $("downlineCountBadge");
+    const pageInfo = $("downlinePageInfo");
+    if (badge) badge.textContent = String(total);
+    if (!body) return;
+    body.innerHTML = "";
+    if (!items.length) {
+      body.innerHTML =
+        '<tr><td colspan="7" class="network-empty">No referral downlines recorded on-chain.</td></tr>';
+    } else {
+      items.forEach((d, idx) => {
+        const tr = document.createElement("tr");
+        const wallet = d.wallet;
+        const level = d.level;
+        const staked = d.stakedAmount ?? 0n;
+        const refEarned = d.referralEarned ?? 0n;
+        const refCount = d.referralRewardCount ?? 0n;
+        const reached = d.maxCapReached ?? false;
+        tr.innerHTML = `<td>${downlineOffset + idx + 1}</td><td>L${level}</td><td title="${wallet}">${short(wallet)}</td><td>${fmt(staked)}</td><td>${fmt(refEarned)}</td><td>${String(refCount)}</td><td>${reached ? "Cap reached" : "Active"}</td>`;
+        body.appendChild(tr);
+      });
+    }
+    const start = total ? downlineOffset + 1 : 0;
+    const end = Math.min(downlineOffset + items.length, total);
+    if (pageInfo)
+      pageInfo.textContent = total
+        ? `${start}–${end} of ${total}`
+        : "0 network members";
+    const prev = $("downlinePrev"),
+      next = $("downlineNext");
+    if (prev) prev.disabled = downlineOffset === 0;
+    if (next) next.disabled = downlineOffset + items.length >= total;
+  }
+
+  async function loadDownlinesPage() {
+    if (!gt || !account) return;
+    try {
+      const total = referralNetwork.length;
+      const page = referralNetwork.slice(
+        downlineOffset,
+        downlineOffset + DOWNLINE_PAGE_SIZE,
+      );
+      const enriched = await Promise.all(
+        page.map(async (n) => {
+          try {
+            const [info, stats] = await Promise.all([
+              gt.getStakeInfo(n.wallet),
+              gt.getReferralStats(account, n.wallet),
+            ]);
+            return {
+              wallet: n.wallet,
+              level: n.level,
+              stakedAmount: info[0] || 0n,
+              referralEarned: stats[0] || 0n,
+              referralRewardCount: stats[1] || 0n,
+              maxCapReached: info[1] > 0n && info[2] >= info[1],
+            };
+          } catch {
+            return {
+              wallet: n.wallet,
+              level: n.level,
+              stakedAmount: 0n,
+              referralEarned: 0n,
+              referralRewardCount: 0n,
+              maxCapReached: false,
+            };
+          }
+        }),
+      );
+      renderDownlines(enriched, total);
+    } catch (e) {
+      console.error("network page", e);
+      const body = $("downlineTableBody");
+      if (body)
+        body.innerHTML = `<tr><td colspan="7" class="network-empty">Unable to read referral data: ${cleanError(e)}</td></tr>`;
+    }
+  }
+
+  async function inspectReferralPair() {
+    if (!gt) return;
+    const input = $("refPairWallet");
+    const result = $("refPairResult");
+    const wallet = input?.value?.trim();
+    if (!ethers.isAddress(wallet)) {
+      if (result) result.textContent = "Please enter a valid wallet address.";
+      return;
+    }
+    const referrer = account;
+    if (!referrer) {
+      if (result) result.textContent = "Connect your wallet first.";
+      return;
+    }
+    try {
+      const [stats, levels] = await Promise.all([
+        gt.getReferralStats(referrer, wallet),
+        gt.getReferralEarnedByLevel(referrer, wallet),
+      ]);
+      const parts = [];
+      for (let i = 0; i < 10; i++)
+        parts.push(`L${i + 1}: ${fmt(levels[i])} ${tokenSymbol}`);
+      if (result)
+        result.innerHTML = `<strong>Total earned:</strong> ${fmt(stats[0])} ${tokenSymbol} &nbsp; <strong>Reward count:</strong> ${stats[1]}<div style="margin-top:5px;line-height:1.7;">${parts.join(" &nbsp;•&nbsp; ")}</div>`;
+    } catch (e) {
+      if (result) result.textContent = cleanError(e);
+    }
+  }
+
+  function isNetworkTabActive() {
+    const section = $("network");
+    return !!section?.classList.contains("active");
+  }
+
+  async function refreshExtendedNetwork(force = false) {
+    if (!gt || !account || networkRefreshInFlight) return;
+    const localAccount = account;
+    const generation = connectionGeneration;
+    if (
+      !force &&
+      networkLoadedAccount === localAccount.toLowerCase() &&
+      networkLoadedGeneration === generation
+    ) {
+      return;
+    }
+    networkRefreshInFlight = true;
+    try {
+      const [levels] = await Promise.all([gt.getReferralLevels()]);
+      if (
+        generation !== connectionGeneration ||
+        account?.toLowerCase() !== localAccount.toLowerCase()
+      )
+        return;
+      cached.levels = levels;
+      updateLevelsDisplay(levels);
+      downlineOffset = 0;
+      await buildReferralNetwork();
+      if (
+        generation !== connectionGeneration ||
+        account?.toLowerCase() !== localAccount.toLowerCase()
+      )
+        return;
+      await loadDownlinesPage();
+      setNetworkText("downlineCountBadge", String(referralNetwork.length));
+      setNetworkText(
+        "networkLevelsUpdated",
+        `Updated ${new Date().toLocaleTimeString()}`,
+      );
+      networkLoadedAccount = localAccount.toLowerCase();
+      networkLoadedGeneration = generation;
+    } catch (e) {
+      console.error("referral network refresh", e);
+      const box = $("networkLevelEarnings");
+      if (box)
+        box.innerHTML = `<div class="network-empty" style="grid-column:1/-1;">Unable to read referral earnings: ${cleanError(e)}</div>`;
+    } finally {
+      networkRefreshInFlight = false;
+    }
+  }
+
+  async function refreshNetworkIfVisible(force = false) {
+    if (isNetworkTabActive()) {
+      await refreshExtendedNetwork(force);
+    }
   }
 
   function fillOwner(levels, min, roi, lb) {
@@ -1041,11 +1494,6 @@
       return null;
     }
     isProcessing = true;
-    setStakeStatus(
-      `⏳ ${label} submitted. Waiting for blockchain confirmation...`,
-      "info",
-      true,
-    );
     if (buttonId) {
       const btn = $(buttonId);
       if (btn) {
@@ -1054,44 +1502,72 @@
         btn.innerHTML = `<span class="spinner-small"></span>&nbsp;${label}...`;
       }
     }
+
     try {
+      let gasText = "";
       if (showGasEstimate) {
         try {
-          const gasEstimate = await tx.estimateGas();
+          const gasRequest = {
+            from: account,
+            to: tx.to,
+            data: tx.data,
+            value: tx.value || 0n,
+          };
+          const gasEstimate = await readProvider.estimateGas(gasRequest);
           const feeData = await readProvider.getFeeData();
-          const gasPrice = feeData.gasPrice || feeData.maxFeePerGas || 0n;
-          const totalGas = gasEstimate * gasPrice;
-          const gasInBnb = ethers.formatEther(totalGas);
-          const gasEl = $("gasEstimate");
-          if (gasEl) {
-            gasEl.style.display = "block";
-            gasEl.textContent = `⛽ Estimated gas: ~${parseFloat(gasInBnb).toFixed(6)} BNB`;
-            gasEl.className = "small muted";
-            gasEl.style.marginTop = "3px";
+          const gasPrice =
+            tx.gasPrice ||
+            tx.maxFeePerGas ||
+            feeData.gasPrice ||
+            feeData.maxFeePerGas ||
+            0n;
+          if (gasPrice > 0n) {
+            const totalGas = gasEstimate * gasPrice;
+            gasText = `Estimated network fee: ~${parseFloat(ethers.formatEther(totalGas)).toFixed(6)} BNB`;
+          } else {
+            gasText = `Estimated gas: ~${gasEstimate.toString()} units`;
           }
         } catch (gasError) {
           console.warn("Gas estimation failed:", gasError);
+          gasText =
+            "Gas estimate is unavailable right now. Your wallet will show the final fee before confirmation.";
         }
       }
+
+      setNotifyProcessing(
+        label,
+        "Transaction submitted. Waiting for blockchain confirmation…",
+        gasText
+          ? `<strong>⛽ ${gasText}</strong><br>Do not close this page while the transaction is confirming.`
+          : "Do not close this page while the transaction is confirming.",
+      );
+
       const receipt = await tx.wait();
-      if (myNonce !== transactionNonce) {
-        return null;
-      }
-      setStakeStatus(`✅ ${label} confirmed successfully!`, "ok", true);
-      const gasEl = $("gasEstimate");
-      if (gasEl) {
-        setTimeout(() => {
-          gasEl.style.display = "none";
-        }, 3000);
-      }
+      if (myNonce !== transactionNonce) return null;
+
+      clearCache();
+      await refresh();
+      await refreshNetworkIfVisible(true);
+
       notify(
-        `${label} confirmed on BNB Smart Chain.\n${short(receipt.hash)}`,
+        `${label} was confirmed successfully.
+
+Transaction: ${short(receipt.hash)}`,
         "ok",
         "Transaction Successful",
         5000,
+        "View on BscScan",
+        () => {
+          window.open(
+            `${CONFIG.explorer}tx/${receipt.hash}`,
+            "_blank",
+            "noopener,noreferrer",
+          );
+        },
+        false,
+        gasText ? `⛽ ${gasText}` : null,
       );
-      clearCache();
-      await refresh();
+
       if (buttonId) {
         const btn = $(buttonId);
         if (btn && btn._originalText) {
@@ -1100,19 +1576,11 @@
           delete btn._originalText;
         }
       }
-      setTimeout(() => {
-        setStakeStatus("", "info", false);
-        const gasEl2 = $("gasEstimate");
-        if (gasEl2) gasEl2.style.display = "none";
-      }, 3000);
       return receipt;
     } catch (e) {
-      if (myNonce !== transactionNonce) {
-        return null;
-      }
-      setStakeStatus(`❌ ${label} failed: ${cleanError(e)}`, "danger", true);
-      const gasEl = $("gasEstimate");
-      if (gasEl) gasEl.style.display = "none";
+      if (myNonce !== transactionNonce) return null;
+      const msg = cleanError(e);
+      notify(msg, "error", `${label} Failed`, 0);
       if (buttonId) {
         const btn = $(buttonId);
         if (btn && btn._originalText) {
@@ -1121,14 +1589,9 @@
           delete btn._originalText;
         }
       }
-      setTimeout(() => {
-        setStakeStatus("", "info", false);
-      }, 5000);
       throw e;
     } finally {
-      if (myNonce === transactionNonce) {
-        isProcessing = false;
-      }
+      if (myNonce === transactionNonce) isProcessing = false;
     }
   }
 
@@ -1143,35 +1606,64 @@
       );
       return;
     }
+
     const amountInput = $("stakeAmount");
     const amountRaw = amountInput.value.trim();
     const validation = validateAmountInput(amountRaw);
+
     if (!validation.valid) {
       notify(validation.message, "warn", "Input Error", 0);
       amountInput.classList.add("input-error");
       setTimeout(() => amountInput.classList.remove("input-error"), 3000);
       return;
     }
+
     try {
       const amount = ethers.parseUnits(validation.value, tokenDecimals);
+
       if (!(await validateStakeInput(amount))) {
         return;
       }
+
       const currentAllowance = await token.allowance(
         account,
         CONFIG.stakingContract,
       );
+
       if (amount <= currentAllowance) {
+        toggleStakeButtons(true);
         notify(
-          `✅ Allowance is already sufficient (${fmt(currentAllowance)} MEGAH).`,
-          "info",
-          "Allowance Sufficient",
-          3000,
+          `Your approval is already sufficient for ${fmt(amount)} MEGAH.`,
+          "ok",
+          "Ready to Stake",
+          0,
+          "STAKE NOW",
+          () => {
+            closeNotify(true);
+            return stake();
+          },
         );
         return;
       }
+
       const tx = await token.approve(CONFIG.stakingContract, amount);
       await sendTransaction(tx, "Approve MEGAH", "approveBtn");
+
+      toggleStakeButtons(true);
+
+      notify(
+        `You approved ${fmt(amount)} MEGAH successfully.\n\nYour tokens are ready for staking.`,
+        "ok",
+        "Approval Successful",
+        0,
+        "STAKE NOW",
+        () => {
+          closeNotify(true);
+          return stake();
+        },
+        false,
+        "You can review the amount and referrer on the staking form before confirming the stake.",
+      );
     } catch (e) {
       notify(cleanError(e), "error", "Approval Failed", 0);
     }
@@ -1188,31 +1680,40 @@
       );
       return;
     }
+
     const amountInput = $("stakeAmount");
     const amountRaw = amountInput.value.trim();
     const validation = validateAmountInput(amountRaw);
+
     if (!validation.valid) {
       notify(validation.message, "warn", "Input Error", 0);
       amountInput.classList.add("input-error");
       setTimeout(() => amountInput.classList.remove("input-error"), 3000);
       return;
     }
+
     try {
       const amount = ethers.parseUnits(validation.value, tokenDecimals);
+
       if (!(await validateStakeInput(amount))) {
         return;
       }
+
       const allowance = await token.allowance(account, CONFIG.stakingContract);
+
       if (allowance < amount) {
+        toggleStakeButtons(false);
         notify(
-          `Insufficient allowance.\nAllowance: ${fmt(allowance)} MEGAH\nRequired: ${fmt(amount)} MEGAH\n\nPlease click "Approve MEGAH" first.`,
+          `Insufficient allowance.\nAllowance: ${fmt(allowance)} MEGAH\nRequired: ${fmt(amount)} MEGAH\n\nPlease approve first.`,
           "warn",
           "Insufficient Allowance",
           0,
         );
         return;
       }
+
       let up = $("referrer").value.trim();
+
       if (up) {
         if (!validAddress(up)) {
           notify("Invalid referrer address.", "error", "Input Error", 0);
@@ -1228,13 +1729,80 @@
           return;
         }
       }
+
       const tx = await gt.stake(amount, up || ethers.ZeroAddress);
       await sendTransaction(tx, "Stake MEGAH", "stakeBtn");
+
       amountInput.value = "";
-      clearCache();
-      await refresh();
+      toggleStakeButtons(false);
     } catch (e) {
       notify(cleanError(e), "error", "Stake Failed", 0);
+    }
+  }
+
+  // ============================================================
+  // TOGGLE STAKE BUTTONS
+  // ============================================================
+
+  function toggleStakeButtons(showStake) {
+    const approveBtn = $("approveBtn");
+    const stakeBtn = $("stakeBtn");
+    const amountInput = $("stakeAmount");
+    const validation = validateAmountInput(amountInput.value.trim());
+
+    if (!validation.valid || !amountInput.value.trim()) {
+      approveBtn.disabled = true;
+      stakeBtn.disabled = true;
+      approveBtn.classList.remove("hidden");
+      stakeBtn.classList.add("hidden");
+      return;
+    }
+
+    if (showStake) {
+      approveBtn.classList.add("hidden");
+      approveBtn.disabled = true;
+      stakeBtn.classList.remove("hidden");
+      stakeBtn.disabled = false;
+    } else {
+      approveBtn.classList.remove("hidden");
+      approveBtn.disabled = false;
+      stakeBtn.classList.add("hidden");
+      stakeBtn.disabled = true;
+    }
+  }
+
+  async function checkAllowance() {
+    if (!account || !token) {
+      toggleStakeButtons(false);
+      return;
+    }
+
+    const amountInput = $("stakeAmount");
+    const amountRaw = amountInput.value.trim();
+    const validation = validateAmountInput(amountRaw);
+
+    if (!validation.valid || !amountRaw) {
+      toggleStakeButtons(false);
+      return;
+    }
+
+    try {
+      const amount = ethers.parseUnits(amountRaw, tokenDecimals);
+      const allowance = await token.allowance(account, CONFIG.stakingContract);
+      const balance = await token.balanceOf(account);
+
+      if (amount > balance) {
+        toggleStakeButtons(false);
+        return;
+      }
+
+      if (allowance >= amount) {
+        toggleStakeButtons(true);
+      } else {
+        toggleStakeButtons(false);
+      }
+    } catch (e) {
+      toggleStakeButtons(false);
     }
   }
 
@@ -1544,7 +2112,9 @@
     if (!(await requireOwner())) return;
     try {
       const v = BigInt($("oRoi").value);
-      if (v <= 0n) throw new Error("ROI must be greater than 0.");
+      const maxBps = BigInt(await gt.MAX_BPS());
+      if (v < 0n || v > maxBps)
+        throw new Error(`ROI BPS must be between 0 and ${maxBps}.`);
       const tx = await gt.updateDailyRoiBps(v);
       await sendTransaction(tx, "Update Daily ROI", "setRoi");
       clearCache();
@@ -1558,6 +2128,9 @@
     if (!(await requireOwner())) return;
     try {
       const v = BigInt($("oLeaderBps").value);
+      const maxBps = BigInt(await gt.MAX_BPS());
+      if (v < 0n || v > maxBps)
+        throw new Error(`Leader bonus BPS must be between 0 and ${maxBps}.`);
       const tx = await gt.updateLeaderBonusBps(v);
       await sendTransaction(tx, "Update Leader Bonus", "setLeaderBps");
       clearCache();
@@ -1571,11 +2144,24 @@
     if (!(await requireOwner())) return;
     try {
       const arr = [];
-      for (let i = 1; i <= 10; i++) {
+      const maxBps = BigInt(await gt.MAX_BPS());
+      let totalBps = 0n;
+      const maxLevels = Number(await gt.MAX_REFERRAL_LEVELS());
+      if (maxLevels !== 10)
+        throw new Error(
+          `Contract reports ${maxLevels} referral levels; UI expects the contract maximum of 10.`,
+        );
+      for (let i = 1; i <= maxLevels; i++) {
         const v = BigInt($(`lvl${i}`).value || "0");
-        if (v < 0n) throw new Error("Invalid BPS value.");
+        if (v < 0n || v > maxBps)
+          throw new Error(`Level ${i} BPS must be between 0 and ${maxBps}.`);
+        totalBps += v;
         arr.push(v);
       }
+      if (totalBps > maxBps)
+        throw new Error(
+          `Total referral BPS cannot exceed ${maxBps}. Current total: ${totalBps}.`,
+        );
       const tx = await gt.updateReferralLevels(arr);
       await sendTransaction(tx, "Update Referral Levels", "setLevels");
       clearCache();
@@ -1647,11 +2233,10 @@
 
   async function renounceOwnership() {
     if (!(await requireOwner())) return;
-    const confirmed = confirm(
-      "⚠️ WARNING!\n\n" +
-        "You are about to permanently renounce ownership of the contract.\n" +
-        "After this, NO ONE will be able to run owner functions.\n\n" +
-        "Are you sure?",
+    const confirmed = await notifyConfirm(
+      "You are about to permanently renounce ownership of the contract.\n\nAfter confirmation, owner-only functions can no longer be used by anyone. This action cannot be undone.",
+      "Renounce Ownership",
+      "RENOUNCE OWNERSHIP",
     );
     if (!confirmed) return;
     try {
@@ -1680,11 +2265,10 @@
       );
       return;
     }
-    const confirmed = confirm(
-      `⚠️ WARNING!\n\n` +
-        `You are about to transfer contract ownership to:\n${newOwner}\n\n` +
-        `After this, only that address will be able to run owner functions.\n\n` +
-        `Are you sure?`,
+    const confirmed = await notifyConfirm(
+      `Transfer contract ownership to:\n${newOwner}\n\nAfter confirmation, only the new owner will be able to use owner-only functions.`,
+      "Transfer Ownership",
+      "TRANSFER OWNERSHIP",
     );
     if (!confirmed) return;
     try {
@@ -1712,6 +2296,9 @@
       });
 
     const section = document.getElementById(name);
+    if (name === "network" && account && gt) {
+      void refreshExtendedNetwork(false);
+    }
     if (section) {
       const header = document.querySelector("header");
       const headerHeight = header ? header.offsetHeight : 0;
@@ -1836,15 +2423,15 @@
             pct: Number(bps) / 100,
           }))
         : [
-            { level: 1, bps: 500, pct: 5 },
-            { level: 2, bps: 350, pct: 3.5 },
-            { level: 3, bps: 250, pct: 2.5 },
-            { level: 4, bps: 200, pct: 2 },
-            { level: 5, bps: 150, pct: 1.5 },
-            { level: 6, bps: 100, pct: 1 },
-            { level: 7, bps: 75, pct: 0.75 },
+            { level: 1, bps: 1000, pct: 10 },
+            { level: 2, bps: 300, pct: 3 },
+            { level: 3, bps: 200, pct: 2 },
+            { level: 4, bps: 150, pct: 1.5 },
+            { level: 5, bps: 100, pct: 1 },
+            { level: 6, bps: 75, pct: 0.75 },
+            { level: 7, bps: 60, pct: 0.6 },
             { level: 8, bps: 50, pct: 0.5 },
-            { level: 9, bps: 35, pct: 0.35 },
+            { level: 9, bps: 40, pct: 0.4 },
             { level: 10, bps: 25, pct: 0.25 },
           ];
 
@@ -2099,14 +2686,12 @@
         this.classList.remove("input-error");
         const val = this.value.trim();
         const validation = validateAmountInput(val);
+
         if (validation.valid) {
-          $("approveBtn").disabled = false;
-          $("stakeBtn").disabled = false;
-          $("maxBtn").disabled = false;
           $("stakeAmountError").style.display = "none";
+          checkAllowance();
         } else {
-          $("approveBtn").disabled = true;
-          $("stakeBtn").disabled = true;
+          toggleStakeButtons(false);
           if (val) {
             $("stakeAmountError").textContent = validation.message;
             $("stakeAmountError").style.display = "block";
@@ -2133,6 +2718,7 @@
         try {
           clearCache();
           await refresh();
+          await refreshNetworkIfVisible(true);
           const now = new Date();
           const timeStr = now.toLocaleTimeString("en-US", {
             hour: "2-digit",
@@ -2206,6 +2792,30 @@
   // DOM READY
   // ============================================================
   document.addEventListener("DOMContentLoaded", function () {
+    const prev = $("downlinePrev"),
+      next = $("downlineNext"),
+      refreshNetwork = $("refreshNetworkBtn"),
+      inspect = $("inspectRefPairBtn");
+    prev?.addEventListener("click", async () => {
+      if (downlineOffset >= DOWNLINE_PAGE_SIZE) {
+        downlineOffset -= DOWNLINE_PAGE_SIZE;
+        await loadDownlinesPage();
+      }
+    });
+    next?.addEventListener("click", async () => {
+      if (downlineOffset + DOWNLINE_PAGE_SIZE < referralNetwork.length) {
+        downlineOffset += DOWNLINE_PAGE_SIZE;
+        await loadDownlinesPage();
+      }
+    });
+    refreshNetwork?.addEventListener("click", () =>
+      refreshExtendedNetwork(true),
+    );
+    inspect?.addEventListener("click", inspectReferralPair);
+    $("refPairWallet")?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") inspectReferralPair();
+    });
+
     init();
 
     setTimeout(() => {
