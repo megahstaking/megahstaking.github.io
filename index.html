@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="utf-8">
@@ -7,45 +7,43 @@
     <meta name="viewport"
         content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1.0,user-scalable=no">
     <meta name="theme-color" content="#070910">
-    <title>Megah Staking ROI & Referral Rewards</title>
+    <title>Staking MEGAH – ROI & Bonus Referral</title>
 
     <meta name="description"
-        content="Explore MEGAH Staking ROI and referral rewards on BNB Smart Chain. Stake MEGAH, track daily rewards, and view eligible referral earnings on-chain.">
-
+        content="Nikmati staking MEGAH di BNB Smart Chain. Pantau ROI harian, bonus referral 10 level, dan klaim reward on-chain langsung dari dompet Web3 Anda.">
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
-
     <meta name="author" content="Megah Crypto">
 
     <link rel="canonical" href="https://megahstaking.github.io/">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Megah Staking ROI & Referral Rewards">
+    <meta property="og:title" content="Staking MEGAH – ROI & Bonus Referral">
     <meta property="og:description"
-        content="Explore MEGAH Staking ROI and referral rewards on BNB Smart Chain. Stake MEGAH, track daily rewards, and view eligible referral earnings on-chain.">
+        content="Staking MEGAH dengan ROI harian dan referral 10 level. Kelola posisi staking, pantau pendapatan, dan klaim reward on-chain di BNB Smart Chain.">
     <meta property="og:url" content="https://megahstaking.github.io/">
     <meta property="og:site_name" content="Megah Staking">
-    <meta property="og:locale" content="en_US">
+    <meta property="og:locale" content="id_ID">
     <meta property="og:image" content="https://megahstaking.github.io/images/megah-staking-banner.webp">
-    <meta property="og:image:alt" content="Megah Staking on BNB Smart Chain">
+    <meta property="og:image:alt" content="Platform Staking MEGAH di BNB Smart Chain">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Megah Staking ROI & Referral Rewards">
+    <meta name="twitter:title" content="Staking MEGAH – ROI & Bonus Referral">
     <meta name="twitter:description"
-        content="Explore MEGAH Staking ROI and referral rewards on BNB Smart Chain. Stake MEGAH, track daily rewards, and view eligible referral earnings on-chain.">
+        content="Staking MEGAH dengan ROI harian dan referral 10 level. Pantau dan klaim reward on-chain di BNB Smart Chain.">
     <meta name="twitter:image" content="https://megahstaking.github.io/images/megah-staking-banner.webp">
-    <meta name="twitter:image:alt" content="MEGAH Staking on BNB Smart Chain">
+    <meta name="twitter:image:alt" content="Staking MEGAH di BNB Smart Chain">
 
     <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "MEGAH Staking",
+    "name": "Megah Staking",
     "url": "https://megahstaking.github.io/",
-    "description": "MEGAH Staking platform on BNB Smart Chain with ROI and referral rewards.",
+    "description": "Platform staking MEGAH di BNB Smart Chain dengan ROI harian dan bonus referral 10 level.",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Web Browser",
-    "browserRequirements": "Requires an EVM-compatible Web3 wallet",
-    "inLanguage": "en-US"
+    "browserRequirements": "Membutuhkan dompet Web3 yang kompatibel dengan EVM",
+    "inLanguage": "id-ID"
 }
 </script>
 
@@ -58,7 +56,8 @@
 
     <!-- ========== TVL CHART LIBRARY ========== -->
     <script
-        src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
+        src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js">
+        </script>
 </head>
 
 <body>
@@ -71,15 +70,15 @@
             <!-- Logo + Wallet -->
             <div class="header-top">
                 <div class="brand" onclick="showTab('dashboard')">
-                    <img class="brand-logo" src="https://megahstaking.github.io/images/MEGAH.png" alt="MEGAH Token">
+                    <img class="brand-logo" src="https://megahstaking.github.io/images/MEGAH.png" alt="Token MEGAH">
                     <div>
-                        <div class="brand-title">MEGAH Staking</div>
-                        <div class="brand-sub">Web3 staking platform for $MEGAH</div>
+                        <div class="brand-title">Staking MEGAH</div>
+                        <div class="brand-sub">Platform staking Web3 untuk $MEGAH</div>
                     </div>
                 </div>
                 <div class="header-wallet">
                     <button id="connectBtn" class="wallet red" type="button">
-                        <i class="fa-solid fa-plug"></i>&nbsp;Connect Wallet
+                        <i class="fa-solid fa-plug"></i>&nbsp;Hubungkan Dompet
                     </button>
                 </div>
             </div>
@@ -87,16 +86,16 @@
             <!-- NAV Menu -->
             <nav class="nav-bar" id="navBar">
                 <button class="tab active" data-tab="dashboard">
-                    <i class="fa-solid fa-user-tie"></i> Dashboard
+                    <i class="fa-solid fa-user-tie"></i> Dasbor
                 </button>
                 <button class="tab" data-tab="stake">
-                    <i class="fa-solid fa-piggy-bank"></i> Stake
+                    <i class="fa-solid fa-piggy-bank"></i> Staking
                 </button>
                 <button class="tab" data-tab="network">
                     <i class="fa-solid fa-network-wired"></i> Referral
                 </button>
                 <button class="tab" data-tab="calculator">
-                    <i class="fa-solid fa-calculator"></i> Calculator
+                    <i class="fa-solid fa-calculator"></i> Kalkulator
                 </button>
                 <button id="ownerTabNav" class="tab owner-tab" data-tab="owner">
                     <i class="fa-solid fa-crown"></i> Owner
@@ -117,29 +116,29 @@
                     <i></i>BNB Smart Chain • $MEGAH • On-Chain
                 </span>
 
-                <h1 id="heroTitle">Stake $MEGAH.</h1>
+                <h1 id="heroTitle">Staking $MEGAH.</h1>
 
                 <p>
-                    Stake $MEGAH through the smart contract on BNB Smart Chain.
-                    Track your staking position, ROI, referral rewards, and on-chain activity
-                    directly from your Web3 wallet.
+                    Lakukan staking $MEGAH melalui kontrak pintar di BNB Smart Chain.
+                    Pantau posisi staking, ROI, bonus referral, dan aktivitas on-chain
+                    langsung dari dompet Web3 Anda.
                 </p>
 
                 <div class="hero-actions">
                     <button class="primary" data-tab="stake" type="button">
-                        <i class="fa-solid fa-lock"></i> Start Staking
+                        <i class="fa-solid fa-lock"></i> Mulai Staking
                     </button>
 
                     <button class="hero-guide-btn" data-tab="guide" type="button">
-                        <i class="fa-solid fa-circle-info"></i> How It Works
+                        <i class="fa-solid fa-circle-info"></i> Cara Kerja
                     </button>
                 </div>
 
-                <div class="hero-points" aria-label="Platform features">
+                <div class="hero-points" aria-label="Fitur platform">
                     <span><i class="fa-solid fa-link"></i> On-chain</span>
-                    <span><i class="fa-solid fa-wallet"></i> Web3 Wallet</span>
+                    <span><i class="fa-solid fa-wallet"></i> Dompet Web3</span>
                     <span><i class="fa-solid fa-gas-pump"></i> BNB Gas</span>
-                    <span><i class="fa-solid fa-shield-halved"></i> Non-custodial</span>
+                    <span><i class="fa-solid fa-shield-halved"></i> Non-kustodian</span>
                 </div>
             </div>
         </section>
@@ -147,19 +146,19 @@
         <!-- STATS -->
         <div class="stats">
             <div class="stat">
-                <label>MEGAH Balance</label>
+                <label>Saldo MEGAH</label>
                 <strong id="balance">—</strong>
             </div>
             <div class="stat">
-                <label>Total Staked</label>
+                <label>Total Di-stake</label>
                 <strong id="staked">—</strong>
             </div>
             <div class="stat">
-                <label>Pending ROI</label>
+                <label>ROI Tertunda</label>
                 <strong id="pending">—</strong>
             </div>
             <div class="stat">
-                <label>Referral Bonus</label>
+                <label>Bonus Referral</label>
                 <strong id="referral">—</strong>
             </div>
         </div>
@@ -171,52 +170,53 @@
             <div class="cols">
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Your Position</h2>
-                        <span id="positionStatus" class="badge gray">Wallet not connected</span>
+                        <h2>Posisi Anda</h2>
+                        <span id="positionStatus" class="badge gray">Dompet tidak terhubung</span>
                     </div>
-                    <div class="kv"><span>Total Staked</span><span id="dStaked">—</span></div>
-                    <div class="kv"><span>Maximum Cap</span><span id="dCap">—</span></div>
-                    <div class="kv"><span>Total Claimed</span><span id="dClaimed">—</span></div>
-                    <div class="kv"><span>Pending ROI</span><span id="dPending">—</span></div>
-                    <div class="kv"><span>Pending Referral Bonus</span><span id="dReferral">—</span></div>
-                    <div class="kv"><span>Saved Reward</span><span id="dSavedReward">—</span></div>
-                    <div class="kv"><span>Last Checkpoint</span><span id="dLastClaim">—</span></div>
-                    <div class="kv"><span>Remaining Cap</span><span id="dCapRemaining">—</span></div>
+                    <div class="kv"><span>Total Di-stake</span><span id="dStaked">—</span></div>
+                    <div class="kv"><span>Batas Maksimum</span><span id="dCap">—</span></div>
+                    <div class="kv"><span>Total Diklaim</span><span id="dClaimed">—</span></div>
+                    <div class="kv"><span>ROI Tertunda</span><span id="dPending">—</span></div>
+                    <div class="kv"><span>Bonus Referral Tertunda</span><span id="dReferral">—</span></div>
+                    <div class="kv"><span>Reward Tersimpan</span><span id="dSavedReward">—</span></div>
+                    <div class="kv"><span>Checkpoint Terakhir</span><span id="dLastClaim">—</span></div>
+                    <div class="kv"><span>Sisa Batas</span><span id="dCapRemaining">—</span></div>
                     <div class="kv"><span>Referrer</span><span id="dReferrer">—</span></div>
-                    <div class="kv"><span>Leader Status</span><span id="dLeader">—</span></div>
-                    <div class="kv"><span>Max Cap Status</span><span id="dCapStatus">—</span></div>
+                    <div class="kv"><span>Status Leader</span><span id="dLeader">—</span></div>
+                    <div class="kv"><span>Status Max Cap</span><span id="dCapStatus">—</span></div>
                     <div class="progress"><i id="capProgress"></i></div>
                     <div class="small muted" style="margin-top:5px" id="capText">—</div>
                     <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
                         <button id="refreshBtn" class="outline"
                             style="font-size:10px;padding:4px 12px;min-height:28px;">
-                            <i class="fa-solid fa-rotate"></i>&nbsp;Refresh
+                            <i class="fa-solid fa-rotate"></i>&nbsp;Segarkan
                         </button>
-                        <span class="small muted" id="lastRefreshTime" style="align-self:center;font-size:8px;">Last
-                            refresh: —</span>
+                        <span class="small muted" id="lastRefreshTime" style="align-self:center;font-size:8px;">Segarkan
+                            terakhir: —</span>
                     </div>
                 </div>
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Claim</h2>
+                        <h2>Klaim</h2>
                         <span class="badge blue">On-chain</span>
                     </div>
-                    <div class="notice info">Claimable amounts are determined by the deployed smart contract.</div>
+                    <div class="notice info">Jumlah yang dapat diklaim ditentukan oleh kontrak pintar yang telah
+                        di-deploy.</div>
                     <div style="height:8px"></div>
                     <div class="actions">
                         <button class="success" id="claimRoiBtn" disabled
                             style="font-size:10px;padding:6px 12px;min-height:30px;"><i
-                                class="fa-solid fa-gift"></i>&nbsp;Claim ROI</button>
+                                class="fa-solid fa-gift"></i>&nbsp;Klaim ROI</button>
                         <button id="claimReferralBtn" disabled
                             style="font-size:10px;padding:6px 12px;min-height:30px;"><i
-                                class="fa-solid fa-award"></i>&nbsp;Claim Referral</button>
+                                class="fa-solid fa-award"></i>&nbsp;Klaim Referral</button>
                     </div>
                     <div style="height:10px"></div>
-                    <div class="kv"><span>Daily ROI</span><span id="dailyRoi">—</span></div>
-                    <div class="kv"><span>Leader Bonus</span><span id="leaderBonus">—</span></div>
-                    <div class="kv"><span>Minimum Stake</span><span id="minStake">—</span></div>
-                    <div class="kv"><span>Available ROI</span><span id="roiClaimAmount">—</span></div>
-                    <div class="kv"><span>Available Referral Bonus</span><span id="referralClaimAmount">—</span></div>
+                    <div class="kv"><span>ROI Harian</span><span id="dailyRoi">—</span></div>
+                    <div class="kv"><span>Bonus Leader</span><span id="leaderBonus">—</span></div>
+                    <div class="kv"><span>Stake Minimum</span><span id="minStake">—</span></div>
+                    <div class="kv"><span>ROI Tersedia</span><span id="roiClaimAmount">—</span></div>
+                    <div class="kv"><span>Bonus Referral Tersedia</span><span id="referralClaimAmount">—</span></div>
                 </div>
             </div>
 
@@ -224,7 +224,7 @@
             <div class="panel" style="margin-top:14px;">
                 <div class="panel-title-row">
                     <h2 style="font-size:14px;">
-                        <i class="fa-solid fa-chart-simple"></i> Total Staked (TVL) — ROI Staking
+                        <i class="fa-solid fa-chart-simple"></i> Total Di-stake (TVL) — Staking ROI
                     </h2>
                     <span class="badge green" style="font-size:8px;padding:2px 8px;">
                         <i class="fa-solid fa-circle" style="font-size:6px;"></i> Live
@@ -244,16 +244,15 @@
                     <!-- TVL Current Value -->
                     <div style="text-align:center;padding:4px 0;">
                         <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">TVL
-                            BSC
-                        </div>
+                            BSC</div>
                         <div style="font-size:14px;font-weight:700;color:var(--green);" id="tvlCurrentValue">—</div>
-                        <div style="font-size:8px;color:var(--muted);" id="tvlCurrencyLabel">Loading...</div>
+                        <div style="font-size:8px;color:var(--muted);" id="tvlCurrencyLabel">Memuat...</div>
                     </div>
 
                     <!-- MEGAH Price -->
                     <div style="text-align:center;padding:4px 0;">
                         <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">
-                            MEGAH Price</div>
+                            Harga MEGAH</div>
                         <div style="font-size:14px;font-weight:700;color:var(--gold);" id="tvlMegahPrice">—</div>
                         <div style="font-size:8px;color:var(--muted);">USD</div>
                     </div>
@@ -261,17 +260,17 @@
                     <!-- Data Points -->
                     <div style="text-align:center;padding:4px 0;">
                         <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">
-                            Data Points</div>
+                            Titik Data</div>
                         <div style="font-size:14px;font-weight:700;color:var(--text);" id="tvlDataPoints">—</div>
-                        <div style="font-size:8px;color:var(--muted);">Total History</div>
+                        <div style="font-size:8px;color:var(--muted);">Total Riwayat</div>
                     </div>
 
                     <!-- Min / Max -->
                     <div style="text-align:center;padding:4px 0;">
-                        <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">All
-                            Time</div>
+                        <div style="font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;">
+                            Sepanjang Waktu</div>
                         <div style="font-size:11px;font-weight:600;color:var(--text2);" id="tvlMinMax">—</div>
-                        <div style="font-size:8px;color:var(--muted);">Min / Max</div>
+                        <div style="font-size:8px;color:var(--muted);">Min / Maks</div>
                     </div>
 
                 </div>
@@ -293,35 +292,34 @@
             <div style="height:4px"></div>
             <div class="panel">
                 <div class="panel-title-row">
-                    <h2>Contract Information</h2>
+                    <h2><i class="fa-solid fa-file-contract"></i> Informasi Kontrak</h2>
                     <span class="badge green">Live On-chain</span>
                 </div>
                 <div class="contract-grid">
                     <div class="contract-item">
-                        <label><i class="fa-solid fa-coins"></i> Reward Pool Balance</label>
+                        <label><i class="fa-solid fa-coins"></i> Saldo Pool Reward</label>
                         <strong id="contractPoolBalance" style="color:var(--green);">—</strong>
-                        <span class="small muted" style="display:block;font-size:7px;margin-top:1px;">Tokens available
-                            for rewards</span>
+                        <span class="small muted" style="display:block;font-size:7px;margin-top:1px;">Token tersedia
+                            untuk reward</span>
                     </div>
-                    <div class="contract-item"><label>Network</label><strong id="contractNetwork"><i
-                                class="fa-brands fa-ethereum"></i> BNB Smart
-                            Chain</strong></div>
-                    <div class="contract-item"><label><i class="fa-solid fa-coins"></i> Staking Token</label><strong
+                    <div class="contract-item"><label>Jaringan</label><strong id="contractNetwork"><i
+                                class="fa-brands fa-ethereum"></i> BNB Smart Chain</strong></div>
+                    <div class="contract-item"><label><i class="fa-solid fa-coins"></i> Token Staking</label><strong
                             id="contractToken">—</strong></div>
-                    <div class="contract-item"><label><i class="fa-solid fa-cash-register"></i> Minimum
-                            Stake</label><strong id="contractMin">—</strong></div>
-                    <div class="contract-item"><label><i class="fa-solid fa-money-bill-trend-up"></i> Daily
-                            ROI</label><strong id="contractRoi">—</strong></div>
-                    <div class="contract-item"><label><i class="fa-solid fa-user-tie"></i> Leader Bonus</label><strong
+                    <div class="contract-item"><label><i class="fa-solid fa-cash-register"></i> Stake
+                            Minimum</label><strong id="contractMin">—</strong></div>
+                    <div class="contract-item"><label><i class="fa-solid fa-money-bill-trend-up"></i> ROI
+                            Harian</label><strong id="contractRoi">—</strong></div>
+                    <div class="contract-item"><label><i class="fa-solid fa-user-tie"></i> Bonus Leader</label><strong
                             id="contractLeader">—</strong></div>
-                    <div class="contract-item"><label><i class="fa-solid fa-layer-group"></i> Max Referral
-                            Levels</label><strong id="contractMaxReferralLevels">—</strong></div>
-                    <div class="contract-item"><label><i class="fa-solid fa-users"></i> Max Direct
-                            Downlines</label><strong id="contractMaxDirectDownlines">—</strong></div>
-                    <div class="contract-item"><label><i class="fa-solid fa-percent"></i> Max BPS</label><strong
+                    <div class="contract-item"><label><i class="fa-solid fa-layer-group"></i> Level Referral
+                            Maks.</label><strong id="contractMaxReferralLevels">—</strong></div>
+                    <div class="contract-item"><label><i class="fa-solid fa-users"></i> Downline Langsung
+                            Maks.</label><strong id="contractMaxDirectDownlines">—</strong></div>
+                    <div class="contract-item"><label><i class="fa-solid fa-percent"></i> BPS Maks.</label><strong
                             id="contractMaxBps">—</strong></div>
                     <div class="contract-item">
-                        <label><i class="fa-solid fa-wallet"></i> Admin Leftover</label>
+                        <label><i class="fa-solid fa-wallet"></i> Sisa Admin</label>
                         <strong id="contractLeftover" style="font-size:10px;word-break:break-all;">—</strong>
                     </div>
                 </div>
@@ -339,55 +337,55 @@
                         <span class="badge blue">On-chain</span>
                     </div>
                     <div id="stakeStatus" class="notice info" style="display:none;">
-                        <i class="fa-solid fa-circle-info"></i>&nbsp;<span id="stakeStatusText">Processing...</span>
+                        <i class="fa-solid fa-circle-info"></i>&nbsp;<span id="stakeStatusText">Memproses...</span>
                     </div>
                     <div class="notice danger"
                         style="margin-top:6px;border-color:#662638;background:#1a0d14;font-size:10px;">
                         <i class="fa-solid fa-lock" style="color:#ff8c9c;"></i>&nbsp;
-                        <strong style="color:#ff8c9c;">IMPORTANT:</strong>
-                        <span style="color:#ffadb9;">Staked MEGAH tokens <strong>CANNOT</strong> be withdrawn. Only
-                            rewards can be claimed.</span>
+                        <strong style="color:#ff8c9c;">PENTING:</strong>
+                        <span style="color:#ffadb9;">Token MEGAH yang di-stake <strong>TIDAK BISA</strong> ditarik.
+                            Hanya reward yang bisa diklaim.</span>
                     </div>
-                    <div class="notice warn" style="margin-top:6px;font-size:10px;">BNB is required for gas fees on BNB
-                        Smart Chain.</div>
+                    <div class="notice warn" style="margin-top:6px;font-size:10px;">BNB diperlukan untuk biaya gas di
+                        BNB Smart Chain.</div>
                     <div style="height:10px"></div>
                     <div class="form">
                         <div>
-                            <label class="label">MEGAH Amount</label>
+                            <label class="label">Jumlah MEGAH</label>
                             <input id="stakeAmount" inputmode="decimal" placeholder="0.0" autocomplete="off">
                             <div id="stakeAmountError" class="small muted"
                                 style="color:#ff8c9c;display:none;margin-top:3px;"></div>
                             <div id="gasEstimate" class="small muted" style="display:none;" aria-hidden="true"></div>
                         </div>
                         <div>
-                            <label class="label">Referrer Address</label>
-                            <input id="referrer" placeholder="0x... (optional)">
+                            <label class="label">Alamat Referrer</label>
+                            <input id="referrer" placeholder="0x... (opsional)">
                         </div>
                         <div class="actions">
                             <button id="approveBtn" disabled
-                                style="font-size:10px;padding:5px 12px;min-height:28px;">Approve MEGAH</button>
+                                style="font-size:10px;padding:5px 12px;min-height:28px;">Setujui MEGAH</button>
                             <button class="primary hidden" id="stakeBtn" disabled
                                 style="font-size:10px;padding:5px 12px;min-height:28px;">Stake MEGAH</button>
                             <button id="maxBtn" disabled
-                                style="font-size:10px;padding:5px 12px;min-height:28px;">Max</button>
+                                style="font-size:10px;padding:5px 12px;min-height:28px;">Maks</button>
                         </div>
-                        <div class="small muted" id="allowanceText">Allowance: —</div>
-                        <div class="small muted" id="bnbBalanceText">BNB Balance: —</div>
-                        <div class="small muted" id="balanceStakeText">MEGAH Balance: —</div>
+                        <div class="small muted" id="allowanceText">Persetujuan: —</div>
+                        <div class="small muted" id="bnbBalanceText">Saldo BNB: —</div>
+                        <div class="small muted" id="balanceStakeText">Saldo MEGAH: —</div>
                     </div>
                 </div>
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Staking Rules</h2>
-                        <span class="badge blue">Contract data</span>
+                        <h2>Aturan Staking</h2>
+                        <span class="badge blue">Data kontrak</span>
                     </div>
-                    <div class="kv"><span>Asset</span><span>MEGAH BEP-20</span></div>
-                    <div class="kv"><span>Network Gas</span><span>BNB</span></div>
-                    <div class="kv"><span>Minimum Stake</span><span id="stakeMin">—</span></div>
-                    <div class="kv"><span>Daily ROI</span><span id="stakeRoi">—</span></div>
-                    <div class="kv"><span>Your Maximum Cap</span><span id="stakeMaxCap">—</span></div>
-                    <div class="notice info" style="margin-top:10px;font-size:10px;">Contract rules govern actual
-                        accounting and claimable amounts.</div>
+                    <div class="kv"><span>Aset</span><span>MEGAH BEP-20</span></div>
+                    <div class="kv"><span>Gas Jaringan</span><span>BNB</span></div>
+                    <div class="kv"><span>Stake Minimum</span><span id="stakeMin">—</span></div>
+                    <div class="kv"><span>ROI Harian</span><span id="stakeRoi">—</span></div>
+                    <div class="kv"><span>Batas Maksimum Anda</span><span id="stakeMaxCap">—</span></div>
+                    <div class="notice info" style="margin-top:10px;font-size:10px;">Aturan kontrak mengatur akuntansi
+                        dan jumlah yang dapat diklaim.</div>
                 </div>
             </div>
         </section>
@@ -399,37 +397,37 @@
             <div class="cols">
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Referral Hub</h2>
+                        <h2>Hub Referral</h2>
                         <span class="badge">On-chain</span>
                     </div>
-                    <div class="kv"><span>Your Address</span><span id="myAddress">—</span></div>
-                    <div class="kv"><span>Your Referrer</span><span id="nReferrer">—</span></div>
-                    <div class="kv"><span>Leader Status</span><span id="nLeader">—</span></div>
+                    <div class="kv"><span>Alamat Anda</span><span id="myAddress">—</span></div>
+                    <div class="kv"><span>Referrer Anda</span><span id="nReferrer">—</span></div>
+                    <div class="kv"><span>Status Leader</span><span id="nLeader">—</span></div>
                     <button id="copyReferral" style="margin-top:8px;font-size:10px;padding:6px 14px;min-height:30px;"><i
-                            class="fa-regular fa-copy"></i>&nbsp;Copy Referral Link</button>
-                    <a href="https://megahcrypto.com/buy/" target="_blank" rel="noopener noreferrer"
+                            class="fa-regular fa-copy"></i>&nbsp;Salin Link Referral</button>
+                    <a href="https://megahcrypto.github.io/buy/" target="_blank" rel="noopener noreferrer"
                         style="font-size:10px;padding:6px 12px;min-height:32px;display:inline-flex;align-items:center;justify-content:center;gap:5px;border-radius:8px;border:1px solid var(--green-border);background:var(--green-dark);color:#fff;cursor:pointer;font-weight:700;text-decoration:none;transition:background .16s ease,border-color .16s ease,transform .14s ease;">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>&nbsp;Buy $MEGAH
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>&nbsp;Beli $MEGAH
                     </a>
-                    <div class="small muted" style="margin-top:6px;font-size:9px;">Your wallet address is added to the
-                        referral URL.</div>
+                    <div class="small muted" style="margin-top:6px;font-size:9px;">Alamat dompet Anda ditambahkan ke URL
+                        referral.</div>
                 </div>
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Referral Bonus Levels</h2>
-                        <span class="badge blue">Contract data</span>
+                        <h2>Level Bonus Referral</h2>
+                        <span class="badge blue">Data kontrak</span>
                     </div>
-                    <div id="levels">Connect your wallet to read current levels.</div>
+                    <div id="levels">Hubungkan dompet untuk membaca level saat ini.</div>
                     <div class="small muted" style="margin-top:6px;font-size:9px;color:var(--muted2);">
-                        <i class="fa-solid fa-info-circle"></i>&nbsp;Level 1 = your direct downline.
+                        <i class="fa-solid fa-info-circle"></i>&nbsp;Level 1 = downline langsung Anda.
                     </div>
                 </div>
             </div>
 
             <div class="panel extended-network">
                 <div class="panel-title-row">
-                    <h2><i class="fa-solid fa-sitemap"></i> Referral Network</h2>
-                    <span class="badge blue">All Levels</span>
+                    <h2><i class="fa-solid fa-sitemap"></i> Jaringan Referral</h2>
+                    <span class="badge blue">Semua Level</span>
                 </div>
                 <div class="small muted" style="font-size:9px;">
                     Menampilkan jaringan referral sampai Level 10. Level 1 adalah direct downline; level berikutnya
@@ -437,14 +435,14 @@
                 </div>
 
                 <div class="panel-title-row" style="margin-top:12px;">
-                    <h2 style="font-size:12px;"><i class="fa-solid fa-chart-bar"></i> Referral Earnings by Level</h2>
+                    <h2 style="font-size:12px;"><i class="fa-solid fa-chart-bar"></i> Pendapatan Referral per Level</h2>
                     <span class="small muted" id="networkLevelsUpdated">—</span>
                 </div>
                 <div id="networkLevelEarnings" class="level-earnings"></div>
                 <div id="networkLevelTotals" class="small muted" style="margin-top:7px;text-align:center;"></div>
 
                 <div class="panel-title-row" style="margin-top:14px;">
-                    <h2 style="font-size:12px;"><i class="fa-solid fa-users"></i> Referral Network Members</h2>
+                    <h2 style="font-size:12px;"><i class="fa-solid fa-users"></i> Anggota Jaringan Referral</h2>
                     <span class="badge" id="downlineCountBadge">0</span>
                 </div>
                 <div class="network-table-wrap">
@@ -453,16 +451,17 @@
                             <tr>
                                 <th>#</th>
                                 <th>Level</th>
-                                <th>Wallet</th>
+                                <th>Dompet</th>
                                 <th>Stake</th>
-                                <th>Referral Earned</th>
-                                <th>Referral Claims</th>
+                                <th>Referral Diperoleh</th>
+                                <th>Klaim Referral</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody id="downlineTableBody">
                             <tr>
-                                <td colspan="7" class="network-empty">Connect wallet to load referral network.</td>
+                                <td colspan="7" class="network-empty">Hubungkan dompet untuk memuat jaringan referral.
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -475,23 +474,23 @@
                         <button id="downlineNext" disabled style="font-size:9px;padding:5px 10px;min-height:26px;"><i
                                 class="fa-solid fa-chevron-right"></i></button>
                         <button id="refreshNetworkBtn" style="font-size:9px;padding:5px 10px;min-height:26px;"><i
-                                class="fa-solid fa-rotate"></i> Refresh</button>
+                                class="fa-solid fa-rotate"></i> Segarkan</button>
                     </div>
                 </div>
 
                 <div class="panel-title-row" style="margin-top:14px;">
-                    <h2 style="font-size:12px;"><i class="fa-solid fa-magnifying-glass"></i> Referral Pair Inspector
+                    <h2 style="font-size:12px;"><i class="fa-solid fa-magnifying-glass"></i> Inspektor Pasangan Referral
                     </h2>
-                    <span class="small muted">On-chain referral history</span>
+                    <span class="small muted">Riwayat referral on-chain</span>
                 </div>
                 <div style="display:grid;grid-template-columns:1fr auto;gap:6px;align-items:end;">
-                    <div><label class="label">Downline wallet</label><input id="refPairWallet" placeholder="0x..."
+                    <div><label class="label">Dompet downline</label><input id="refPairWallet" placeholder="0x..."
                             inputmode="text" style="font-size:11px;padding:7px 9px;"></div>
                     <button id="inspectRefPairBtn" style="font-size:9px;padding:7px 12px;min-height:30px;"><i
-                            class="fa-solid fa-search"></i> Inspect</button>
+                            class="fa-solid fa-search"></i> Inspeksi</button>
                 </div>
-                <div id="refPairResult" class="notice info" style="margin-top:7px;font-size:9px;">Inspect one wallet to
-                    see its referral earnings credited to you.</div>
+                <div id="refPairResult" class="notice info" style="margin-top:7px;font-size:9px;">Inspeksi satu dompet
+                    untuk melihat pendapatan referral yang dikreditkan kepada Anda.</div>
             </div>
         </section>
 
@@ -501,26 +500,26 @@
         <section id="calculator" class="section">
             <div class="panel">
                 <div class="panel-title-row">
-                    <h2><i class="fa-solid fa-calculator"></i> Staking Calculator</h2>
-                    <span class="badge green">Estimate</span>
+                    <h2><i class="fa-solid fa-calculator"></i> Kalkulator Staking</h2>
+                    <span class="badge green">Perkiraan</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
-                    <span class="badge green" style="font-size:8px;"><i class="fa-solid fa-database"></i> Data from
-                        Contract</span>
-                    <span class="small muted" style="font-size:9px;" id="contractDataTime">Updated: --</span>
+                    <span class="badge green" style="font-size:8px;"><i class="fa-solid fa-database"></i> Data dari
+                        Kontrak</span>
+                    <span class="small muted" style="font-size:9px;" id="contractDataTime">Diperbarui: --</span>
                 </div>
                 <div class="notice info small" style="margin-bottom:10px;font-size:10px;">
-                    <i class="fa-solid fa-circle-info"></i>&nbsp;This calculator provides an <strong>estimate</strong>
-                    based on current contract parameters.
+                    <i class="fa-solid fa-circle-info"></i>&nbsp;Kalkulator ini memberikan <strong>perkiraan</strong>
+                    berdasarkan parameter kontrak saat ini.
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
                     <div
                         style="background:rgba(15,18,32,0.4);border-radius:var(--radius);padding:12px 14px;border:1px solid rgba(245,158,11,0.06);">
                         <h3 style="font-size:12px;margin-bottom:8px;color:var(--text);"><i
-                                class="fa-solid fa-sliders"></i> Staking Parameters</h3>
+                                class="fa-solid fa-sliders"></i> Parameter Staking</h3>
                         <div class="form">
                             <div>
-                                <label class="label">Your Stake Amount (MEGAH)</label>
+                                <label class="label">Jumlah Stake Anda (MEGAH)</label>
                                 <div class="calc-input-wrapper">
                                     <input id="calcAmount" type="number" inputmode="decimal" value="100" min="1"
                                         step="1">
@@ -529,25 +528,25 @@
                             </div>
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
                                 <div>
-                                    <label class="label">Daily ROI (%)</label>
+                                    <label class="label">ROI Harian (%)</label>
                                     <input id="calcRoi" type="number" inputmode="decimal" value="0.3" min="0.01"
                                         step="0.01" disabled
                                         style="opacity:0.7;cursor:not-allowed;font-size:12px;padding:6px 10px;">
                                 </div>
                                 <div>
-                                    <label class="label">Max Cap (%)</label>
+                                    <label class="label">Batas Maks (%)</label>
                                     <input id="calcMaxCapPct" type="number" inputmode="decimal" value="200" min="100"
                                         step="1" disabled
                                         style="opacity:0.7;cursor:not-allowed;font-size:12px;padding:6px 10px;">
                                     <span class="small muted" style="font-size:8px;display:block;margin-top:1px;">🔒
-                                        Fixed 200%</span>
+                                        Tetap 200%</span>
                                 </div>
                             </div>
                             <div style="border-top:1px solid rgba(245,158,11,0.06);padding-top:8px;margin-top:4px;">
                                 <label class="label" style="margin-bottom:4px;">
-                                    <i class="fa-solid fa-users"></i> Active Downlines per Level
-                                    <span class="small muted" style="font-weight:400;font-size:8px;display:block;">(Fill
-                                        in how many people in each level claim ROI every day)</span>
+                                    <i class="fa-solid fa-users"></i> Downline Aktif per Level
+                                    <span class="small muted" style="font-weight:400;font-size:8px;display:block;">(Isi
+                                        berapa banyak orang di setiap level yang mengklaim ROI setiap hari)</span>
                                 </label>
                                 <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:3px;">
                                     <div><label class="small muted" style="font-size:7px;">L1</label><input id="calcDl1"
@@ -594,39 +593,39 @@
                             </div>
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:3px;">
                                 <div>
-                                    <label class="label">Downline Stake (MEGAH)</label>
+                                    <label class="label">Stake Downline (MEGAH)</label>
                                     <input id="calcDownlineStake" type="number" inputmode="decimal" value="100" min="1"
                                         step="1" style="font-size:12px;padding:6px 10px;">
-                                    <span class="small muted" style="font-size:8px;">Avg stake</span>
+                                    <span class="small muted" style="font-size:8px;">Rata-rata stake</span>
                                 </div>
                                 <div>
-                                    <label class="label">Include Referral?</label>
+                                    <label class="label">Sertakan Referral?</label>
                                     <select id="calcIncludeReferral" style="font-size:12px;padding:6px 10px;">
-                                        <option value="true" selected>✅ Yes</option>
-                                        <option value="false">❌ No</option>
+                                        <option value="true" selected>✅ Ya</option>
+                                        <option value="false">❌ Tidak</option>
                                     </select>
                                 </div>
                             </div>
                             <button id="calcBtn" class="primary"
                                 style="width:100%;margin-top:3px;font-size:11px;padding:6px 12px;min-height:32px;"><i
-                                    class="fa-solid fa-calculator"></i> Calculate</button>
+                                    class="fa-solid fa-calculator"></i> Hitung</button>
                         </div>
                         <div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(245,158,11,0.06);">
                             <div class="small muted" style="font-size:10px;">
                                 <i class="fa-solid fa-info-circle"></i>&nbsp;
-                                <strong>Referral Levels:</strong><br>
-                                <span id="calculatorLevelsDisplay">Loading...</span>
+                                <strong>Level Referral:</strong><br>
+                                <span id="calculatorLevelsDisplay">Memuat...</span>
                             </div>
                         </div>
                     </div>
                     <div id="calcResults"
                         style="background:rgba(15,18,32,0.4);border-radius:var(--radius);padding:12px 14px;border:1px solid rgba(245,158,11,0.06);min-height:240px;">
                         <h3 style="font-size:12px;margin-bottom:8px;color:var(--text);"><i
-                                class="fa-solid fa-chart-simple"></i> Estimate Results</h3>
+                                class="fa-solid fa-chart-simple"></i> Hasil Perkiraan</h3>
                         <div class="notice info" style="text-align:center;padding:16px;font-size:11px;">
                             <i class="fa-solid fa-calculator"
                                 style="font-size:20px;display:block;margin-bottom:6px;"></i>
-                            Enter parameters and click <strong>"Calculate"</strong>
+                            Masukkan parameter dan klik <strong>"Hitung"</strong>
                         </div>
                     </div>
                 </div>
@@ -639,70 +638,69 @@
         <section id="about" class="section">
             <div class="panel">
                 <div class="panel-title-row">
-                    <h2><i class="fa-solid fa-circle-info"></i> About MEGAH</h2>
+                    <h2><i class="fa-solid fa-circle-info"></i> Tentang MEGAH</h2>
                     <span class="badge green">On-Chain</span>
                 </div>
 
                 <div class="notice info" style="margin-bottom:10px;">
-                    <strong>MEGAH Staking</strong> is an on-chain staking application built for $MEGAH on BNB Smart
-                    Chain.
-                    This website is the interface; the staking position, reward accounting, referral relationships,
-                    and claim transactions are handled by the deployed smart contract.
+                    <strong>Staking MEGAH</strong> adalah aplikasi staking on-chain yang dibangun untuk $MEGAH di BNB
+                    Smart Chain.
+                    Situs web ini adalah antarmuka; posisi staking, akuntansi reward, hubungan referral,
+                    dan transaksi klaim dikelola oleh kontrak pintar yang telah di-deploy.
                 </div>
 
                 <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin:8px 0;">
                     <div class="contract-item"><label>Token</label><strong>MEGAH / $MEGAH</strong></div>
-                    <div class="contract-item"><label>Network</label><strong>BNB Smart Chain</strong></div>
-                    <div class="contract-item"><label>Total Supply</label><strong>21,000,000 MEGAH</strong></div>
-                    <div class="contract-item"><label>Decimals</label><strong>18</strong></div>
-                    <div class="contract-item" style="grid-column:1/-1;"><label>Staking Contract</label><strong
+                    <div class="contract-item"><label>Jaringan</label><strong>BNB Smart Chain</strong></div>
+                    <div class="contract-item"><label>Total Supply</label><strong>21.000.000 MEGAH</strong></div>
+                    <div class="contract-item"><label>Desimal</label><strong>18</strong></div>
+                    <div class="contract-item" style="grid-column:1/-1;"><label>Kontrak Token</label><strong
                             style="font-size:10px;word-break:break-all;">0xc55d416476CFC6e879948eD5a5F4461c43Af45Aa</strong>
                     </div>
                 </div>
 
-                <h3 style="font-size:13px;color:var(--text);margin:14px 0 7px;"><i class="fa-solid fa-gears"></i> What
-                    the Contract Controls</h3>
+                <h3 style="font-size:13px;color:var(--text);margin:14px 0 7px;"><i class="fa-solid fa-gears"></i> Apa
+                    yang Dikontrol Kontrak</h3>
                 <div class="guide-comparison">
-                    <div class="comp-row header"><span>Function</span><span>What it does</span></div>
-                    <div class="comp-row"><span class="comp-label">Stake</span><span>Creates a staking position using
-                            the selected MEGAH amount and referrer.</span></div>
-                    <div class="comp-row"><span class="comp-label">Daily ROI</span><span>Reward accrual is calculated
-                            from the contract's current ROI parameter.</span></div>
-                    <div class="comp-row"><span class="comp-label">Referral</span><span>Referral rewards are distributed
-                            through the contract's 10-level referral structure when the contract conditions are
-                            met.</span></div>
-                    <div class="comp-row"><span class="comp-label">Max Cap</span><span>Reward accounting follows the
-                            maximum-cap rules stored by the contract.</span></div>
-                    <div class="comp-row"><span class="comp-label">Claims</span><span>ROI and referral rewards are
-                            claimed through the contract functions.</span></div>
+                    <div class="comp-row header"><span>Fungsi</span><span>Fungsi</span></div>
+                    <div class="comp-row"><span class="comp-label">Staking</span><span>Membuat posisi staking dengan
+                            jumlah MEGAH dan referrer yang dipilih.</span></div>
+                    <div class="comp-row"><span class="comp-label">ROI Harian</span><span>Akrual reward dihitung dari
+                            parameter ROI kontrak saat ini.</span></div>
+                    <div class="comp-row"><span class="comp-label">Referral</span><span>Reward referral didistribusikan
+                            melalui struktur referral 10 level kontrak ketika kondisi kontrak terpenuhi.</span></div>
+                    <div class="comp-row"><span class="comp-label">Batas Maks</span><span>Akuntansi reward mengikuti
+                            aturan batas maksimum yang disimpan oleh kontrak.</span></div>
+                    <div class="comp-row"><span class="comp-label">Klaim</span><span>Reward ROI dan referral diklaim
+                            melalui fungsi kontrak.</span></div>
                 </div>
 
                 <h3 style="font-size:13px;color:var(--text);margin:14px 0 7px;"><i class="fa-solid fa-layer-group"></i>
-                    Referral Levels</h3>
+                    Level Referral</h3>
                 <div class="notice info" style="font-size:10px;">
-                    The referral rate is stored on-chain in BPS (10,000 BPS = 100%). The interface reads the current
-                    values from the contract.
-                    The configured 10-level schedule is <strong>10% / 3% / 2% / 1.5% / 1% / 0.75% / 0.6% / 0.5% / 0.4% /
-                        0.25%</strong>,
-                    equal to <strong>1,900 BPS (19%)</strong> when summed as percentages.
+                    Tingkat referral disimpan on-chain dalam BPS (10.000 BPS = 100%). Antarmuka membaca nilai saat ini
+                    dari kontrak.
+                    Jadwal 10 level yang dikonfigurasi adalah <strong>10% / 3% / 2% / 1.5% / 1% / 0.75% / 0.6% / 0.5% /
+                        0.4% / 0.25%</strong>,
+                    sama dengan <strong>1.900 BPS (19%)</strong> jika dijumlahkan sebagai persentase.
                 </div>
 
                 <h3 style="font-size:13px;color:var(--text);margin:14px 0 7px;"><i class="fa-solid fa-eye"></i>
-                    Transparency</h3>
+                    Transparansi</h3>
                 <p style="font-size:11px;color:var(--text2);line-height:1.65;">
-                    The most important source of truth is the deployed contract and its current on-chain state. Use the
-                    dashboard to monitor your position,
-                    use the referral tab to inspect your network, and verify transactions in your wallet or a BNB Smart
-                    Chain block explorer.
-                    If the interface and the contract state ever differ, treat the on-chain state as the reference.
+                    Sumber kebenaran yang paling penting adalah kontrak yang di-deploy dan status on-chain-nya saat ini.
+                    Gunakan dasbor untuk memantau posisi Anda,
+                    gunakan tab referral untuk memeriksa jaringan Anda, dan verifikasi transaksi di dompet Anda atau
+                    penjelajah blok BNB Smart Chain.
+                    Jika antarmuka dan status kontrak berbeda, anggap status on-chain sebagai referensi.
                 </p>
 
                 <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(168,85,247,0.06);">
                     <h4 style="font-size:11px;color:var(--text);margin-bottom:6px;"><i class="fa-solid fa-link"></i>
-                        Official Links</h4>
+                        Tautan Resmi</h4>
                     <div class="social-links">
-                        <a href="https://megahcrypto.com/" target="_blank"><i class="fa-solid fa-globe"></i>
-                            Website</a>
+                        <a href="https://megahcrypto.com/" target="_blank"><i class="fa-solid fa-globe"></i> Situs
+                            Web</a>
                         <a href="https://x.com/megahcrypto" target="_blank"><i class="fa-brands fa-twitter"></i>
                             Twitter</a>
                         <a href="https://t.me/megahcrypto" target="_blank"><i class="fa-brands fa-telegram"></i>
@@ -717,137 +715,136 @@
         <section id="guide" class="section">
             <div class="panel">
                 <div class="panel-title-row">
-                    <h2><i class="fa-brands fa-readme"></i> How to Use MEGAH Staking</h2>
-                    <span class="badge cyan">User Guide</span>
+                    <h2><i class="fa-brands fa-readme"></i> Cara Menggunakan Staking MEGAH</h2>
+                    <span class="badge cyan">Panduan Pengguna</span>
                 </div>
 
                 <div class="notice info" style="margin-bottom:10px;">
-                    <strong>Simple flow:</strong> connect wallet → approve MEGAH → stake → monitor rewards → claim when
-                    eligible.
-                    Keep BNB in the wallet for blockchain transaction fees.
+                    <strong>Alur sederhana:</strong> hubungkan dompet → setujui MEGAH → lakukan staking → pantau reward
+                    → klaim saat memenuhi syarat.
+                    Sediakan BNB di dompet untuk biaya transaksi blockchain.
                 </div>
 
                 <h4 style="font-size:12px;color:var(--text);margin:10px 0 6px;"><i class="fa-solid fa-list-check"></i>
-                    Step-by-Step</h4>
+                    Langkah demi Langkah</h4>
                 <div class="guide-steps">
                     <div class="guide-step"><span class="step-number">1</span>
                         <div class="step-content">
-                            <h4>Connect Your Wallet</h4>
-                            <p>Open the staking page with a Web3 wallet and connect it. Confirm that the wallet is using
+                            <h4>Hubungkan Dompet</h4>
+                            <p>Buka halaman staking dengan dompet Web3 dan hubungkan. Pastikan dompet menggunakan
                                 <strong>BNB Smart Chain</strong>.
                             </p>
                         </div>
                     </div>
                     <div class="guide-step"><span class="step-number">2</span>
                         <div class="step-content">
-                            <h4>Prepare MEGAH &amp; BNB</h4>
-                            <p>Hold the amount of <strong>$MEGAH</strong> you want to stake and keep enough
-                                <strong>BNB</strong> for transaction fees.
-                            </p>
+                            <h4>Siapkan MEGAH &amp; BNB</h4>
+                            <p>Punya <strong>$MEGAH</strong> yang ingin di-stake dan cukup <strong>BNB</strong> untuk
+                                biaya transaksi.</p>
                         </div>
                     </div>
                     <div class="guide-step"><span class="step-number">3</span>
                         <div class="step-content">
-                            <h4>Set Your Referrer</h4>
-                            <p>If you were invited by another user, use the correct referral link/address before
-                                staking. The referrer relationship is recorded by the contract when the stake is
-                                created.</p>
+                            <h4>Atur Referrer</h4>
+                            <p>Jika Anda diundang oleh pengguna lain, gunakan link/alamat referral yang benar sebelum
+                                staking. Hubungan referrer dicatat oleh kontrak saat posisi staking dibuat.</p>
                         </div>
                     </div>
                     <div class="guide-step"><span class="step-number">4</span>
                         <div class="step-content">
-                            <h4>Approve MEGAH</h4>
-                            <p>Click <strong>Approve MEGAH</strong> and confirm the token approval in your wallet. This
-                                allows the staking contract to use the approved amount.</p>
+                            <h4>Setujui MEGAH</h4>
+                            <p>Klik <strong>Setujui MEGAH</strong> dan konfirmasi persetujuan token di dompet Anda. Ini
+                                memungkinkan kontrak staking menggunakan jumlah yang disetujui.</p>
                         </div>
                     </div>
                     <div class="guide-step"><span class="step-number">5</span>
                         <div class="step-content">
-                            <h4>Stake MEGAH</h4>
-                            <p>Enter your amount, review the transaction, then confirm <strong>Stake MEGAH</strong>.
-                                Wait for the blockchain transaction to confirm.</p>
+                            <h4>Lakukan Staking MEGAH</h4>
+                            <p>Masukkan jumlah, tinjau transaksi, lalu konfirmasi <strong>Stake MEGAH</strong>. Tunggu
+                                konfirmasi transaksi blockchain.</p>
                         </div>
                     </div>
                     <div class="guide-step"><span class="step-number">6</span>
                         <div class="step-content">
-                            <h4>Monitor Your Position</h4>
-                            <p>Dashboard data shows your staked amount, reward progress, pending rewards, cap status,
-                                and other contract-derived information.</p>
+                            <h4>Pantau Posisi</h4>
+                            <p>Data dasbor menunjukkan jumlah yang di-stake, kemajuan reward, reward tertunda, status
+                                batas, dan informasi lain yang berasal dari kontrak.</p>
                         </div>
                     </div>
                     <div class="guide-step"><span class="step-number">7</span>
                         <div class="step-content">
-                            <h4>Claim ROI</h4>
-                            <p>When ROI is available, use <strong>Claim ROI</strong>. The wallet will ask you to confirm
-                                the contract transaction and pay the required BNB gas fee.</p>
+                            <h4>Klaim ROI</h4>
+                            <p>Ketika ROI tersedia, gunakan <strong>Klaim ROI</strong>. Dompet akan meminta konfirmasi
+                                transaksi kontrak dan membayar biaya gas BNB yang diperlukan.</p>
                         </div>
                     </div>
                     <div class="guide-step"><span class="step-number">8</span>
                         <div class="step-content">
-                            <h4>Claim Referral Bonus</h4>
-                            <p>If you have eligible referral rewards, use <strong>Claim Referral</strong>. Referral
-                                rewards are based on the network and contract rules, not simply on the number of wallets
-                                in your network.</p>
+                            <h4>Klaim Bonus Referral</h4>
+                            <p>Jika Anda memiliki reward referral yang memenuhi syarat, gunakan <strong>Klaim
+                                    Referral</strong>. Reward referral didasarkan pada jaringan dan aturan kontrak,
+                                bukan hanya jumlah dompet di jaringan Anda.</p>
                         </div>
                     </div>
                 </div>
 
-                <h4 style="font-size:12px;color:var(--text);margin:14px 0 6px;"><i class="fa-solid fa-users"></i> How
-                    the 10-Level Referral Works</h4>
+                <h4 style="font-size:12px;color:var(--text);margin:14px 0 6px;"><i class="fa-solid fa-users"></i> Cara
+                    Kerja Referral 10 Level</h4>
                 <div class="notice info" style="font-size:10px;line-height:1.65;">
-                    Your network is counted by relationship depth: <strong>L1</strong> is your direct referral,
-                    <strong>L2</strong> is a referral of your L1, and so on through <strong>L10</strong>.
-                    The current configured rates are: <strong>L1 10%</strong>, <strong>L2 3%</strong>, <strong>L3
-                        2%</strong>, <strong>L4 1.5%</strong>,
+                    Jaringan Anda dihitung berdasarkan kedalaman hubungan: <strong>L1</strong> adalah referral langsung
+                    Anda,
+                    <strong>L2</strong> adalah referral dari L1 Anda, dan seterusnya hingga <strong>L10</strong>.
+                    Tarif yang dikonfigurasi saat ini adalah: <strong>L1 10%</strong>, <strong>L2 3%</strong>,
+                    <strong>L3 2%</strong>, <strong>L4 1.5%</strong>,
                     <strong>L5 1%</strong>, <strong>L6 0.75%</strong>, <strong>L7 0.6%</strong>, <strong>L8
                         0.5%</strong>, <strong>L9 0.4%</strong>, <strong>L10 0.25%</strong>.
-                    Referral earning is tied to the contract's reward events and eligibility rules.
+                    Pendapatan referral terkait dengan peristiwa reward dan aturan kelayakan kontrak.
                 </div>
 
                 <h4 style="font-size:12px;color:var(--text);margin:14px 0 6px;"><i class="fa-solid fa-calculator"></i>
-                    How Rewards Are Displayed</h4>
+                    Bagaimana Reward Ditampilkan</h4>
                 <div class="guide-comparison">
-                    <div class="comp-row header"><span>Item</span><span>Meaning</span></div>
-                    <div class="comp-row"><span class="comp-label">Daily ROI</span><span>Current ROI accrual according
-                            to the contract's daily ROI parameter and your staked amount.</span></div>
-                    <div class="comp-row"><span class="comp-label">Referral Earned</span><span>Referral rewards recorded
-                            for your referral relationships and reward events.</span></div>
-                    <div class="comp-row"><span class="comp-label">Pending</span><span>Rewards currently available to
-                            claim according to contract state.</span></div>
-                    <div class="comp-row"><span class="comp-label">Max Cap</span><span>The contract limit used for
-                            applicable reward accounting.</span></div>
+                    <div class="comp-row header"><span>Item</span><span>Makna</span></div>
+                    <div class="comp-row"><span class="comp-label">ROI Harian</span><span>Akrual ROI saat ini sesuai
+                            dengan parameter ROI harian kontrak dan jumlah yang di-stake.</span></div>
+                    <div class="comp-row"><span class="comp-label">Referral Diperoleh</span><span>Reward referral yang
+                            tercatat untuk hubungan referral dan peristiwa reward Anda.</span></div>
+                    <div class="comp-row"><span class="comp-label">Tertunda</span><span>Reward yang saat ini tersedia
+                            untuk diklaim menurut status kontrak.</span></div>
+                    <div class="comp-row"><span class="comp-label">Batas Maks</span><span>Batas kontrak yang digunakan
+                            untuk akuntansi reward yang berlaku.</span></div>
                 </div>
 
                 <h4 style="font-size:12px;color:var(--text);margin:14px 0 6px;"><i class="fa-solid fa-lightbulb"></i>
-                    Good Practice</h4>
+                    Praktik Baik</h4>
                 <ul style="font-size:10px;color:var(--text2);padding-left:18px;line-height:1.7;">
-                    <li>Check the contract address before approving or staking.</li>
-                    <li>Read the transaction details in your wallet before signing.</li>
-                    <li>Keep enough BNB for future claims and other transactions.</li>
-                    <li>Use the Referral tab to inspect L1–L10 instead of relying only on the headline totals.</li>
-                    <li>Verify important transactions on-chain and do your own research (DYOR).</li>
+                    <li>Periksa alamat kontrak sebelum menyetujui atau melakukan staking.</li>
+                    <li>Baca detail transaksi di dompet Anda sebelum menandatangani.</li>
+                    <li>Sediakan cukup BNB untuk klaim di masa mendatang dan transaksi lainnya.</li>
+                    <li>Gunakan tab Referral untuk memeriksa L1–L10 daripada hanya mengandalkan total keseluruhan.</li>
+                    <li>Verifikasi transaksi penting on-chain dan lakukan riset sendiri (DYOR).</li>
                 </ul>
 
                 <details class="faq" style="margin-top:10px;">
-                    <summary>Can I withdraw my original staked MEGAH?</summary>
+                    <summary>Bisakah saya menarik MEGAH yang sudah di-stake?</summary>
                     <div>
-                        <p>According to the current interface documentation and contract rules, staked MEGAH is
-                            permanently locked. The claim functions are for eligible rewards; they are not an unstake
-                            function.</p>
+                        <p>Menurut dokumentasi antarmuka dan aturan kontrak saat ini, MEGAH yang di-stake terkunci
+                            secara permanen. Fungsi klaim adalah untuk reward yang memenuhi syarat; itu bukan fungsi
+                            unstake.</p>
                     </div>
                 </details>
                 <details class="faq">
-                    <summary>Does having a downline automatically mean referral income?</summary>
+                    <summary>Apakah memiliki downline secara otomatis berarti pendapatan referral?</summary>
                     <div>
-                        <p>No. A wallet being in your network does not by itself guarantee a reward. Referral earnings
-                            depend on the contract's reward event and eligibility conditions.</p>
+                        <p>Tidak. Dompet yang berada di jaringan Anda tidak dengan sendirinya menjamin reward.
+                            Pendapatan referral bergantung pada peristiwa reward dan kondisi kelayakan kontrak.</p>
                     </div>
                 </details>
                 <details class="faq">
-                    <summary>Where should I check the real values?</summary>
+                    <summary>Di mana saya harus memeriksa nilai sebenarnya?</summary>
                     <div>
-                        <p>Use the dashboard and Referral tab for a readable view, then verify important values and
-                            transactions against the deployed smart contract and the BNB Smart Chain explorer.</p>
+                        <p>Gunakan dasbor dan tab Referral untuk tampilan yang mudah dibaca, lalu verifikasi nilai dan
+                            transaksi penting terhadap kontrak pintar yang di-deploy dan penjelajah BNB Smart Chain.</p>
                     </div>
                 </details>
             </div>
@@ -857,45 +854,45 @@
             <div class="panel">
                 <div class="panel-title-row">
                     <h2><i class="fa-solid fa-circle-info"></i> Disclaimer &amp; DYOR</h2>
-                    <span class="badge blue">Read Before Use</span>
+                    <span class="badge blue">Baca Sebelum Menggunakan</span>
                 </div>
                 <div class="legal-content">
                     <div class="notice info">
-                        MEGAH Staking is designed to make the contract easier to use and understand. The website is an
-                        interface to the deployed smart contract; it does not replace the contract's on-chain rules or
-                        state.
+                        Staking MEGAH dirancang untuk memudahkan penggunaan dan pemahaman kontrak. Situs web adalah
+                        antarmuka untuk kontrak pintar yang di-deploy; ini tidak menggantikan aturan atau status
+                        on-chain kontrak.
                     </div>
 
-                    <h2>Read the Contract Rules</h2>
-                    <p>Staking, reward accounting, referral relationships, maximum-cap handling, and reward claims are
-                        controlled by the deployed contract. Interface numbers are provided as a convenient view of that
-                        data and may update after blockchain confirmations.</p>
+                    <h2>Baca Aturan Kontrak</h2>
+                    <p>Staking, akuntansi reward, hubungan referral, penanganan batas maksimum, dan klaim reward
+                        dikontrol oleh kontrak yang di-deploy. Angka-angka antarmuka disediakan sebagai tampilan yang
+                        mudah dibaca dari data tersebut dan dapat diperbarui setelah konfirmasi blockchain.</p>
 
-                    <h2>Understand Before You Sign</h2>
+                    <h2>Pahami Sebelum Menandatangani</h2>
                     <ul>
-                        <li>Confirm you are connected to <strong>BNB Smart Chain</strong>.</li>
-                        <li>Check the displayed contract address and transaction details.</li>
-                        <li>Make sure you understand the amount being approved or staked.</li>
-                        <li>Keep BNB available for network fees.</li>
-                        <li>Never share your seed phrase or private key.</li>
+                        <li>Pastikan Anda terhubung ke <strong>BNB Smart Chain</strong>.</li>
+                        <li>Periksa alamat kontrak yang ditampilkan dan detail transaksi.</li>
+                        <li>Pastikan Anda memahami jumlah yang disetujui atau di-stake.</li>
+                        <li>Sediakan BNB untuk biaya jaringan.</li>
+                        <li>Jangan pernah membagikan seed phrase atau kunci pribadi Anda.</li>
                     </ul>
 
-                    <h2>Staking &amp; Rewards</h2>
-                    <p>Staked MEGAH is permanently locked according to the current contract rules. ROI and referral
-                        rewards are not manually assigned by this webpage; eligible rewards are determined and recorded
-                        through the smart contract.</p>
+                    <h2>Staking &amp; Reward</h2>
+                    <p>MEGAH yang di-stake terkunci secara permanen sesuai dengan aturan kontrak saat ini. Reward ROI
+                        dan referral tidak ditetapkan secara manual oleh halaman web ini; reward yang memenuhi syarat
+                        ditentukan dan dicatat melalui kontrak pintar.</p>
 
-                    <h2>Market Information</h2>
-                    <p>The staking interface explains how the contract works. It does not determine or promise the
-                        future market price of MEGAH. Users should evaluate the token, the contract, the market, and the
-                        mechanics for themselves.</p>
+                    <h2>Informasi Pasar</h2>
+                    <p>Antarmuka staking menjelaskan cara kerja kontrak. Ini tidak menentukan atau menjanjikan harga
+                        pasar MEGAH di masa depan. Pengguna harus mengevaluasi token, kontrak, pasar, dan mekanisme
+                        untuk diri mereka sendiri.</p>
 
                     <h2>DYOR</h2>
                     <div class="highlight-box">
                         <p style="margin:0;font-weight:700;color:var(--text);font-size:12px;"><i
-                                class="fa-solid fa-magnifying-glass" style="color:var(--cyan);"></i> Do your own
-                            research. Read the staking rules, inspect the on-chain data, verify the contract address,
-                            and only sign transactions you understand.</p>
+                                class="fa-solid fa-magnifying-glass" style="color:var(--cyan);"></i> Lakukan riset Anda
+                            sendiri. Baca aturan staking, periksa data on-chain, verifikasi alamat kontrak, dan hanya
+                            tandatangani transaksi yang Anda pahami.</p>
                     </div>
                 </div>
             </div>
@@ -904,112 +901,112 @@
         <section id="terms" class="section">
             <div class="panel">
                 <div class="panel-title-row">
-                    <h2><i class="fa-solid fa-scale-balanced"></i> Terms of Use</h2>
-                    <span class="badge">Platform Rules</span>
+                    <h2><i class="fa-solid fa-scale-balanced"></i> Syarat Penggunaan</h2>
+                    <span class="badge">Aturan Platform</span>
                 </div>
                 <div class="legal-content">
-                    <div class="notice info" style="margin-bottom:12px;font-size:11px;"><strong>Last Updated: August
-                            2026</strong> · These terms explain how the MEGAH Staking interface is intended to be used.
-                    </div>
+                    <div class="notice info" style="margin-bottom:12px;font-size:11px;"><strong>Terakhir Diperbarui:
+                            Agustus 2026</strong> · Syarat ini menjelaskan bagaimana antarmuka Staking MEGAH dimaksudkan
+                        untuk digunakan.</div>
 
-                    <h2>1. Use the Correct Network</h2>
-                    <p>Use the staking application on <strong>BNB Smart Chain</strong> and confirm the network in your
-                        wallet before interacting with the contract.</p>
+                    <h2>1. Gunakan Jaringan yang Tepat</h2>
+                    <p>Gunakan aplikasi staking di <strong>BNB Smart Chain</strong> dan konfirmasikan jaringan di dompet
+                        Anda sebelum berinteraksi dengan kontrak.</p>
 
-                    <h2>2. Wallet &amp; Transaction Control</h2>
+                    <h2>2. Kontrol Dompet &amp; Transaksi</h2>
                     <ul>
-                        <li>Your wallet remains under your control.</li>
-                        <li>Review every approval, stake, and claim transaction before signing.</li>
-                        <li>Keep your seed phrase and private key private.</li>
-                        <li>Keep enough BNB to pay blockchain transaction fees.</li>
+                        <li>Dompet Anda tetap di bawah kendali Anda.</li>
+                        <li>Tinjau setiap transaksi persetujuan, staking, dan klaim sebelum menandatangani.</li>
+                        <li>Jaga seed phrase dan kunci pribadi Anda tetap pribadi.</li>
+                        <li>Sediakan cukup BNB untuk membayar biaya transaksi blockchain.</li>
                     </ul>
 
-                    <h2>3. Staking Rules</h2>
+                    <h2>3. Aturan Staking</h2>
                     <ul>
-                        <li>Staking is performed through the deployed MEGAH Staking smart contract.</li>
-                        <li>The amount you stake and the referrer used at staking are recorded according to the
-                            contract.</li>
-                        <li>Staked MEGAH is permanently locked according to the current contract rules.</li>
-                        <li>Reward accrual and maximum-cap accounting follow the contract's current parameters and
-                            state.</li>
+                        <li>Staking dilakukan melalui kontrak pintar Staking MEGAH yang di-deploy.</li>
+                        <li>Jumlah yang Anda stake dan referrer yang digunakan saat staking dicatat sesuai dengan
+                            kontrak.</li>
+                        <li>MEGAH yang di-stake terkunci secara permanen sesuai dengan aturan kontrak saat ini.</li>
+                        <li>Akrual reward dan akuntansi batas maksimum mengikuti parameter dan status kontrak saat ini.
+                        </li>
                     </ul>
 
-                    <h2>4. Referral Rules</h2>
-                    <p>The referral system has 10 levels. The configured rates are stored in BPS and currently
-                        correspond to <strong>10%, 3%, 2%, 1.5%, 1%, 0.75%, 0.6%, 0.5%, 0.4%, and 0.25%</strong>.
-                        Referral rewards depend on the contract's defined reward events and eligibility conditions.</p>
+                    <h2>4. Aturan Referral</h2>
+                    <p>Sistem referral memiliki 10 level. Tarif yang dikonfigurasi disimpan dalam BPS dan saat ini
+                        sesuai dengan <strong>10%, 3%, 2%, 1.5%, 1%, 0.75%, 0.6%, 0.5%, 0.4%, dan 0.25%</strong>. Reward
+                        referral bergantung pada peristiwa reward dan kondisi kelayakan yang ditentukan kontrak.</p>
 
-                    <h2>5. Claims</h2>
-                    <p>ROI and referral rewards are claimed through their respective contract functions. A claim
-                        requires a blockchain transaction and BNB network fee. The amount available to claim is
-                        determined by the contract state at the time of the transaction.</p>
+                    <h2>5. Klaim</h2>
+                    <p>Reward ROI dan referral diklaim melalui fungsi kontrak masing-masing. Klaim memerlukan transaksi
+                        blockchain dan biaya jaringan BNB. Jumlah yang tersedia untuk diklaim ditentukan oleh status
+                        kontrak pada saat transaksi.</p>
 
-                    <h2>6. Interface vs. On-Chain State</h2>
-                    <p>The website provides a readable interface for contract data. Blockchain state is the reference
-                        for staking positions, referral records, reward balances, and confirmed transactions. Temporary
-                        display differences can occur while a transaction is waiting for confirmation.</p>
+                    <h2>6. Antarmuka vs. Status On-Chain</h2>
+                    <p>Situs web menyediakan antarmuka yang mudah dibaca untuk data kontrak. Status blockchain adalah
+                        referensi untuk posisi staking, catatan referral, saldo reward, dan transaksi yang dikonfirmasi.
+                        Perbedaan tampilan sementara dapat terjadi saat transaksi menunggu konfirmasi.</p>
 
-                    <h2>7. Verify &amp; Use Responsibly</h2>
-                    <p>Use the displayed contract address, inspect wallet confirmations, verify important transactions
-                        on-chain, and do your own research before using the staking features.</p>
+                    <h2>7. Verifikasi &amp; Gunakan Secara Bertanggung Jawab</h2>
+                    <p>Gunakan alamat kontrak yang ditampilkan, periksa konfirmasi dompet, verifikasi transaksi penting
+                        on-chain, dan lakukan riset sendiri sebelum menggunakan fitur staking.</p>
 
                     <div class="highlight-box" style="margin-top:12px;">
                         <p style="margin:0;font-weight:700;color:var(--text);font-size:12px;"><i
-                                class="fa-solid fa-circle-check" style="color:var(--green);"></i> Know the rules → check
-                            the data → review the transaction → sign only when you understand it.</p>
+                                class="fa-solid fa-circle-check" style="color:var(--green);"></i> Kenali aturan →
+                            periksa data → tinjau transaksi → tandatangani hanya jika Anda memahaminya.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="owner" class="section">
-            <div id="ownerWarning" class="notice danger" style="font-size:11px;">Owner panel is restricted to the
-                contract owner.</div>
+            <div id="ownerWarning" class="notice danger" style="font-size:11px;">Panel owner dibatasi untuk pemilik
+                kontrak.</div>
             <div style="height:10px"></div>
             <div class="cols">
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Contract Settings</h2><span class="badge red">Owner only</span>
+                        <h2>Pengaturan Kontrak</h2><span class="badge red">Owner only</span>
                     </div>
                     <div class="form">
-                        <div><label class="label">Minimum Stake ($MEGAH)</label><input id="oMinStake"
+                        <div><label class="label">Stake Minimum ($MEGAH)</label><input id="oMinStake"
                                 inputmode="decimal" style="font-size:12px;padding:6px 10px;"></div>
-                        <button id="setMinStake" style="font-size:10px;padding:5px 12px;min-height:28px;">Update Minimum
-                            Stake</button>
-                        <div><label class="label">Daily ROI (BPS)</label><input id="oRoi" inputmode="numeric"
+                        <button id="setMinStake" style="font-size:10px;padding:5px 12px;min-height:28px;">Perbarui Stake
+                            Minimum</button>
+                        <div><label class="label">ROI Harian (BPS)</label><input id="oRoi" inputmode="numeric"
                                 style="font-size:12px;padding:6px 10px;"></div>
-                        <button id="setRoi" style="font-size:10px;padding:5px 12px;min-height:28px;">Update Daily
-                            ROI</button>
-                        <div><label class="label">Leader Bonus (BPS)</label><input id="oLeaderBps" inputmode="numeric"
+                        <button id="setRoi" style="font-size:10px;padding:5px 12px;min-height:28px;">Perbarui ROI
+                            Harian</button>
+                        <div><label class="label">Bonus Leader (BPS)</label><input id="oLeaderBps" inputmode="numeric"
                                 style="font-size:12px;padding:6px 10px;"></div>
-                        <button id="setLeaderBps" style="font-size:10px;padding:5px 12px;min-height:28px;">Update Leader
-                            Bonus</button>
+                        <button id="setLeaderBps" style="font-size:10px;padding:5px 12px;min-height:28px;">Perbarui
+                            Bonus Leader</button>
                     </div>
                 </div>
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>10-Level Referral</h2><span class="badge red">Owner only</span>
+                        <h2>Referral 10 Level</h2><span class="badge red">Owner only</span>
                     </div>
                     <div id="levelInputs" class="form"></div>
                     <button id="setLevels"
-                        style="margin-top:8px;font-size:10px;padding:5px 12px;min-height:28px;">Update All 10
-                        Levels</button>
+                        style="margin-top:8px;font-size:10px;padding:5px 12px;min-height:28px;">Perbarui Semua 10
+                        Level</button>
                 </div>
             </div>
             <div class="cols" style="margin-top:12px">
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Leader Management</h2><span class="badge red">Owner only</span>
+                        <h2>Manajemen Leader</h2><span class="badge red">Owner only</span>
                     </div>
                     <div class="form">
-                        <input id="leaderAddress" placeholder="Leader wallet 0x..."
+                        <input id="leaderAddress" placeholder="Dompet Leader 0x..."
                             style="font-size:12px;padding:6px 10px;">
                         <select id="leaderStatus" style="font-size:12px;padding:6px 10px;">
-                            <option value="true">Register / Activate</option>
-                            <option value="false">Revoke / Deactivate</option>
+                            <option value="true">Daftar / Aktifkan</option>
+                            <option value="false">Cabut / Nonaktifkan</option>
                         </select>
                         <button id="setLeader" class="primary"
-                            style="font-size:10px;padding:5px 12px;min-height:28px;">Update Leader</button>
+                            style="font-size:10px;padding:5px 12px;min-height:28px;">Perbarui Leader</button>
                     </div>
                 </div>
                 <div class="panel">
@@ -1017,54 +1014,53 @@
                         <h2>Admin Stake</h2><span class="badge red">Owner only</span>
                     </div>
                     <div class="form">
-                        <input id="adminUser" placeholder="User wallet 0x..." style="font-size:12px;padding:6px 10px;">
-                        <input id="adminAmount" inputmode="decimal" placeholder="MEGAH amount"
+                        <input id="adminUser" placeholder="Dompet pengguna 0x..."
                             style="font-size:12px;padding:6px 10px;">
-                        <input id="adminReferrer" placeholder="Optional referrer 0x..."
+                        <input id="adminAmount" inputmode="decimal" placeholder="Jumlah MEGAH"
+                            style="font-size:12px;padding:6px 10px;">
+                        <input id="adminReferrer" placeholder="Referrer opsional 0x..."
                             style="font-size:12px;padding:6px 10px;">
                         <button id="adminStake" class="primary"
                             style="font-size:10px;padding:5px 12px;min-height:28px;">Admin Stake</button>
-                        <div class="notice danger small" style="font-size:9px;">This calls the adminStake() function.
-                        </div>
+                        <div class="notice danger small" style="font-size:9px;">Ini memanggil fungsi adminStake().</div>
                     </div>
                 </div>
             </div>
             <div class="panel" style="margin-top:12px">
                 <div class="panel-title-row">
-                    <h2>Recover ERC-20</h2><span class="badge red">Owner only</span>
+                    <h2>Pulihkan ERC-20</h2><span class="badge red">Owner only</span>
                 </div>
                 <div class="form">
                     <div class="row">
-                        <input id="recoverToken" placeholder="ERC-20 token address"
+                        <input id="recoverToken" placeholder="Alamat token ERC-20"
                             style="font-size:12px;padding:6px 10px;">
-                        <input id="recoverAmount" inputmode="decimal" placeholder="Token amount"
+                        <input id="recoverAmount" inputmode="decimal" placeholder="Jumlah token"
                             style="font-size:12px;padding:6px 10px;">
                     </div>
                     <button id="recoverBtn" class="danger"
-                        style="font-size:10px;padding:5px 12px;min-height:28px;">Recover ERC-20 to Owner</button>
-                    <div class="notice danger small" style="font-size:9px;">This calls the recoverERC20() function.
-                    </div>
+                        style="font-size:10px;padding:5px 12px;min-height:28px;">Pulihkan ERC-20 ke Owner</button>
+                    <div class="notice danger small" style="font-size:9px;">Ini memanggil fungsi recoverERC20().</div>
                 </div>
             </div>
             <div class="cols" style="margin-top:12px">
                 <div class="panel">
                     <div class="panel-title-row">
-                        <h2>Ownership Management</h2><span class="badge red">Owner only</span>
+                        <h2>Manajemen Kepemilikan</h2><span class="badge red">Owner only</span>
                     </div>
                     <div class="form">
                         <div
                             style="border:1px solid rgba(255,83,107,0.2);border-radius:var(--radius);padding:8px 10px;background:rgba(255,83,107,0.05);">
-                            <label class="label" style="color:var(--red);font-size:10px;">⚠️ Caution! This action cannot
-                                be undone.</label>
+                            <label class="label" style="color:var(--red);font-size:10px;">⚠️ Perhatian! Tindakan ini
+                                tidak dapat dibatalkan.</label>
                         </div>
                         <button id="renounceOwnershipBtn"
                             style="background:#dc2626 !important;box-shadow:0 3px 0 #991b1b !important;border-bottom:2px solid #991b1b !important;font-size:10px;padding:5px 12px;min-height:28px;">
-                            <i class="fa-solid fa-skull"></i>&nbsp; Renounce Ownership
+                            <i class="fa-solid fa-skull"></i>&nbsp; Lepaskan Kepemilikan
                         </button>
                         <div style="display:grid;grid-template-columns:1fr auto;gap:6px;align-items:end;">
                             <div>
-                                <label class="label">New Owner Address</label>
-                                <input id="transferOwnerAddress" placeholder="0x... (new address)"
+                                <label class="label">Alamat Pemilik Baru</label>
+                                <input id="transferOwnerAddress" placeholder="0x... (alamat baru)"
                                     style="font-size:12px;padding:6px 10px;">
                             </div>
                             <button id="transferOwnershipBtn"
@@ -1079,20 +1075,20 @@
         <!-- FOOTER -->
         <footer class="footer">
             <div class="footer-links">
-                <a href="https://megahcrypto.com/buy/" target="_blank" rel="nofollow">
-                    <i class="fa-solid fa-cart-plus"></i> Buy MEGAH
+                <a href="https://megahcrypto.github.io/buy/" target="_blank" rel="nofollow">
+                    <i class="fa-solid fa-cart-plus"></i> Beli MEGAH
                 </a>
                 <a href="javascript:void(0)" onclick="showTab('about')">
-                    <i class="fa-brands fa-readme"></i> About
+                    <i class="fa-brands fa-readme"></i> Tentang
                 </a>
                 <a href="javascript:void(0)" onclick="showTab('guide')">
-                    <i class="fa-brands fa-readme"></i> Guide
+                    <i class="fa-brands fa-readme"></i> Panduan
                 </a>
                 <a href="javascript:void(0)" onclick="showTab('disclaimer')">
                     <i class="fa-solid fa-triangle-exclamation"></i> Disclaimer
                 </a>
                 <a href="javascript:void(0)" onclick="showTab('terms')">
-                    <i class="fa-solid fa-scale-balanced"></i> Terms
+                    <i class="fa-solid fa-scale-balanced"></i> Syarat
                 </a>
             </div>
             <div class="footer-note">© 2026 MegahWeb3 • BNB Smart Chain</div>
@@ -1108,12 +1104,12 @@
             <div class="popup-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
             <div class="popup-content">
                 <h3>DISCLAIMER</h3>
-                <p>Staking is a high-risk activity. The value of crypto assets can fluctuate significantly. Make sure
-                    you understand the risks involved before staking. This platform does not guarantee profits and is
-                    not responsible for any potential losses. Always do your own research (<strong>DYOR</strong>) and
-                    only use <b>$MEGAH</b> that you are willing to lose.</p>
-                <button id="disclaimerAccept" class="popup-btn"><i class="fa-solid fa-check"></i> Click If You
-                    Understand</button>
+                <p>Staking adalah aktivitas berisiko tinggi. Nilai aset kripto dapat berfluktuasi secara signifikan.
+                    Pastikan Anda memahami risiko yang terlibat sebelum melakukan staking. Platform ini tidak menjamin
+                    keuntungan dan tidak bertanggung jawab atas potensi kerugian. Selalu lakukan riset sendiri
+                    (<strong>DYOR</strong>) dan hanya gunakan <b>$MEGAH</b> yang Anda rela kehilangan.</p>
+                <button id="disclaimerAccept" class="popup-btn"><i class="fa-solid fa-check"></i> Klik Jika Anda
+                    Memahami</button>
             </div>
         </div>
     </div>
@@ -1124,7 +1120,7 @@
     <div id="notifyOverlay" class="notify-overlay" aria-hidden="true">
         <div id="notifyBox" class="notify-box info" role="dialog" aria-modal="true" aria-labelledby="notifyTitle">
             <div id="notifyIcon" class="notify-icon">ℹ</div>
-            <div id="notifyTitle" class="notify-title">Notification</div>
+            <div id="notifyTitle" class="notify-title">Notifikasi</div>
             <div id="notifyMessage" class="notify-message"></div>
             <div id="notifyDetails" class="notify-details" style="display:none;"></div>
             <div id="notifyButtons" class="notify-buttons">
