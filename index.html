@@ -58,6 +58,311 @@
     <script
         src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js">
         </script>
+
+    <!-- BREAKING NEWS STYLE -->
+    <style>
+        .breaking-news {
+            background: #0d111c;
+            border-top: 1px solid rgba(245, 158, 11, 0.15);
+            border-bottom: 1px solid rgba(245, 158, 11, 0.08);
+            padding: 0;
+            margin: 4px 0 0.5px 0;
+            position: relative;
+            width: 100%;
+        }
+
+        .breaking-news-wrap {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            height: 38px;
+            padding: 0 0.5px;
+            gap: 0;
+        }
+
+        /* ============================================================
+LABEL NEWS
+============================================================ */
+
+        .breaking-label {
+            background: #dc2626;
+            color: #fff;
+            font-weight: 800;
+            font-size: 11px;
+            letter-spacing: 1px;
+            padding: 0 16px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+            border-radius: 0;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .breaking-label i {
+            font-size: 12px;
+        }
+
+        .label-switch {
+            position: relative;
+            display: inline-block;
+            width: 70px;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .label-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .label-news {
+            animation: showNews 7s steps(1) infinite;
+        }
+
+        .label-klik {
+            animation: showKlik 7s steps(1) infinite;
+        }
+
+        .label-tunjuk {
+            animation: showTunjuk 7s steps(1) infinite;
+        }
+
+        @keyframes showNews {
+
+            0%,
+            32% {
+                opacity: 1;
+            }
+
+            33%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes showKlik {
+
+            0%,
+            32% {
+                opacity: 0;
+            }
+
+            33%,
+            65% {
+                opacity: 1;
+            }
+
+            66%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes showTunjuk {
+
+            0%,
+            65% {
+                opacity: 0;
+            }
+
+            66%,
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* ============================================================
+BREAKING CONTAINER & TRACK
+============================================================ */
+
+        .breaking-container {
+            flex: 1;
+            overflow: hidden;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            background: #0d111c;
+            padding-left: 12px;
+        }
+
+        .breaking-track {
+            display: inline-flex;
+            align-items: center;
+            gap: 0;
+            animation: scrollBreaking 120s linear infinite;
+            white-space: nowrap;
+            will-change: transform;
+        }
+
+        .breaking-track .news-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 14px;
+            font-size: 12px;
+            color: #c8d0e0;
+            text-decoration: none;
+            flex-shrink: 0;
+            transition: color 0.2s;
+        }
+
+        .breaking-track .news-item:hover {
+            color: #f0b90b;
+        }
+
+        .breaking-track .news-item img {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #1a1f2e;
+        }
+
+        .breaking-track .news-item .news-title {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .news-sep {
+            color: #acaeb4;
+            font-size: 12px;
+            flex-shrink: 0;
+            opacity: 0.3;
+        }
+
+        .breaking-loading {
+            color: #6a7290;
+            font-size: 11px;
+            padding: 0 15px;
+        }
+
+        @keyframes scrollBreaking {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .breaking-container:hover .breaking-track {
+            animation-play-state: paused;
+        }
+
+        /* ============================================================
+RESPONSIVE
+============================================================ */
+
+        @media (max-width: 768px) {
+            .breaking-news-wrap {
+                height: 34px;
+                padding: 0 6px;
+            }
+
+            .breaking-label {
+                font-size: 9px;
+                padding: 0 12px;
+                height: 34px;
+                gap: 4px;
+            }
+
+            .breaking-label i {
+                font-size: 10px;
+            }
+
+            .label-switch {
+                width: 55px;
+                height: 16px;
+            }
+
+            .breaking-container {
+                height: 34px;
+                padding-left: 8px;
+            }
+
+            .breaking-track .news-item {
+                font-size: 10px;
+                padding: 0 10px;
+                gap: 5px;
+            }
+
+            .breaking-track .news-item img {
+                width: 16px;
+                height: 16px;
+            }
+
+            .breaking-track .news-item .news-title {
+                max-width: 150px;
+            }
+
+            .news-sep {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .breaking-news-wrap {
+                height: 30px;
+                padding: 0 4px;
+            }
+
+            .breaking-label {
+                font-size: 8px;
+                padding: 0 8px;
+                height: 30px;
+                gap: 3px;
+            }
+
+            .breaking-label i {
+                font-size: 8px;
+            }
+
+            .label-switch {
+                width: 45px;
+                height: 14px;
+            }
+
+            .breaking-container {
+                height: 30px;
+                padding-left: 6px;
+            }
+
+            .breaking-track .news-item {
+                font-size: 9px;
+                padding: 0 6px;
+                gap: 4px;
+            }
+
+            .breaking-track .news-item img {
+                width: 14px;
+                height: 14px;
+            }
+
+            .breaking-track .news-item .news-title {
+                max-width: 100px;
+            }
+
+            .news-sep {
+                font-size: 9px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -142,6 +447,25 @@
                 </div>
             </div>
         </section>
+
+        <!-- BREAKING NEWS - BLOG FEED -->
+        <div class="breaking-news">
+            <div class="breaking-news-wrap">
+                <div class="breaking-label">
+                    <span class="label-switch">
+                        <span class="label-text label-news">NEWS</span>
+                        <span class="label-text label-klik">KLIK</span>
+                        <span class="label-text label-tunjuk"><i class="fa-solid fa-hand-point-right"></i></span>
+                    </span>
+                </div>
+                <div class="breaking-container">
+                    <div class="breaking-track" id="breakingTrack">
+                        <span class="breaking-loading"><i class="fa-solid fa-spinner fa-spin"></i> Memuat
+                            berita...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- STATS -->
         <div class="stats">
@@ -1135,6 +1459,77 @@
     ============================================================ -->
     <script src="js/app.js"></script>
     <script src="js/tvl.js"></script>
+
+    <!-- NEWS - BLOG FEED -->
+    <script>
+        (function () {
+            "use strict";
+
+            const track = document.getElementById("breakingTrack");
+            if (!track) return;
+
+            const RSS_URL =
+                "https://api.rss2json.com/v1/api.json?rss_url=" +
+                encodeURIComponent("https://blog.megahcrypto.com/feed/");
+
+            async function loadNews() {
+                try {
+                    const res = await fetch(RSS_URL, {
+                        signal: AbortSignal.timeout(8000),
+                    });
+                    if (!res.ok) throw new Error("Gagal");
+
+                    const data = await res.json();
+                    if (!data.items || data.items.length === 0)
+                        throw new Error("Kosong");
+
+                    let html = "";
+                    const sep =
+                        '<span class="news-sep"><i class="fa-solid fa-angle-right"></i></span>';
+
+                    for (let loop = 0; loop < 2; loop++) {
+                        data.items.forEach((item) => {
+                            let title = item.title || "Tanpa Judul";
+                            if (title.length > 60) title = title.slice(0, 60) + "…";
+
+                            const link = item.link || "#";
+
+                            let img = item.thumbnail || "";
+                            if (!img && item.description) {
+                                const match = item.description.match(
+                                    /<img[^>]+src="([^">]+)"/,
+                                );
+                                if (match) img = match[1];
+                            }
+                            if (!img) {
+                                img = "https://megahstaking.github.io/images/MEGAH.png";
+                            }
+
+                            html += `
+                        <a href="${link}" target="_blank" rel="noopener" class="news-item">
+                            <img src="${img}" alt="${title}" loading="lazy" 
+                                 onerror="this.src='https://megahstaking.github.io/images/MEGAH.png'">
+                            <span class="news-title">${title}</span>
+                        </a>
+                        ${sep}
+                    `;
+                        });
+                    }
+
+                    track.innerHTML = html;
+                } catch (err) {
+                    console.warn("Breaking news error:", err.message);
+                    track.innerHTML = `<span class="breaking-loading">⚡ Gagal memuat berita</span>`;
+
+                    setTimeout(loadNews, 180000);
+                }
+            }
+
+            loadNews();
+
+            setInterval(loadNews, 600000);
+        })();
+    </script>
 
     <!-- ============================================================ -->
     <!-- PREVENT PINCH ZOOM ON MOBILE - ADDED -->
